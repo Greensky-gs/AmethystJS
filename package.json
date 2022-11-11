@@ -6,7 +6,8 @@
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.6.0"
+    "discord.js": "^14.6.0",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "eslint": "^8.27.0",
