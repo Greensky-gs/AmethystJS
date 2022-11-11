@@ -1,4 +1,4 @@
-import { ChatInputRun, commandOptions, MessageRun } from "../typings/Command";
+import { ChatInputRun, commandOptions, MessageRun } from '../typings/Command';
 
 export class AmethystCommand {
     public chatInputRun?: ChatInputRun;

@@ -1,4 +1,4 @@
-import { PreconditionRun } from "../typings/Precondition";
+import { PreconditionRun } from '../typings/Precondition';
 
 export class Precondition {
     public readonly name: string;

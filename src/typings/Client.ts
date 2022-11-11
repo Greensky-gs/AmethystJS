@@ -6,11 +6,11 @@ export type AmethystClientOptions = {
     prefix?: string;
     token: string;
     debug?: boolean;
-}
+};
 export type startOptions = {
     loadCommands?: boolean;
     loadEvents?: boolean;
-}
+};
 export type CommandType = 'message' | 'chatInput';
 export enum DebugImportance {
     Information = '*',

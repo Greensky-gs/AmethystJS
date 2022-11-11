@@ -5,6 +5,11 @@ export type preconditionRunReturn = {
     message: string;
     metadata?: {
         silent?: boolean;
-    }
-}
-export type PreconditionRun = (options: { isMessage: boolean; interaction?: CommandInteraction; options?: CommandInteractionOptionResolver; message?: Message }) => preconditionRunReturn;
+    };
+};
+export type PreconditionRun = (options: {
+    isMessage: boolean;
+    interaction?: CommandInteraction;
+    options?: CommandInteractionOptionResolver;
+    message?: Message;
+}) => preconditionRunReturn;
