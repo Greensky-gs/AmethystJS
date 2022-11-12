@@ -1,6 +1,7 @@
 import { Client, ClientEvents, ClientOptions, ApplicationCommandData } from 'discord.js';
 import { existsSync, readdirSync } from 'fs';
-import { AmethystClientOptions, DebugImportance, startOptions } from '../typings/Client';
+import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
+import { commandDeniedPayload } from '../typings/Command';
 import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 
@@ -20,8 +21,11 @@ export class AmethystClient extends Client {
     }
     public start({ loadCommands = true, loadEvents = true }: startOptions) {
         this.login(this.configs.token);
+
         this.loadCommands(loadCommands);
         this.loadEvents(loadEvents);
+
+        this.listenCommandDenied();
     }
     private loadCommands(load: boolean) {
         if (!load) return this.debug('Commands configured to not loaded', DebugImportance.Information);
@@ -67,6 +71,14 @@ export class AmethystClient extends Client {
         if (types.length === 2) return `a chat input and a message command`;
         return `a ${types[0]} command`;
     }
+    private listenCommandDenied() {
+        this.on('commandDenied', (command, reason) => {
+            this.debug(`Command denied: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${reason.message} ( Code: ${reason.code ?? 'Not given'} )`, DebugImportance.Information);;
+        })
+        this.on('commandError', (command, reason) => {
+            this.debug(`Command error: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${reason.message} ( Code: ${reason.code ?? 'Not given'} )`, DebugImportance.Error);
+        })
+    }
     private loadEvents(load: boolean) {
         if (!load) return this.debug('Events configured to not loaded', DebugImportance.Information);
         if (!this.configs.eventsFolder) return this.debug('Events folder not configured', DebugImportance.Information);
@@ -97,6 +109,8 @@ export class AmethystClient extends Client {
 declare module 'discord.js' {
     interface ClientEvents {
         amethystDebug: [message: string];
+        commandDenied: [ command: commandDeniedPayload, reason: deniedReason ]
+        commandError: [ command: commandDeniedPayload, reason: errorReason ]
     }
     interface Client {
         readonly configs: AmethystClientOptions;

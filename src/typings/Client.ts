@@ -20,3 +20,31 @@ export enum DebugImportance {
     Unexpected = '??',
     Error = '#'
 }
+export enum commandDeniedCode {
+    DMOnly = 'DM only',
+    InvalidChannelType = 'Invalid type',
+    OwnerOnly = 'Owner only',
+    GuildOnly = 'Guild only',
+    UnderCooldown = 'under cooldown',
+    CustomPrecondition = 'Custom precondition failure'
+}
+export enum errorCode {
+    UnknownChatInputCommand = 'Unknown chat input command'
+}
+export type errorReason = {
+    message: string;
+    cause?: string;
+    code?: errorCode;
+    metadata?: {
+        commandName?: string;
+    }
+}
+export type deniedReason = {
+    message: string;
+    cause?: string;
+    metadata?: {
+        silent?: boolean;
+        remainingCooldownTime?: number;
+    };
+    code?: commandDeniedCode;
+}

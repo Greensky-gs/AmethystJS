@@ -6,6 +6,7 @@ import {
     Message,
     ChannelType
 } from 'discord.js';
+import { AmethystCommand } from '../structures/Command';
 import { Precondition } from '../structures/Precondition';
 
 export type commandOptions = {
@@ -21,3 +22,9 @@ export type ChatInputRun = (options: {
     options: CommandInteractionOptionResolver;
 }) => void | unknown;
 export type MessageRun = (options: { message: Message }) => void | unknown;
+export type commandDeniedPayload = {
+    isMessage: boolean;
+    command: AmethystCommand;
+    interaction?: CommandInteraction;
+    message?: Message;
+}
