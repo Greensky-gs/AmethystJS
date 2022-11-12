@@ -3,9 +3,13 @@ import { ChannelType, PermissionsString } from "discord.js";
 type pathLike = `./${string}`;
 
 export type AmethystClientOptions = {
+    botName?: string;
+    botNameWorksAsPrefix?: boolean;
     commandsFolder?: pathLike;
     eventsFolder?: pathLike;
     prefix?: string;
+    strictPrefix?: boolean;
+    mentionWorksAsPrefix?: boolean;
     token: string;
     debug?: boolean;
 };
