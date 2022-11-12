@@ -102,7 +102,7 @@ export class AmethystClient extends Client {
         this.debug(`Events loading ended: ${eventsCount} event(s) have been loaded`, DebugImportance.Information);
     }
     public debug(msg: string, imp: DebugImportance) {
-        if (this.configs.debug === true) this.emit('amethystDebug', `[${imp}] ${msg}`);
+        if (this.configs.debug === true) this.emit('amethystDebug', `\n\n[${imp}] ${msg}`);
     }
 }
 

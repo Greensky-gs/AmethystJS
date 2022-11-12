@@ -4,7 +4,7 @@ import {
     CommandInteraction,
     PermissionsString,
     Message,
-    ChannelType
+    ChannelType,
 } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 import { Precondition } from '../structures/Precondition';
@@ -28,3 +28,4 @@ export type commandDeniedPayload = {
     interaction?: CommandInteraction;
     message?: Message;
 }
+export type commandInteractionType<K extends boolean> = K extends true ? 'cached' : K extends false ? 'raw' : 'raw';

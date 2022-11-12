@@ -1,3 +1,5 @@
+import { ChannelType, PermissionsString } from "discord.js";
+
 type pathLike = `./${string}`;
 
 export type AmethystClientOptions = {
@@ -22,11 +24,13 @@ export enum DebugImportance {
 }
 export enum commandDeniedCode {
     DMOnly = 'DM only',
-    InvalidChannelType = 'Invalid type',
+    InvalidChannelType = 'Invalid channel type',
     OwnerOnly = 'Owner only',
     GuildOnly = 'Guild only',
     UnderCooldown = 'under cooldown',
-    CustomPrecondition = 'Custom precondition failure'
+    CustomPrecondition = 'Custom precondition failure',
+    ClientMissingPerms = 'Client has not permissions',
+    UserMissingPerms = 'Member missing permissions',
 }
 export enum errorCode {
     UnknownChatInputCommand = 'Unknown chat input command'
@@ -45,6 +49,15 @@ export type deniedReason = {
     metadata?: {
         silent?: boolean;
         remainingCooldownTime?: number;
+        permissions?: {
+            need: PermissionsString[];
+            got: PermissionsString[];
+            missing: PermissionsString[];
+        };
+        channelType?: {
+            expected: ChannelType[];
+            got: ChannelType;
+        }
     };
     code?: commandDeniedCode;
 }
