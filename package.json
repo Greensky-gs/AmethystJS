@@ -1,5 +1,5 @@
 {
-  "name": "amethystJS",
+  "name": "amethystjs",
   "version": "1.0.0",
   "main": "dist/index.js",
   "repository": "https://github.com/Greensky-gs/amethystJS",
@@ -19,5 +19,31 @@
   "scripts": {
     "prettier": "prettier -w src",
     "eslint": "eslint --fix --ext ts src"
-  }
+  },
+  "files": [
+    "./dist",
+    "./index.d.ts"
+  ],
+  "types": "./index.d.ts",
+  "directories": {
+    "lib": "src"
+  },
+  "bugs": {
+    "url": "https://github.com/Greensky-gs/amethystJS/issues"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./src/*": "./dist/*",
+    "./dist/*": "./dist/*"
+  },
+  "description": "A complete framework for Discordjs v14",
+  "keywords": [
+    "discord",
+    "discordjs",
+    "discord-js",
+    "framework"
+  ]
 }
