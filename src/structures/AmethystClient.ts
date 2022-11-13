@@ -41,8 +41,9 @@ export class AmethystClient extends Client {
                     `default value of file ${this.configs.commandsFolder}/${commandFile} is not an amhetyst command`,
                     DebugImportance.Critical
                 );
-            if (command.chatInputRun) this.chatInputCommands.push(command);
-            if (command.messageRun) this.messageCommands.push(command);
+
+            if (command.chatInputRun && !this.chatInputCommands.find(x => x.options.name === command.options.name)) this.chatInputCommands.push(command);
+            if (command.messageRun && !this.messageCommands.find(x => x.options.name === command.options.name)) this.messageCommands.push(command);
 
             this.debug(
                 `Command loaded: ${command.options.name} as ${this.getLoadingType(command)}`,

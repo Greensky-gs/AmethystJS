@@ -21,7 +21,10 @@ export type ChatInputRun = (options: {
     interaction: CommandInteraction;
     options: CommandInteractionOptionResolver;
 }) => void | unknown;
-export type MessageRun = (options: { message: Message }) => void | unknown;
+export type MessageRun = (options: { message: Message, options: {
+    first: string | null;
+    second: string | null;
+} }) => void | unknown;
 export type commandDeniedPayload = {
     isMessage: boolean;
     command: AmethystCommand;
