@@ -24,6 +24,8 @@ export type ChatInputRun = (options: {
 export type MessageRun = (options: { message: Message, options: {
     first: string | null;
     second: string | null;
+    args: string[];
+    emptyArgs: boolean;
 } }) => void | unknown;
 export type commandDeniedPayload = {
     isMessage: boolean;

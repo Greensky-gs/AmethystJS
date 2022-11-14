@@ -91,8 +91,7 @@ export default new AmethystEvent('interactionCreate', (interaction) => {
 
         let alreadyStopped = false;
         cmd.options.preconditions?.forEach((precondition) => {
-            const prec = precondition.run({
-                isMessage: false,
+            const prec = precondition.chatInputFunction({
                 interaction,
                 command: cmd,
                 options: interaction.options as CommandInteractionOptionResolver
@@ -112,6 +111,7 @@ export default new AmethystEvent('interactionCreate', (interaction) => {
                 })
             }
         })
+        if (alreadyStopped) return;
         
         const cdCode = `${interaction.user.id}.${interaction.commandName}`;
         if (cooldowns.has(cdCode)) {
@@ -119,9 +119,9 @@ export default new AmethystEvent('interactionCreate', (interaction) => {
                 isMessage: false,
                 interaction,
                 command: cmd
-            }, { code: commandDeniedCode.UnderCooldown, message: 'User under cooldown', metadata: { remainingCooldownTime: Date.now() - cooldowns.get(cdCode) } });
+            }, { code: commandDeniedCode.UnderCooldown, message: 'User under cooldown', metadata: { remainingCooldownTime: cooldowns.get(cdCode) - Date.now() } });
         }
-        cooldowns.set(cdCode, Date.now() + cmd.options.cooldown * 1000);
+        cooldowns.set(cdCode, Date.now() + (cmd.options.cooldown || interaction.client.configs.defaultCooldownTime) * 1000);
         setTimeout(() => {
             cooldowns.delete(cdCode)
         }, cmd.options.cooldown * 1000);

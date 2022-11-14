@@ -12,6 +12,7 @@ export type AmethystClientOptions = {
     mentionWorksAsPrefix?: boolean;
     token: string;
     debug?: boolean;
+    defaultCooldownTime?: number;
 };
 export type startOptions = {
     loadCommands?: boolean;

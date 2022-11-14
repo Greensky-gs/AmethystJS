@@ -16,7 +16,13 @@ export class AmethystClient extends Client {
             commandsFolder: configs?.commandsFolder,
             eventsFolder: configs?.eventsFolder,
             token: configs.token,
-            prefix: configs?.prefix
+            prefix: configs?.prefix,
+            botName: configs?.botName,
+            botNameWorksAsPrefix: configs?.botNameWorksAsPrefix  ?? false,
+            mentionWorksAsPrefix: configs?.mentionWorksAsPrefix ?? false,
+            debug: configs?.debug ?? false,
+            strictPrefix: configs?.strictPrefix ?? false,
+            defaultCooldownTime: configs?.defaultCooldownTime ?? 5
         };
     }
     public start({ loadCommands = true, loadEvents = true }: startOptions) {
