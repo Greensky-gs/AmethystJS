@@ -1,4 +1,4 @@
-import { Client, ClientEvents, ClientOptions, ApplicationCommandData } from 'discord.js';
+import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable } from 'discord.js';
 import { existsSync, readdirSync } from 'fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
 import { commandDeniedPayload } from '../typings/Command';
@@ -35,6 +35,7 @@ export class AmethystClient extends Client {
         this.loadEvents(loadEvents);
         this.loadPreconditions(loadPreconditions);
 
+        this.loadInternalEvents();
         this.listenCommandDenied();
     }
     private loadCommands(load: boolean) {
@@ -144,6 +145,7 @@ export class AmethystClient extends Client {
                     DebugImportance.Critical
                 );
 
+            this.on(event.key, event.run as Awaitable<any>);
             eventsCount++;
             this.debug(`Event loaded: ${event.key}`, DebugImportance.Information);
         });
@@ -160,6 +162,11 @@ export class AmethystClient extends Client {
     }
     public get preconditions(): Precondition[] {
         return this.preconditions;
+    }
+    private loadInternalEvents() {
+        [ require(`../events/interactionCreate`).default, require('../events/messageCreate').default ].forEach((ev: AmethystEvent<keyof ClientEvents>) => {
+            this.on(ev.key, ev.run as Awaitable<any>);
+        });
     }
 }
 
