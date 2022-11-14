@@ -112,7 +112,7 @@ export default new AmethystEvent('messageCreate', (message) => {
         cooldowns.delete(cdCode);
     }, (cmd.options.cooldown || message.client.configs.defaultCooldownTime) * 1000);
 
-    cmd.messageRun({
+    cmd.messageRun(message, {
         message,
         args: args,
         options: {
