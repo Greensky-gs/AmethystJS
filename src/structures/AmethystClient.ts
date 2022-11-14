@@ -21,7 +21,7 @@ export class AmethystClient extends Client {
             token: configs.token,
             prefix: configs?.prefix,
             botName: configs?.botName,
-            botNameWorksAsPrefix: configs?.botNameWorksAsPrefix  ?? false,
+            botNameWorksAsPrefix: configs?.botNameWorksAsPrefix ?? false,
             mentionWorksAsPrefix: configs?.mentionWorksAsPrefix ?? false,
             debug: configs?.debug ?? false,
             strictPrefix: configs?.strictPrefix ?? false,
@@ -52,8 +52,10 @@ export class AmethystClient extends Client {
                     DebugImportance.Critical
                 );
 
-            if (command.chatInputRun && !this._chatInputCommands.find(x => x.options.name === command.options.name)) this._chatInputCommands.push(command);
-            if (command.messageRun && !this._messageCommands.find(x => x.options.name === command.options.name)) this._messageCommands.push(command);
+            if (command.chatInputRun && !this._chatInputCommands.find((x) => x.options.name === command.options.name))
+                this._chatInputCommands.push(command);
+            if (command.messageRun && !this._messageCommands.find((x) => x.options.name === command.options.name))
+                this._messageCommands.push(command);
 
             this.debug(
                 `Command loaded: ${command.options.name} as ${this.getLoadingType(command)}`,
@@ -76,14 +78,22 @@ export class AmethystClient extends Client {
     }
     private loadPreconditions(load: boolean) {
         if (!load) return this.debug(`Preconditions configured to not loaded`, DebugImportance.Information);
-        if (!this.configs.preconditionsFolder) return this.debug('Command folder not configued', DebugImportance.NotUnderstand);
-        if (!existsSync(this.configs.preconditionsFolder)) return this.debug(`This folder does not exists: ${this.configs.preconditionsFolder} for preconditions`, DebugImportance.Error);
+        if (!this.configs.preconditionsFolder)
+            return this.debug('Command folder not configued', DebugImportance.NotUnderstand);
+        if (!existsSync(this.configs.preconditionsFolder))
+            return this.debug(
+                `This folder does not exists: ${this.configs.preconditionsFolder} for preconditions`,
+                DebugImportance.Error
+            );
 
         readdirSync(this.configs.preconditionsFolder).forEach((fileName) => {
             const file: Precondition = require(`${this.configs.preconditionsFolder}/${fileName}`).default;
 
             if (!file || !(file instanceof Precondition)) {
-                return this.debug(`File ${this.configs.preconditionsFolder}/${fileName} is not a precondition`, DebugImportance.Critical)
+                return this.debug(
+                    `File ${this.configs.preconditionsFolder}/${fileName} is not a precondition`,
+                    DebugImportance.Critical
+                );
             }
 
             this._preconditions.push(file);
@@ -101,11 +111,21 @@ export class AmethystClient extends Client {
     }
     private listenCommandDenied() {
         this.on('commandDenied', (command, reason) => {
-            this.debug(`Command denied: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${reason.message} ( Code: ${reason.code ?? 'Not given'} )`, DebugImportance.Information);;
-        })
+            this.debug(
+                `Command denied: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${
+                    reason.message
+                } ( Code: ${reason.code ?? 'Not given'} )`,
+                DebugImportance.Information
+            );
+        });
         this.on('commandError', (command, reason) => {
-            this.debug(`Command error: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${reason.message} ( Code: ${reason.code ?? 'Not given'} )`, DebugImportance.Error);
-        })
+            this.debug(
+                `Command error: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${
+                    reason.message
+                } ( Code: ${reason.code ?? 'Not given'} )`,
+                DebugImportance.Error
+            );
+        });
     }
     private loadEvents(load: boolean) {
         if (!load) return this.debug('Events configured to not loaded', DebugImportance.Information);
@@ -133,7 +153,7 @@ export class AmethystClient extends Client {
         if (this.configs.debug === true) this.emit('amethystDebug', `\n\n[${imp}] ${msg}`);
     }
     public get messageCommands(): AmethystCommand[] {
-        return this._messageCommands
+        return this._messageCommands;
     }
     public get chatInputCommands(): AmethystCommand[] {
         return this._chatInputCommands;
@@ -146,8 +166,8 @@ export class AmethystClient extends Client {
 declare module 'discord.js' {
     interface ClientEvents {
         amethystDebug: [message: string];
-        commandDenied: [ command: commandDeniedPayload, reason: deniedReason ]
-        commandError: [ command: commandDeniedPayload, reason: errorReason ]
+        commandDenied: [command: commandDeniedPayload, reason: deniedReason];
+        commandError: [command: commandDeniedPayload, reason: errorReason];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

@@ -14,12 +14,16 @@ export type preconditionRunReturn = {
 };
 type BaseRun = {
     command: AmethystCommand;
-}
-export type PreconditionChatInputRun = (options: {
-    interaction: CommandInteraction<CacheType>;
-    options: CommandInteractionOptionResolver;
-} & BaseRun) => preconditionRunReturn;
+};
+export type PreconditionChatInputRun = (
+    options: {
+        interaction: CommandInteraction<CacheType>;
+        options: CommandInteractionOptionResolver;
+    } & BaseRun
+) => preconditionRunReturn;
 
-export type PreconditionMessageRun = (options: {
-    message: Message
-} & BaseRun) => preconditionRunReturn;
+export type PreconditionMessageRun = (
+    options: {
+        message: Message;
+    } & BaseRun
+) => preconditionRunReturn;

@@ -4,7 +4,7 @@ export class Precondition {
     public readonly name: string;
     private chatInputRun: PreconditionChatInputRun;
     private messageInputRun: PreconditionMessageRun;
-    
+
     constructor(name: string) {
         this.name = name;
     }

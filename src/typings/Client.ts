@@ -1,4 +1,4 @@
-import { ChannelType, PermissionsString } from "discord.js";
+import { ChannelType, PermissionsString } from 'discord.js';
 
 type pathLike = `./${string}`;
 
@@ -37,7 +37,7 @@ export enum commandDeniedCode {
     UnderCooldown = 'under cooldown',
     CustomPrecondition = 'Custom precondition failure',
     ClientMissingPerms = 'Client has not permissions',
-    UserMissingPerms = 'Member missing permissions',
+    UserMissingPerms = 'Member missing permissions'
 }
 export enum errorCode {
     UnknownChatInputCommand = 'Unknown chat input command'
@@ -48,8 +48,8 @@ export type errorReason = {
     code?: errorCode;
     metadata?: {
         commandName?: string;
-    }
-}
+    };
+};
 export type deniedReason = {
     message: string;
     cause?: string;
@@ -64,7 +64,7 @@ export type deniedReason = {
         channelType?: {
             expected: ChannelType[];
             got: ChannelType;
-        }
+        };
     };
     code?: commandDeniedCode;
-}
+};
