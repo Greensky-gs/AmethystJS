@@ -1,17 +1,23 @@
 import { ChatInputRun, commandOptions, MessageRun } from '../typings/Command';
 
 export class AmethystCommand {
-    public chatInputRun?: ChatInputRun;
-    public messageRun?: MessageRun;
+    private _chatInputRun?: ChatInputRun;
+    private _messageRun?: MessageRun;
     public readonly options: commandOptions;
 
     constructor(options: commandOptions) {
         this.options = options;
     }
     public setChatInputRun(run: ChatInputRun) {
-        this.chatInputRun = run;
+        this._chatInputRun = run;
     }
     public setMessageRun(run: MessageRun) {
-        this.messageRun = run;
+        this._messageRun = run;
+    }
+    public get chatInputRun(): ChatInputRun {
+        return this._chatInputRun;
+    }
+    public get messageRun(): MessageRun {
+        return this._messageRun;
     }
 }
