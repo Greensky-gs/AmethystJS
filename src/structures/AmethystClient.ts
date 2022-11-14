@@ -7,8 +7,8 @@ import { AmethystEvent } from './Event';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
-    public messageCommands: AmethystCommand[];
-    public chatInputCommands: AmethystCommand[];
+    private _messageCommands: AmethystCommand[];
+    private _chatInputCommands: AmethystCommand[];
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
@@ -48,8 +48,8 @@ export class AmethystClient extends Client {
                     DebugImportance.Critical
                 );
 
-            if (command.chatInputRun && !this.chatInputCommands.find(x => x.options.name === command.options.name)) this.chatInputCommands.push(command);
-            if (command.messageRun && !this.messageCommands.find(x => x.options.name === command.options.name)) this.messageCommands.push(command);
+            if (command.chatInputRun && !this._chatInputCommands.find(x => x.options.name === command.options.name)) this._chatInputCommands.push(command);
+            if (command.messageRun && !this._messageCommands.find(x => x.options.name === command.options.name)) this._messageCommands.push(command);
 
             this.debug(
                 `Command loaded: ${command.options.name} as ${this.getLoadingType(command)}`,
@@ -57,13 +57,13 @@ export class AmethystClient extends Client {
             );
         });
         this.debug(
-            `Commands loaded : ${this.messageCommands.length} message commands and ${this.chatInputCommands.length} slash commands`,
+            `Commands loaded : ${this._messageCommands.length} message commands and ${this._chatInputCommands.length} slash commands`,
             DebugImportance.Information
         );
 
-        if (this.chatInputCommands.length > 0) {
+        if (this._chatInputCommands.length > 0) {
             this.on('ready', () => {
-                const sc: ApplicationCommandData[] = this.chatInputCommands.map((cmd) => cmd.options);
+                const sc: ApplicationCommandData[] = this._chatInputCommands.map((cmd) => cmd.options);
                 this.application.commands.set(sc).catch((error) => {
                     this.debug(`Error on chat input commands deployment: ${error}`, DebugImportance.Error);
                 });
@@ -111,6 +111,12 @@ export class AmethystClient extends Client {
     public debug(msg: string, imp: DebugImportance) {
         if (this.configs.debug === true) this.emit('amethystDebug', `\n\n[${imp}] ${msg}`);
     }
+    public get messageCommands(): AmethystCommand[] {
+        return this._messageCommands
+    }
+    public get chattInputCommands(): AmethystCommand[] {
+        return this._chatInputCommands;
+    }
 }
 
 declare module 'discord.js' {
@@ -121,9 +127,9 @@ declare module 'discord.js' {
     }
     interface Client {
         readonly configs: AmethystClientOptions;
-        messageCommands: AmethystCommand[];
-        chatInputCommands: AmethystCommand[];
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;
+        get messageCommands(): AmethystCommand[];
+        get chatInputCommands(): AmethystCommand[];
     }
 }
