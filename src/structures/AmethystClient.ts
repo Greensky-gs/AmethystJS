@@ -4,17 +4,20 @@ import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, star
 import { commandDeniedPayload } from '../typings/Command';
 import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
+import { Precondition } from './Precondition';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
     private _messageCommands: AmethystCommand[];
     private _chatInputCommands: AmethystCommand[];
+    private _preconditions: Precondition[];
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
         this.configs = {
             commandsFolder: configs?.commandsFolder,
             eventsFolder: configs?.eventsFolder,
+            preconditionsFolder: configs?.preconditionsFolder,
             token: configs.token,
             prefix: configs?.prefix,
             botName: configs?.botName,
@@ -25,11 +28,12 @@ export class AmethystClient extends Client {
             defaultCooldownTime: configs?.defaultCooldownTime ?? 5
         };
     }
-    public start({ loadCommands = true, loadEvents = true }: startOptions) {
+    public start({ loadCommands = true, loadEvents = true, loadPreconditions = true }: startOptions) {
         this.login(this.configs.token);
 
         this.loadCommands(loadCommands);
         this.loadEvents(loadEvents);
+        this.loadPreconditions(loadPreconditions);
 
         this.listenCommandDenied();
     }
@@ -42,7 +46,7 @@ export class AmethystClient extends Client {
 
         readdirSync(this.configs.commandsFolder).forEach((commandFile: string) => {
             const command: AmethystCommand = require(`${this.configs.commandsFolder}/${commandFile}`)?.default;
-            if (!command)
+            if (!command || !(command instanceof AmethystCommand))
                 return this.debug(
                     `default value of file ${this.configs.commandsFolder}/${commandFile} is not an amhetyst command`,
                     DebugImportance.Critical
@@ -69,6 +73,23 @@ export class AmethystClient extends Client {
                 });
             });
         }
+    }
+    private loadPreconditions(load: boolean) {
+        if (!load) return this.debug(`Preconditions configured to not loaded`, DebugImportance.Information);
+        if (!this.configs.preconditionsFolder) return this.debug('Command folder not configued', DebugImportance.NotUnderstand);
+        if (!existsSync(this.configs.preconditionsFolder)) return this.debug(`This folder does not exists: ${this.configs.preconditionsFolder} for preconditions`, DebugImportance.Error);
+
+        readdirSync(this.configs.preconditionsFolder).forEach((fileName) => {
+            const file: Precondition = require(`${this.configs.preconditionsFolder}/${fileName}`).default;
+
+            if (!file || !(file instanceof Precondition)) {
+                return this.debug(`File ${this.configs.preconditionsFolder}/${fileName} is not a precondition`, DebugImportance.Critical)
+            }
+
+            this._preconditions.push(file);
+            this.debug(`Precondition loaded: ${file.name}`, DebugImportance.Information);
+        });
+        this.debug(`${this._preconditions.length} precondition(s) loaded`, DebugImportance.Information);
     }
     private getLoadingType(cmd: AmethystCommand): string {
         const types = [];
@@ -97,7 +118,7 @@ export class AmethystClient extends Client {
             const event: AmethystEvent<keyof ClientEvents> =
                 require(`${this.configs.eventsFolder}/${eventFile}`)?.default;
 
-            if (!event || !event.key || !event.run)
+            if (!event || !(event instanceof AmethystEvent))
                 return this.debug(
                     `Default value of file ${this.configs.eventsFolder}/${eventFile} is not an amethyst event`,
                     DebugImportance.Critical
@@ -114,8 +135,11 @@ export class AmethystClient extends Client {
     public get messageCommands(): AmethystCommand[] {
         return this._messageCommands
     }
-    public get chattInputCommands(): AmethystCommand[] {
+    public get chatInputCommands(): AmethystCommand[] {
         return this._chatInputCommands;
+    }
+    public get preconditions(): Precondition[] {
+        return this.preconditions;
     }
 }
 
@@ -131,5 +155,6 @@ declare module 'discord.js' {
         debug(msg: string, imp: DebugImportance): void;
         get messageCommands(): AmethystCommand[];
         get chatInputCommands(): AmethystCommand[];
+        get preconditions(): Precondition[];
     }
 }

@@ -13,10 +13,12 @@ export type AmethystClientOptions = {
     token: string;
     debug?: boolean;
     defaultCooldownTime?: number;
+    preconditionsFolder?: pathLike;
 };
 export type startOptions = {
     loadCommands?: boolean;
     loadEvents?: boolean;
+    loadPreconditions?: boolean;
 };
 export type CommandType = 'message' | 'chatInput';
 export enum DebugImportance {
