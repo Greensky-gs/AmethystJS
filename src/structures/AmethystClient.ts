@@ -169,11 +169,16 @@ declare module 'discord.js' {
         amethystDebug: [message: string];
         commandDenied: [command: commandDeniedPayload, reason: deniedReason];
         commandError: [command: commandDeniedPayload, reason: errorReason];
+        buttonInteraction: [ interaction: ButtonInteraction, message: Message ];
+        selectMenuInteraction: [ interaction: SelectMenuInteraction, message: Message ];
+        modalSubmit: [ interaction: ModalSubmitInteraction ];
     }
     interface Client {
         readonly configs: AmethystClientOptions;
+
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;
+
         get messageCommands(): AmethystCommand[];
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];

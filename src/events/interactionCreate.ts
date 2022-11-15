@@ -3,7 +3,8 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
     GuildMember,
-    PermissionsString
+    PermissionsString,
+    SelectMenuInteraction
 } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
@@ -174,5 +175,14 @@ export default new AmethystEvent('interactionCreate', (interaction) => {
             options.interaction = interaction as CommandInteraction<commandInteractionType<true>>;
         }
         cmd.chatInputRun(options);
+    }
+    if (interaction.isButton()) {
+        interaction.client.emit('buttonInteraction', interaction, interaction.message);
+    }
+    if (interaction.isModalSubmit()) {
+        interaction.client.emit('modalSubmit', interaction);
+    }
+    if (interaction.isSelectMenu()) {
+        interaction.client.emit('selectMenuInteraction', interaction, interaction.message)
     }
 });
