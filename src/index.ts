@@ -13,4 +13,4 @@ export const preconditions: Record<string, Precondition> = {
     DMOnly,
     GuildOnly,
     NsfwOnly
-}
+};

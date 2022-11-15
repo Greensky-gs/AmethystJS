@@ -14,7 +14,7 @@ export class Precondition {
     }
     public setMessageRun(run: PreconditionMessageRun) {
         this.messageInputRun = run;
-        return this
+        return this;
     }
     public get chatInputFunction(): PreconditionChatInputRun {
         return this.chatInputRun;
