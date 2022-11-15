@@ -37,7 +37,9 @@ export enum commandDeniedCode {
     UnderCooldown = 'under cooldown',
     CustomPrecondition = 'Custom precondition failure',
     ClientMissingPerms = 'Client has not permissions',
-    UserMissingPerms = 'Member missing permissions'
+    UserMissingPerms = 'Member missing permissions',
+    UnknownChannelType = 'Could not determine channel type',
+    ChannelNotNsfw = 'Channel is not NSFW'
 }
 export enum errorCode {
     UnknownChatInputCommand = 'Unknown chat input command'

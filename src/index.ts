@@ -7,8 +7,10 @@ export { AmethystEvent } from './structures/Event';
 
 import DMOnly from './preconditions/DMOnly';
 import GuildOnly from './preconditions/GuildOnly';
+import NsfwOnly from './preconditions/NsfwOnly';
 
 export const preconditions: Record<string, Precondition> = {
     DMOnly,
-    GuildOnly
+    GuildOnly,
+    NsfwOnly
 }
