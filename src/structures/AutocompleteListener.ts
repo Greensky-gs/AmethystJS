@@ -1,4 +1,4 @@
-import { AutocompleteListenerOptions, AutocompleteListenerRun } from "../typings/autocompleteListener";
+import { AutocompleteListenerOptions, AutocompleteListenerRun } from '../typings/autocompleteListener';
 
 export class AutocompleteListener {
     public readonly name: string;

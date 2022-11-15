@@ -12,7 +12,7 @@ export class AmethystClient extends Client {
     private _messageCommands: AmethystCommand[] = [];
     private _chatInputCommands: AmethystCommand[] = [];
     private _preconditions: Precondition[] = [];
-    private _autocompleteListeners: AutocompleteListener[] = [];    
+    private _autocompleteListeners: AutocompleteListener[] = [];
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
@@ -31,7 +31,12 @@ export class AmethystClient extends Client {
             autocompleteListenersFolder: configs?.autocompleteListenersFolder
         };
     }
-    public start({ loadCommands = true, loadEvents = true, loadPreconditions = true, loadAutocompleteListeners = true }: startOptions) {
+    public start({
+        loadCommands = true,
+        loadEvents = true,
+        loadPreconditions = true,
+        loadAutocompleteListeners = true
+    }: startOptions) {
         this.login(this.configs.token);
 
         this.loadCommands(loadCommands);
@@ -156,14 +161,14 @@ export class AmethystClient extends Client {
     }
     private loadAutocompleteListeners(load: boolean) {
         if (!load) return this.debug('Autocomplete Listeners configured to not loaded', DebugImportance.Information);
-        if (!this.configs.autocompleteListenersFolder) return this.debug('Autocomplete Listeners folder not configured', DebugImportance.Information);
+        if (!this.configs.autocompleteListenersFolder)
+            return this.debug('Autocomplete Listeners folder not configured', DebugImportance.Information);
         if (!existsSync(this.configs.autocompleteListenersFolder))
             return this.debug("Autocomplete Listeners folder doesn't exist", DebugImportance.Unexpected);
 
         let count = 0;
         readdirSync(this.configs.eventsFolder).forEach((file: string) => {
-            const listener: AutocompleteListener =
-                require(`${this.configs.eventsFolder}/${file}`)?.default;
+            const listener: AutocompleteListener = require(`${this.configs.eventsFolder}/${file}`)?.default;
 
             if (!listener || !(listener instanceof AutocompleteListener))
                 return this.debug(
@@ -171,15 +176,21 @@ export class AmethystClient extends Client {
                     DebugImportance.Critical
                 );
 
-            if (this._autocompleteListeners.find(x => x.name === listener.name)) {
-                this.debug(`Duplicate identifier for an autocomplete. Received ${listener.name} twice`, DebugImportance.Critical);
+            if (this._autocompleteListeners.find((x) => x.name === listener.name)) {
+                this.debug(
+                    `Duplicate identifier for an autocomplete. Received ${listener.name} twice`,
+                    DebugImportance.Critical
+                );
                 throw new Error(`Duplicate identifier for an autocomplete listener`);
             }
             this._autocompleteListeners.push(listener);
             count++;
             this.debug(`Autocomplete Listeners loaded: ${listener.name}`, DebugImportance.Information);
         });
-        this.debug(`Autocomplete Listeners loading ended: ${count} Autocomplete Listeners(s) have been loaded`, DebugImportance.Information);
+        this.debug(
+            `Autocomplete Listeners loading ended: ${count} Autocomplete Listeners(s) have been loaded`,
+            DebugImportance.Information
+        );
     }
     public debug(msg: string, imp: DebugImportance) {
         if (this.configs.debug === true) this.emit('amethystDebug', `\n\n[${imp}] ${msg}`);
@@ -203,9 +214,9 @@ declare module 'discord.js' {
         amethystDebug: [message: string];
         commandDenied: [command: commandDeniedPayload, reason: deniedReason];
         commandError: [command: commandDeniedPayload, reason: errorReason];
-        buttonInteraction: [ interaction: ButtonInteraction, message: Message ];
-        selectMenuInteraction: [ interaction: SelectMenuInteraction, message: Message ];
-        modalSubmit: [ interaction: ModalSubmitInteraction ];
+        buttonInteraction: [interaction: ButtonInteraction, message: Message];
+        selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
+        modalSubmit: [interaction: ModalSubmitInteraction];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

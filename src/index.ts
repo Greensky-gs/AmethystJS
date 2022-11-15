@@ -12,8 +12,16 @@ export { AmethystEvent } from './structures/Event';
 export { AutocompleteListener } from './structures/AutocompleteListener';
 
 // Types
-export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun } from './typings/Precondition'
-export { startOptions, AmethystClientOptions, commandDeniedCode, CommandType, errorCode, errorReason, deniedReason } from './typings/Client';
+export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun } from './typings/Precondition';
+export {
+    startOptions,
+    AmethystClientOptions,
+    commandDeniedCode,
+    CommandType,
+    errorCode,
+    errorReason,
+    deniedReason
+} from './typings/Client';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
 export { AutocompleteListenerOptions, AutocompleteListenerRun } from './typings/autocompleteListener';
 
