@@ -35,7 +35,6 @@ export class AmethystClient extends Client {
         this.loadEvents(loadEvents);
         this.loadPreconditions(loadPreconditions);
 
-        this.loadInternalEvents();
         this.listenCommandDenied();
     }
     private loadCommands(load: boolean) {
@@ -162,11 +161,6 @@ export class AmethystClient extends Client {
     }
     public get preconditions(): Precondition[] {
         return this.preconditions;
-    }
-    private loadInternalEvents() {
-        [ require(`../events/interactionCreate`).default, require('../events/messageCreate').default ].forEach((ev: AmethystEvent<keyof ClientEvents>) => {
-            this.on(ev.key, ev.run as Awaitable<any>);
-        });
     }
 }
 
