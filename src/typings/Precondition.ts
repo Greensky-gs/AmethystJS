@@ -10,7 +10,7 @@ export type preconditionRunReturn = {
     ok: boolean;
     interaction?: CommandInteraction<CacheType>;
     isChatInput: boolean;
-    channelMessaeg?: Message;
+    channelMessage?: Message;
 };
 type BaseRun = {
     command: AmethystCommand;
