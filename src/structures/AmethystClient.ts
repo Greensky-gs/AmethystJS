@@ -2,15 +2,17 @@ import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable 
 import { existsSync, readdirSync } from 'fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
 import { commandDeniedPayload } from '../typings/Command';
+import { AutocompleteListener } from './AutocompleteListener';
 import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
-    private _messageCommands: AmethystCommand[];
-    private _chatInputCommands: AmethystCommand[];
-    private _preconditions: Precondition[];
+    private _messageCommands: AmethystCommand[] = [];
+    private _chatInputCommands: AmethystCommand[] = [];
+    private _preconditions: Precondition[] = [];
+    private _autocompleteListeners: AutocompleteListener[] = [];    
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
@@ -25,15 +27,17 @@ export class AmethystClient extends Client {
             mentionWorksAsPrefix: configs?.mentionWorksAsPrefix ?? false,
             debug: configs?.debug ?? false,
             strictPrefix: configs?.strictPrefix ?? false,
-            defaultCooldownTime: configs?.defaultCooldownTime ?? 5
+            defaultCooldownTime: configs?.defaultCooldownTime ?? 5,
+            autocompleteListenersFolder: configs?.autocompleteListenersFolder
         };
     }
-    public start({ loadCommands = true, loadEvents = true, loadPreconditions = true }: startOptions) {
+    public start({ loadCommands = true, loadEvents = true, loadPreconditions = true, loadAutocompleteListeners = true }: startOptions) {
         this.login(this.configs.token);
 
         this.loadCommands(loadCommands);
         this.loadEvents(loadEvents);
         this.loadPreconditions(loadPreconditions);
+        this.loadAutocompleteListeners(loadAutocompleteListeners);
 
         this.listenCommandDenied();
     }
@@ -150,6 +154,33 @@ export class AmethystClient extends Client {
         });
         this.debug(`Events loading ended: ${eventsCount} event(s) have been loaded`, DebugImportance.Information);
     }
+    private loadAutocompleteListeners(load: boolean) {
+        if (!load) return this.debug('Autocomplete Listeners configured to not loaded', DebugImportance.Information);
+        if (!this.configs.autocompleteListenersFolder) return this.debug('Autocomplete Listeners folder not configured', DebugImportance.Information);
+        if (!existsSync(this.configs.autocompleteListenersFolder))
+            return this.debug("Autocomplete Listeners folder doesn't exist", DebugImportance.Unexpected);
+
+        let count = 0;
+        readdirSync(this.configs.eventsFolder).forEach((file: string) => {
+            const listener: AutocompleteListener =
+                require(`${this.configs.eventsFolder}/${file}`)?.default;
+
+            if (!listener || !(listener instanceof AutocompleteListener))
+                return this.debug(
+                    `Default value of file ${this.configs.autocompleteListenersFolder}/${file} is not an amethyst Autocomplete Listeners`,
+                    DebugImportance.Critical
+                );
+
+            if (this._autocompleteListeners.find(x => x.name === listener.name)) {
+                this.debug(`Duplicate identifier for an autocomplete. Received ${listener.name} twice`, DebugImportance.Critical);
+                throw new Error(`Duplicate identifier for an autocomplete listener`);
+            }
+            this._autocompleteListeners.push(listener);
+            count++;
+            this.debug(`Autocomplete Listeners loaded: ${listener.name}`, DebugImportance.Information);
+        });
+        this.debug(`Autocomplete Listeners loading ended: ${count} Autocomplete Listeners(s) have been loaded`, DebugImportance.Information);
+    }
     public debug(msg: string, imp: DebugImportance) {
         if (this.configs.debug === true) this.emit('amethystDebug', `\n\n[${imp}] ${msg}`);
     }
@@ -161,6 +192,9 @@ export class AmethystClient extends Client {
     }
     public get preconditions(): Precondition[] {
         return this.preconditions;
+    }
+    public get autocompleteListeners(): AutocompleteListener[] {
+        return this._autocompleteListeners;
     }
 }
 
@@ -182,5 +216,6 @@ declare module 'discord.js' {
         get messageCommands(): AmethystCommand[];
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
+        get autocompleteListeners(): AutocompleteListener[];
     }
 }

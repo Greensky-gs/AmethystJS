@@ -3,15 +3,14 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
     GuildMember,
-    PermissionsString,
-    SelectMenuInteraction
+    PermissionsString
 } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
-import { commandDeniedCode, errorCode } from '../typings/Client';
+import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
 import { commandInteractionType } from '../typings/Command';
 
-export default new AmethystEvent('interactionCreate', (interaction) => {
+export default new AmethystEvent('interactionCreate', async(interaction) => {
     if (interaction.isCommand()) {
         const cmd = interaction.client.chatInputCommands.find((x) => x.options.name === interaction.commandName);
         if (!cmd) {
@@ -184,5 +183,16 @@ export default new AmethystEvent('interactionCreate', (interaction) => {
     }
     if (interaction.isSelectMenu()) {
         interaction.client.emit('selectMenuInteraction', interaction, interaction.message)
+    }
+    if (interaction.isAutocomplete()) {
+        const listeners = interaction.client.autocompleteListeners.filter(x => x.name === interaction.commandName);
+        if (listeners.length === 0) return interaction.client.debug(`No autocomplete listeners found for ${interaction.commandName}`, DebugImportance.Information);
+
+        const result = await listeners[0].run({
+            interaction,
+            options: interaction.options
+        });
+
+        interaction.respond(result);
     }
 });
