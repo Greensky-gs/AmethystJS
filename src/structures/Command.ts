@@ -10,9 +10,11 @@ export class AmethystCommand {
     }
     public setChatInputRun(run: ChatInputRun) {
         this._chatInputRun = run;
+        return this;
     }
     public setMessageRun(run: MessageRun) {
         this._messageRun = run;
+        return this;
     }
     public get chatInputRun(): ChatInputRun {
         return this._chatInputRun;

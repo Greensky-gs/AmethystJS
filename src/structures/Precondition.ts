@@ -10,9 +10,11 @@ export class Precondition {
     }
     public setChatInputRun(run: PreconditionChatInputRun) {
         this.chatInputRun = run;
+        return this;
     }
     public setMessageRun(run: PreconditionMessageRun) {
         this.messageInputRun = run;
+        return this
     }
     public get chatInputFunction(): PreconditionChatInputRun {
         return this.chatInputRun;
