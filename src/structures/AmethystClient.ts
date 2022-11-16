@@ -178,8 +178,8 @@ export class AmethystClient extends Client {
             return this.debug("Autocomplete Listeners folder doesn't exist", DebugImportance.Unexpected);
 
         let count = 0;
-        readdirSync(this.configs.eventsFolder).forEach((file: string) => {
-            let x = require(`../../../../${this.configs.eventsFolder}/${file}`);
+        readdirSync(this.configs.autocompleteListenersFolder).forEach((file: string) => {
+            let x = require(`../../../../${this.configs.autocompleteListenersFolder}/${file}`);
             const listener: AutocompleteListener = x ?? x?.default;
 
             if (!listener || !(listener instanceof AutocompleteListener))
