@@ -1,14 +1,11 @@
-import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable } from 'discord.js';
-import { existsSync, readdirSync } from 'fs';
+import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials } from 'discord.js';
+import { cp, existsSync, readdirSync } from 'fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
 import { commandDeniedPayload } from '../typings/Command';
 import { AutocompleteListener } from './AutocompleteListener';
 import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
-
-import messageCreate from '../events/messageCreate';
-import interactionCreate from '../events/interactionCreate';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
@@ -47,6 +44,7 @@ export class AmethystClient extends Client {
         this.loadPreconditions(loadPreconditions);
         this.loadAutocompleteListeners(loadAutocompleteListeners);
 
+        this.checks();
         this.loadInternalEvents();
         this.listenCommandDenied();
     }
@@ -88,6 +86,12 @@ export class AmethystClient extends Client {
                     this.debug(`Error on chat input commands deployment: ${error}`, DebugImportance.Error);
                 });
             });
+        } else {
+            this.on('ready', () => {
+                this.application.commands.set([]).catch((error) => {
+                    this.debug(`Error on chat input commands deployment: ${error}`, DebugImportance.Error);
+                })
+            })
         }
     }
     private loadPreconditions(load: boolean) {
@@ -200,6 +204,11 @@ export class AmethystClient extends Client {
             DebugImportance.Information
         );
     }
+    private checks() {
+        if (this._messageCommands.filter(x => x.options.preconditions?.filter(x => x.name === 'DMOnly') || !x.options.preconditions?.map(x => x.name).includes('GuildOnly'))?.length > 0 && (!this.options.partials || this.options.partials.length === 0 || (!this.options.partials.includes(Partials.Message)) || !this.options.partials.includes(Partials.Channel))) {
+            throw new Error('You need Message and Channel partial on your client if you want use it in direct messages');
+        }
+    }
     public debug(msg: string, imp: DebugImportance) {
         if (this.configs.debug) console.log(`[${imp}] ${msg}`);
     }
@@ -216,6 +225,8 @@ export class AmethystClient extends Client {
         return this._autocompleteListeners;
     }
     private loadInternalEvents(): void {
+        const interactionCreate = require(`../events/interactionCreate.js`).default;
+        const messageCreate = require(`../events/messageCreate.js`).default;
         [ interactionCreate, messageCreate ].forEach((x) => this.on(x.key, x.run as Awaitable<any>));
     }
 }

@@ -1,10 +1,11 @@
 import { Client, ClientEvents, ClientOptions } from "discord.js";
-import { AmethystClientOptions, DebugImportance, startOptions } from './dist/typings/Client';
+import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from './dist/typings/Client';
 import { PreconditionChatInputRun, PreconditionMessageRun } from "./dist/typings/Precondition";
 import { AutocompleteListenerOptions, AutocompleteListenerRun } from './dist/typings/autocompleteListener'
-import { ChatInputRun, commandOptions, MessageRun } from "./dist/typings/Command";
+import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from "./dist/typings/Command";
 
 export { PreconditionChatInputRun, PreconditionMessageRun, DebugImportance, startOptions, AmethystClientOptions, ClientOptions };
+export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
