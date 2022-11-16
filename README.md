@@ -189,6 +189,28 @@ module.exports = new Precondition("Your precondition's name")
 })
 ```
 
+To use a custom precondition in a command, use it like so :
+
+```ts
+import yourPrecondition from 'your precondition file';
+import { AmethystCommand } from 'amethystjs';
+
+export default new AmethystCommand({
+    name: 'name',
+    preconditions: [ yourPrecondition ]
+})
+```
+
+```js
+const precondition = require('your precondition file');
+const { AmethystCommand } = require('amethystjs');
+
+module.exports = new AmethystCommand({
+    name: 'name',
+    preconditions: [ precondition ]
+});
+```
+
 ### Contact
 
 You can contact me on [this discord server](https://discord.gg/fHyN5w84g6)
