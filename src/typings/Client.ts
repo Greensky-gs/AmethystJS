@@ -15,7 +15,6 @@ export type AmethystClientOptions = {
     defaultCooldownTime?: number;
     preconditionsFolder?: pathLike;
     autocompleteListenersFolder?: pathLike;
-    loadAutocompleteListeners?: boolean;
 };
 export type startOptions = {
     loadCommands?: boolean;
