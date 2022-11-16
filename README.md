@@ -89,3 +89,7 @@ Use the `commandDenied` event to handle command denietions
 Use the `commandError` event to handle command errors
 
 ## Record your own preconditions
+
+### Contact
+
+You can contact me on [this discord server](https://discord.gg/fHyN5w84g6)
