@@ -17,6 +17,7 @@ With this powerful framework you can :
 
 * [Create commands](#create-a-command)
 * [Handle errors](#handle-errors)
+* [Create a precondition](#record-your-own-preconditions)
 
 ## Create Amythyst Client
 
@@ -127,6 +128,66 @@ Use the `commandDenied` event to handle command denietions
 Use the `commandError` event to handle command errors
 
 ## Record your own preconditions
+
+Amethyst JS allows you to create your own preconditions (because it's fun 🙂)
+
+First, import the Precondition from Amethyst
+
+```ts
+import { Precondition } from 'amethystjs';
+
+export default new Precondition("Your precondition's name")
+.setChatInputRun((options) => {
+    // Run your precondition here for slash commands
+    // You have to return something like this :
+    return {
+        ok: true,
+        message: 'Message in case of fail',
+        metadata: {/* some more datas */},
+        interaction: options.interaction,
+        isChatInput: true
+    }
+})
+.setMessageRun((options) => {
+    // Run your precondition here for message commands
+    // Return something like this
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* some extra datas */ },
+        isChatInput: false,
+        channelMessage: options.message
+    }
+})
+```
+
+```js
+const { Precondition } = require('amethystjs');
+
+module.exports = new Precondition("Your precondition's name")
+.setChatInputRun((options) => {
+    // Run your precondition here for slash commands
+    // You have to return something like this :
+    return {
+        ok: true,
+        message: 'Message in case of fail',
+        metadata: {/* some more datas */},
+        interaction: options.interaction,
+        isChatInput: true
+    }
+})
+.setMessageRun((options) => {
+    // Run your precondition here for message commands
+    // Return something like this
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* some extra datas */ },
+        isChatInput: false,
+        channelMessage: options.message
+    }
+})
+```
 
 ### Contact
 
