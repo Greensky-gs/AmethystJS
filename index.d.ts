@@ -5,6 +5,7 @@ import { AutocompleteListenerOptions, AutocompleteListenerRun } from './dist/typ
 import { ChatInputRun, commandOptions, MessageRun } from "./dist/typings/Command";
 
 export { PreconditionChatInputRun, PreconditionMessageRun, DebugImportance, startOptions, AmethystClientOptions, ClientOptions };
+import GuildOnly from './dist/preconditions/GuildOnly';
 
 export class AmethystClient {
     public readonly configs: AmethystClientOptions;
@@ -57,4 +58,5 @@ export class AmethystCommand {
     public get messageRun(): MessageRun | undefined;
 }
 
-export const preconditions: Record<string, Precondition>;
+type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
+export const preconditions: Record<preconditionNames, Precondition>;
