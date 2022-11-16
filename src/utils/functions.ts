@@ -1,33 +1,12 @@
-import { Client } from 'discord.js';
-import { AmethystClientOptions, DebugImportance } from '../typings/Client';
+import { Message } from "discord.js";
 
-const addBotName = (str: string, confs: AmethystClientOptions) => {
-    if (!(confs.botName && confs.botNameWorksAsPrefix)) return str;
-    if (str.length === 0) return `(${confs.botName.toLowerCase()})`;
+export const testMessage = ({ content, client }: Message): { valid: boolean; length: number } => {
+    const { prefix, mentionWorksAsPrefix, strictPrefix, botName, botNameWorksAsPrefix } = client.configs;
+    if (strictPrefix && content.startsWith(prefix)) return { valid: true, length: prefix.length };
+    if (!strictPrefix && content.toLowerCase().startsWith(prefix.toLowerCase())) return { valid: true, length: prefix.length };
+    if (mentionWorksAsPrefix && content.startsWith(`<@${client.user.id}>`)) return { valid: true, length: (`<@${client.user.id}>`).length };
+    if (mentionWorksAsPrefix && content.startsWith(`<@!${client.user.id}>`)) return { valid: true, length: (`<@!${client.user.id}`).length };
+    if (botNameWorksAsPrefix && botName && content.toLocaleLowerCase().startsWith(botName.toLowerCase())) return { valid: true, length: botName.length };
 
-    return str + `|(${confs.botName.toLowerCase()})`;
-};
-const addBotPing = (str: string, works: boolean, botId: string) => {
-    if (!works) return str;
-    if (str.length === 0) return `(<(@|@!)${botId}>)`;
-
-    return str + `|(<(@|@!)${botId}>)`;
-};
-const addBotPrefix = (str: string, confs: AmethystClientOptions) => {
-    if (!confs.prefix) return str;
-
-    return str + `(${confs.prefix})`;
-};
-export const generateMessageRegex = (configs: AmethystClientOptions, client: Client): RegExp | 'invalid' => {
-    let str = '';
-    str = addBotName(str, configs);
-    str = addBotPing(str, configs?.mentionWorksAsPrefix, client.user.id);
-    str = addBotPrefix(str, configs);
-
-    if (!str) {
-        client.debug(`Invalid message regex: bot name, bot ping and bot prefix are disabled`, DebugImportance.Error);
-        return 'invalid';
-    }
-
-    const regex = new RegExp(`(${str})([\\s\\S]*)`, configs.strictPrefix === true ? '' : 'i');
-};
+    return { valid: false, length: -1 };
+}

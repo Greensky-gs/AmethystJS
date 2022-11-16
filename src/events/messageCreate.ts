@@ -2,25 +2,14 @@ import { PermissionsString } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
 import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
-import { generateMessageRegex } from '../utils/functions';
+import { testMessage } from '../utils/functions';
 
 export default new AmethystEvent('messageCreate', (message) => {
-    const regex = generateMessageRegex(message.client.configs, message.client);
-    if (regex === 'invalid') return;
+    const test = testMessage(message);
 
-    if (!regex.test(message.content)) return;
+    if (!test.valid || message.author.bot || message.webhookId) return;
 
-    const length: number = message.content.startsWith(message.client.configs.prefix)
-        ? message.client.configs.prefix.length
-        : message.content.startsWith(message.client.configs.botName) && message.client.configs.botNameWorksAsPrefix
-        ? message.client.configs.botName.length
-        : message.content.startsWith(`<@${message.client.user.id}>`) && message.client.configs.mentionWorksAsPrefix
-        ? `<@${message.client.user.id}>`.length
-        : message.content.startsWith(`<@!${message.client.user.id}>`) && message.client.configs.mentionWorksAsPrefix
-        ? `<@!${message.client.user.id}>`.length
-        : message.client.configs.prefix.length;
-
-    const args = message.content.slice(length).split(/ +/g);
+    const args = message.content.slice(test.length).split(/ +/g);
     const cmdName = args.shift();
     const cmd = message.client.messageCommands.find((x) => x.options.name === cmdName.toLowerCase());
 
@@ -28,8 +17,8 @@ export default new AmethystEvent('messageCreate', (message) => {
         message.client.debug(`An user used an unexisting command: ${cmdName}`, DebugImportance.Information);
         return;
     }
-    if (!cmd.chatInputRun) {
-        message.client.emit('commandError',{
+    if (!cmd.messageRun) {
+        return message.client.emit('commandError',{
             isMessage: true,
             message,
             command: cmd

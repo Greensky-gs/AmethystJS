@@ -7,6 +7,9 @@ import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
 
+import messageCreate from '../events/messageCreate';
+import interactionCreate from '../events/interactionCreate';
+
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
     private _messageCommands: AmethystCommand[] = [];
@@ -44,6 +47,7 @@ export class AmethystClient extends Client {
         this.loadPreconditions(loadPreconditions);
         this.loadAutocompleteListeners(loadAutocompleteListeners);
 
+        this.loadInternalEvents();
         this.listenCommandDenied();
     }
     private loadCommands(load: boolean) {
@@ -89,7 +93,7 @@ export class AmethystClient extends Client {
     private loadPreconditions(load: boolean) {
         if (!load) return this.debug(`Preconditions configured to not loaded`, DebugImportance.Information);
         if (!this.configs.preconditionsFolder)
-            return this.debug('Command folder not configued', DebugImportance.NotUnderstand);
+            return this.debug('Preconditions folder not configued', DebugImportance.NotUnderstand);
         if (!existsSync(this.configs.preconditionsFolder))
             return this.debug(
                 `This folder does not exists: ${this.configs.preconditionsFolder} for preconditions`,
@@ -210,6 +214,9 @@ export class AmethystClient extends Client {
     }
     public get autocompleteListeners(): AutocompleteListener[] {
         return this._autocompleteListeners;
+    }
+    private loadInternalEvents(): void {
+        [ interactionCreate, messageCreate ].forEach((x) => this.on(x.key, x.run as Awaitable<any>));
     }
 }
 

@@ -32,7 +32,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             return;
         }
         if (!cmd.chatInputRun) {
-            interaction.client.emit('commandError',{
+            return interaction.client.emit('commandError',{
                 isMessage: false,
                 interaction,
                 command: cmd
