@@ -9,7 +9,7 @@ export default new AmethystEvent('messageCreate', (message) => {
 
     if (!test.valid || message.author.bot || message.webhookId) return;
 
-    const args = message.content.slice(test.length).split(/ +/g);
+    const args = message.content.slice(test.length).trim().split(/ +/g);
     const cmdName = args.shift();
     const cmd = message.client.messageCommands.find((x) => x.options.name === cmdName.toLowerCase());
 
