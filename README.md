@@ -18,6 +18,7 @@ With this powerful framework you can :
 * [Create commands](#create-a-command)
 * [Handle errors](#handle-errors)
 * [Create a precondition](#record-your-own-preconditions)
+* [Use events](#registering-events)
 
 ## Create Amythyst Client
 
@@ -209,6 +210,26 @@ module.exports = new AmethystCommand({
     name: 'name',
     preconditions: [ precondition ]
 });
+```
+
+## Registering events
+
+Go in your events folder and add a new file
+
+```ts
+import { AmethystEvent } from 'amethystjs';
+
+export default new AmethystEvent('eventName', (/* event options */) => {
+    // Run your event
+})
+```
+
+```js
+const { AmethytsEvent } = require('amethystjs');
+
+module.exports = new AmethystEvent('eventName',/* event options */ () => {
+    // Run your event
+})
 ```
 
 ### Contact
