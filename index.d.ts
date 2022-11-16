@@ -1,13 +1,12 @@
-import { ClientEvents, ClientOptions } from "discord.js";
+import { Client, ClientEvents, ClientOptions } from "discord.js";
 import { AmethystClientOptions, DebugImportance, startOptions } from './dist/typings/Client';
 import { PreconditionChatInputRun, PreconditionMessageRun } from "./dist/typings/Precondition";
 import { AutocompleteListenerOptions, AutocompleteListenerRun } from './dist/typings/autocompleteListener'
 import { ChatInputRun, commandOptions, MessageRun } from "./dist/typings/Command";
 
 export { PreconditionChatInputRun, PreconditionMessageRun, DebugImportance, startOptions, AmethystClientOptions, ClientOptions };
-import GuildOnly from './dist/preconditions/GuildOnly';
 
-export class AmethystClient {
+export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
 
     public constructor(options: ClientOptions, configs: AmethystClientOptions);
@@ -60,3 +59,14 @@ export class AmethystCommand {
 
 type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
+
+declare module 'discord.js' {
+    interface ClientEvents {
+        amethystDebug: [message: string];
+        commandDenied: [command: commandDeniedPayload, reason: deniedReason];
+        commandError: [command: commandDeniedPayload, reason: errorReason];
+        buttonInteraction: [interaction: ButtonInteraction, message: Message];
+        selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
+        modalSubmit: [interaction: ModalSubmitInteraction];        
+    }
+}
