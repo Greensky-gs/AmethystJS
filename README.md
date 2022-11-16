@@ -232,6 +232,37 @@ module.exports = new AmethystEvent('eventName',/* event options */ () => {
 })
 ```
 
+## Autocomplete listeners
+
+Autocomplete listeners are things that replies to an autocomplete interaction (interaction options with a lot of choices)
+
+Go in your autocomplete listeners and create a new file
+
+```ts
+import { AutocompleteListener } from 'amethystjs';
+
+export default new AutocompleteListener({
+    commandName: 'slash command name',
+    run: (options) => {
+        // Make your choice here are return :
+        return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
+    }
+});
+```
+
+```js
+const { AutocompleteListener } = require('amethystjs');
+
+module.exports = new AutocompleteListener({
+    commandName: 'slash command name',
+    run: (options) => {
+        // Make your choice here are return :
+        return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
+        
+    }
+});
+```
+
 ### Contact
 
 You can contact me on [this discord server](https://discord.gg/fHyN5w84g6)
