@@ -54,7 +54,8 @@ export class AmethystClient extends Client {
             return this.debug("Command folder doesn'exist", DebugImportance.Unexpected);
 
         readdirSync(this.configs.commandsFolder).forEach((commandFile: string) => {
-            const command: AmethystCommand = require(`../../../../${this.configs.commandsFolder}/${commandFile}`)?.default;
+            let x = require(`../../../../${this.configs.commandsFolder}/${commandFile}`);
+            const command: AmethystCommand = x ?? x?.default;
             if (!command || !(command instanceof AmethystCommand))
                 return this.debug(
                     `default value of file ${this.configs.commandsFolder}/${commandFile} is not an amhetyst command`,
@@ -96,7 +97,8 @@ export class AmethystClient extends Client {
             );
 
         readdirSync(this.configs.preconditionsFolder).forEach((fileName) => {
-            const file: Precondition = require(`../../../../${this.configs.preconditionsFolder}/${fileName}`).default;
+            let x = require(`../../../../${this.configs.preconditionsFolder}/${fileName}`);
+            const file: Precondition = x ?? x?.default;
 
             if (!file || !(file instanceof Precondition)) {
                 return this.debug(
@@ -144,8 +146,9 @@ export class AmethystClient extends Client {
 
         let eventsCount = 0;
         readdirSync(this.configs.eventsFolder).forEach((eventFile: string) => {
+            let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`)
             const event: AmethystEvent<keyof ClientEvents> =
-                require(`../../../../${this.configs.eventsFolder}/${eventFile}`)?.default;
+                x ?? x?.default;
 
             if (!event || !(event instanceof AmethystEvent))
                 return this.debug(
@@ -168,7 +171,8 @@ export class AmethystClient extends Client {
 
         let count = 0;
         readdirSync(this.configs.eventsFolder).forEach((file: string) => {
-            const listener: AutocompleteListener = require(`../../../../${this.configs.eventsFolder}/${file}`)?.default;
+            let x = require(`../../../../${this.configs.eventsFolder}/${file}`);
+            const listener: AutocompleteListener = x ?? x?.default;
 
             if (!listener || !(listener instanceof AutocompleteListener))
                 return this.debug(
