@@ -18,7 +18,8 @@
   },
   "scripts": {
     "prettier": "prettier -w src",
-    "eslint": "eslint --fix --ext ts src"
+    "eslint": "eslint --fix --ext ts src",
+    "build": "tsc -b"
   },
   "files": [
     "./dist",
