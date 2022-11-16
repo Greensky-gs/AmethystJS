@@ -1,7 +1,7 @@
 import { PermissionsString } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
-import { commandDeniedCode, DebugImportance } from '../typings/Client';
+import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
 import { generateMessageRegex } from '../utils/functions';
 
 export default new AmethystEvent('messageCreate', (message) => {
@@ -27,6 +27,19 @@ export default new AmethystEvent('messageCreate', (message) => {
     if (!cmd) {
         message.client.debug(`An user used an unexisting command: ${cmdName}`, DebugImportance.Information);
         return;
+    }
+    if (!cmd.chatInputRun) {
+        message.client.emit('commandError',{
+            isMessage: true,
+            message,
+            command: cmd
+        }, {
+            code: errorCode.NoMessageRun,
+            message: `The command hasn't a run proprety. Use <#AmethytCommand>.setMessageRun()`,
+            metadata: {
+                commandName: cmd.options.name
+            }
+        });
     }
 
     if (cmd.options.clientPermissions?.length > 0 && message.guild) {
@@ -90,7 +103,7 @@ export default new AmethystEvent('messageCreate', (message) => {
     if (cmd.options.preconditions?.length > 0) {
         cmd.options.preconditions.forEach((prec) => {
             if (!ok) return;
-            const result = prec.messageFunction({
+            const result = prec.messageRun({
                 message,
                 command: cmd
             });

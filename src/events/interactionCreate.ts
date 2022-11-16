@@ -31,6 +31,19 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             );
             return;
         }
+        if (!cmd.chatInputRun) {
+            interaction.client.emit('commandError',{
+                isMessage: false,
+                interaction,
+                command: cmd
+            }, {
+                code: errorCode.NoChatInputRun,
+                message: `The command hasn't a run proprety. Use <#AmethytCommand>.setChatInputRun()`,
+                metadata: {
+                    commandName: cmd.options.name
+                }
+            });
+        }
 
         if (cmd.options?.clientPermissions?.length > 0 && interaction.guild) {
             let missingPerms: PermissionsString[] = [];
@@ -113,7 +126,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
 
         let alreadyStopped = false;
         cmd.options.preconditions?.forEach((precondition) => {
-            const prec = precondition.chatInputFunction({
+            const prec = precondition.chatInputRun({
                 interaction,
                 command: cmd,
                 options: interaction.options as CommandInteractionOptionResolver
