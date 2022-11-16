@@ -32,17 +32,21 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             return;
         }
         if (!cmd.chatInputRun) {
-            return interaction.client.emit('commandError',{
-                isMessage: false,
-                interaction,
-                command: cmd
-            }, {
-                code: errorCode.NoChatInputRun,
-                message: `The command hasn't a run proprety. Use <#AmethytCommand>.setChatInputRun()`,
-                metadata: {
-                    commandName: cmd.options.name
+            return interaction.client.emit(
+                'commandError',
+                {
+                    isMessage: false,
+                    interaction,
+                    command: cmd
+                },
+                {
+                    code: errorCode.NoChatInputRun,
+                    message: `The command hasn't a run proprety. Use <#AmethytCommand>.setChatInputRun()`,
+                    metadata: {
+                        commandName: cmd.options.name
+                    }
                 }
-            });
+            );
         }
 
         if (cmd.options?.clientPermissions?.length > 0 && interaction.guild) {
@@ -125,31 +129,32 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         }
 
         let alreadyStopped = false;
-        if (cmd.options.preconditions?.filter(x => x.chatInputRun).length > 0) cmd.options.preconditions?.forEach((precondition) => {
-            const prec = precondition.chatInputRun({
-                interaction,
-                command: cmd,
-                options: interaction.options as CommandInteractionOptionResolver
+        if (cmd.options.preconditions?.filter((x) => x.chatInputRun).length > 0)
+            cmd.options.preconditions?.forEach((precondition) => {
+                const prec = precondition.chatInputRun({
+                    interaction,
+                    command: cmd,
+                    options: interaction.options as CommandInteractionOptionResolver
+                });
+
+                if (!prec.ok && !alreadyStopped) {
+                    alreadyStopped = true;
+
+                    return interaction.client.emit(
+                        'commandDenied',
+                        {
+                            command: cmd,
+                            interaction,
+                            isMessage: false
+                        },
+                        {
+                            code: commandDeniedCode.CustomPrecondition,
+                            message: prec.message ?? 'Custom precondition failure',
+                            metadata: prec.metadata ?? {}
+                        }
+                    );
+                }
             });
-
-            if (!prec.ok && !alreadyStopped) {
-                alreadyStopped = true;
-
-                return interaction.client.emit(
-                    'commandDenied',
-                    {
-                        command: cmd,
-                        interaction,
-                        isMessage: false
-                    },
-                    {
-                        code: commandDeniedCode.CustomPrecondition,
-                        message: prec.message ?? 'Custom precondition failure',
-                        metadata: prec.metadata ?? {}
-                    }
-                );
-            }
-        });
         if (alreadyStopped) return;
 
         const cdCode = `${interaction.user.id}.${interaction.commandName}`;

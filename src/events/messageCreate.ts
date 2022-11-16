@@ -18,17 +18,21 @@ export default new AmethystEvent('messageCreate', (message) => {
         return;
     }
     if (!cmd.messageRun) {
-        return message.client.emit('commandError',{
-            isMessage: true,
-            message,
-            command: cmd
-        }, {
-            code: errorCode.NoMessageRun,
-            message: `The command hasn't a run proprety. Use <#AmethytCommand>.setMessageRun()`,
-            metadata: {
-                commandName: cmd.options.name
+        return message.client.emit(
+            'commandError',
+            {
+                isMessage: true,
+                message,
+                command: cmd
+            },
+            {
+                code: errorCode.NoMessageRun,
+                message: `The command hasn't a run proprety. Use <#AmethytCommand>.setMessageRun()`,
+                metadata: {
+                    commandName: cmd.options.name
+                }
             }
-        });
+        );
     }
 
     if (cmd.options.clientPermissions?.length > 0 && message.guild) {
@@ -89,7 +93,7 @@ export default new AmethystEvent('messageCreate', (message) => {
     }
 
     let ok = true;
-    if (cmd.options.preconditions?.length > 0 && cmd.options.preconditions.filter(x => x.messageRun).length > 0) {
+    if (cmd.options.preconditions?.length > 0 && cmd.options.preconditions.filter((x) => x.messageRun).length > 0) {
         cmd.options.preconditions.forEach((prec) => {
             if (!ok) return;
             const result = prec.messageRun({

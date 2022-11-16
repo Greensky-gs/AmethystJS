@@ -90,8 +90,8 @@ export class AmethystClient extends Client {
             this.on('ready', () => {
                 this.application.commands.set([]).catch((error) => {
                     this.debug(`Error on chat input commands deployment: ${error}`, DebugImportance.Error);
-                })
-            })
+                });
+            });
         }
     }
     private loadPreconditions(load: boolean) {
@@ -154,9 +154,8 @@ export class AmethystClient extends Client {
 
         let eventsCount = 0;
         readdirSync(this.configs.eventsFolder).forEach((eventFile: string) => {
-            let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`)
-            const event: AmethystEvent<keyof ClientEvents> =
-                x ?? x?.default;
+            let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`);
+            const event: AmethystEvent<keyof ClientEvents> = x ?? x?.default;
 
             if (!event || !(event instanceof AmethystEvent))
                 return this.debug(
@@ -205,8 +204,20 @@ export class AmethystClient extends Client {
         );
     }
     private checks() {
-        if (this._messageCommands.filter(x => x.options.preconditions?.filter(x => x.name === 'DMOnly') || !x.options.preconditions?.map(x => x.name).includes('GuildOnly'))?.length > 0 && (!this.options.partials || this.options.partials.length === 0 || (!this.options.partials.includes(Partials.Message)) || !this.options.partials.includes(Partials.Channel))) {
-            throw new Error('You need Message and Channel partial on your client if you want use it in direct messages');
+        if (
+            this._messageCommands.filter(
+                (x) =>
+                    x.options.preconditions?.filter((x) => x.name === 'DMOnly') ||
+                    !x.options.preconditions?.map((x) => x.name).includes('GuildOnly')
+            )?.length > 0 &&
+            (!this.options.partials ||
+                this.options.partials.length === 0 ||
+                !this.options.partials.includes(Partials.Message) ||
+                !this.options.partials.includes(Partials.Channel))
+        ) {
+            throw new Error(
+                'You need Message and Channel partial on your client if you want use it in direct messages'
+            );
         }
     }
     public debug(msg: string, imp: DebugImportance) {
@@ -227,7 +238,7 @@ export class AmethystClient extends Client {
     private loadInternalEvents(): void {
         const interactionCreate = require(`../events/interactionCreate.js`).default;
         const messageCreate = require(`../events/messageCreate.js`).default;
-        [ interactionCreate, messageCreate ].forEach((x) => this.on(x.key, x.run as Awaitable<any>));
+        [interactionCreate, messageCreate].forEach((x) => this.on(x.key, x.run as Awaitable<any>));
     }
 }
 
