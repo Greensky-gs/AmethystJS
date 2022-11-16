@@ -193,7 +193,7 @@ export class AmethystClient extends Client {
         );
     }
     public debug(msg: string, imp: DebugImportance) {
-        if (this.configs.debug === true) this.emit('amethystDebug', `\n\n[${imp}] ${msg}`);
+        if (this.configs.debug) console.log('amethystDebug', `\n\n[${imp}] ${msg}`);
     }
     public get messageCommands(): AmethystCommand[] {
         return this._messageCommands;
@@ -211,7 +211,6 @@ export class AmethystClient extends Client {
 
 declare module 'discord.js' {
     interface ClientEvents {
-        amethystDebug: [message: string];
         commandDenied: [command: commandDeniedPayload, reason: deniedReason];
         commandError: [command: commandDeniedPayload, reason: errorReason];
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
