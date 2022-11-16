@@ -45,7 +45,9 @@ export enum commandDeniedCode {
     ChannelNotNsfw = 'Channel is not NSFW'
 }
 export enum errorCode {
-    UnknownChatInputCommand = 'Unknown chat input command'
+    UnknownChatInputCommand = 'Unknown chat input command',
+    NoChatInputRun = 'No chat input run',
+    NoMessageRun = 'No message run'
 }
 export type errorReason = {
     message: string;

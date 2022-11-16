@@ -2,24 +2,24 @@ import { PreconditionChatInputRun, PreconditionMessageRun } from '../typings/Pre
 
 export class Precondition {
     public readonly name: string;
-    private chatInputRun: PreconditionChatInputRun;
-    private messageInputRun: PreconditionMessageRun;
+    private _chatInputRun: PreconditionChatInputRun;
+    private _messageRun: PreconditionMessageRun;
 
     constructor(name: string) {
         this.name = name;
     }
     public setChatInputRun(run: PreconditionChatInputRun) {
-        this.chatInputRun = run;
+        this._chatInputRun = run;
         return this;
     }
     public setMessageRun(run: PreconditionMessageRun) {
-        this.messageInputRun = run;
+        this._messageRun = run;
         return this;
     }
-    public get chatInputFunction(): PreconditionChatInputRun {
-        return this.chatInputRun;
+    public get chatInputRun(): PreconditionChatInputRun {
+        return this._chatInputRun;
     }
-    public get messageFunction(): PreconditionMessageRun {
-        return this.messageInputRun;
+    public get messageRun(): PreconditionMessageRun {
+        return this._messageRun;
     }
 }
