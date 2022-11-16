@@ -193,7 +193,7 @@ export class AmethystClient extends Client {
         );
     }
     public debug(msg: string, imp: DebugImportance) {
-        if (this.configs.debug) console.log('amethystDebug', `\n\n[${imp}] ${msg}`);
+        if (this.configs.debug) console.log(`\n[${imp}] ${msg}`);
     }
     public get messageCommands(): AmethystCommand[] {
         return this._messageCommands;
