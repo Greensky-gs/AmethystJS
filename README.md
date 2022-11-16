@@ -3,6 +3,14 @@
 
 A complete framework for Discord.js v14 in TypeScript
 
+## Installation
+
+Install `amethystjs` by :
+
+* yarn : `yarn add amethystjs`
+* pnpm : `pnpm add amethystjs`
+* npm : `npm install amethystjs`
+
 ## Features
 
 With this powerful framework you can :
@@ -18,22 +26,56 @@ Import the client
 import { AmethystClient } from 'amethyst';
 
 const client = new AmethystClient({
-    // Discord client options
+    botName: "your bot's name", // Optionnal
+    botNameWorksAsPrefix: true, // Wether if we can use the bot's name as prefix - optionnal
+    commandsFolder: './yourCommandsFolder', // Optionnal
+    eventsFolder: './yourEventsFolder', // Optionnal
+    prefix: "bot's prefix", // Optionnal
+    strictPrefix: true, // Wether if the prefix must be exactly the same - optionnal
+    mentionWorksAsPrefix: true, // Wether if we can use the bot by mentionning it
+    token: "Your bot's token",
+    debug: false, // Enable debug mode (get a lot of messages in the console) - optionnal
+    defaultCooldownTime: 5, // Default cooldown time
+    preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
+    autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
 }, {
     // Amethyst client options
 });
-client.start(/* Amethyst start options */);
+client.start({
+    // All are optionnal
+    loadCommands: true, // Load commands
+    loadEvents: true, // Load events
+    loadPreconditions: true, // Load preconditions
+    loadAutocompleteListeners: true // Load autocomplete listeners
+});
 ```
 
 ```js
 const { AmethystClient } = require('amethyst');
 
 const client = new AmethystClient({
-    // Discord client options
+    botName: "your bot's name", // Optionnal
+    botNameWorksAsPrefix: true, // Wether if we can use the bot's name as prefix - optionnal
+    commandsFolder: './yourCommandsFolder', // Optionnal
+    eventsFolder: './yourEventsFolder', // Optionnal
+    prefix: "bot's prefix", // Optionnal
+    strictPrefix: true, // Wether if the prefix must be exactly the same - optionnal
+    mentionWorksAsPrefix: true, // Wether if we can use the bot by mentionning it
+    token: "Your bot's token",
+    debug: false, // Enable debug mode (get a lot of messages in the console) - optionnal
+    defaultCooldownTime: 5, // Default cooldown time
+    preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
+    autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
 }, {
     // Amethyst client options
 });
-client.start(/* Amethyst start options */);
+client.start({
+    // All are optionnal
+    loadCommands: true, // Load commands
+    loadEvents: true, // Load events
+    loadPreconditions: true, // Load preconditions
+    loadAutocompleteListeners: true // Load autocomplete listeners
+});
 ```
 
 ## Create a command
@@ -46,13 +88,11 @@ Import AmethystCommand and exports it
 import { AmethystCommand } from 'amethystjs';
 
 export default new AmethystCommands({
-    name: 'name',
-    preconditions: ['Your preconditions'],
-    cooldown: 'Cooldown',
-    options: [
-        // Slash command options
-    ],
-    description: "Description"
+    cooldown: 5, // Cooldown time
+    permissions: [ 'Administrator' ], // Permissions for the user - optionnal
+    clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
+    preconditions: [  ], // Preconditions for the command - optionnal
+    messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
@@ -66,13 +106,11 @@ export default new AmethystCommands({
 const { Amethystcommand } = require('amethystjs');
 
 module.exports = new AmethystCommands({
-    name: 'name',
-    preconditions: ['Your preconditions'],
-    cooldown: 'Cooldown',
-    options: [
-        // Slash command options
-    ],
-    description: "Description"
+    cooldown: 5, // Cooldown time
+    permissions: [ 'Administrator' ], // Permissions for the user - optionnal
+    clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
+    preconditions: [  ], // Preconditions for the command - optionnal
+    messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
