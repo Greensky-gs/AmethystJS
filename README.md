@@ -91,10 +91,12 @@ import { AmethystCommand } from 'amethystjs';
 
 export default new AmethystCommands({
     cooldown: 5, // Cooldown time
+    name: 'command name', // Command name
     permissions: [ 'Administrator' ], // Permissions for the user - optionnal
     clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
+    aliases: ['alias 1', 'alias 2', '...'] // Command aliases - optionnal
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
@@ -109,10 +111,12 @@ const { Amethystcommand } = require('amethystjs');
 
 module.exports = new AmethystCommands({
     cooldown: 5, // Cooldown time
+    name: 'command name', // Command name
     permissions: [ 'Administrator' ], // Permissions for the user - optionnal
     clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
+    aliases: ['alias 1', 'alias 2', '...'] // Command aliases - optionnal
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
