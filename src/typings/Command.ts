@@ -15,6 +15,7 @@ export type commandOptions = {
     clientPermissions?: PermissionsString[];
     preconditions?: Precondition[];
     messageInputChannelTypes?: ChannelType[];
+    aliases?: string[];
 } & ChatInputApplicationCommandData;
 
 export type ChatInputRun = (options: {
@@ -28,6 +29,7 @@ export type MessageRun = (options: {
         second: string | null;
         args: string[];
         emptyArgs: boolean;
+        commandName: string;
     };
 }) => void | unknown;
 export type commandDeniedPayload = {

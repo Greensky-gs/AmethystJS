@@ -64,6 +64,9 @@ export class AmethystClient extends Client {
                     DebugImportance.Critical
                 );
 
+            if (!command.options.aliases) command.options.aliases = [];
+            command.options.aliases = command.options.aliases.map(x => x.toLowerCase()).filter(x => x !== command.options.name.toLowerCase());
+
             if (command.chatInputRun && !this._chatInputCommands.find((x) => x.options.name === command.options.name))
                 this._chatInputCommands.push(command);
             if (command.messageRun && !this._messageCommands.find((x) => x.options.name === command.options.name))
@@ -97,7 +100,7 @@ export class AmethystClient extends Client {
     private loadPreconditions(load: boolean) {
         if (!load) return this.debug(`Preconditions configured to not loaded`, DebugImportance.Information);
         if (!this.configs.preconditionsFolder)
-            return this.debug('Preconditions folder not configued', DebugImportance.NotUnderstand);
+            return this.debug('Preconditions folder not configued', DebugImportance.Information);
         if (!existsSync(this.configs.preconditionsFolder))
             return this.debug(
                 `This folder does not exists: ${this.configs.preconditionsFolder} for preconditions`,
