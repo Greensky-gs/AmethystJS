@@ -70,4 +70,13 @@ declare module 'discord.js' {
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];        
     }
+    interface Client {
+        get messageCommands(): AmethystCommand[];
+        get chatInputCommands(): AmethystCommand[];
+        get preconditions(): Precondition[];
+        get autocompleteListeners(): AutocompleteListener[];
+
+        start(options: startOptions): void;
+        debug(msg: string, imp: DebugImportance): void;
+    }
 }
