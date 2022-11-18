@@ -65,7 +65,9 @@ export class AmethystClient extends Client {
                 );
 
             if (!command.options.aliases) command.options.aliases = [];
-            command.options.aliases = command.options.aliases.map(x => x.toLowerCase()).filter(x => x !== command.options.name.toLowerCase());
+            command.options.aliases = command.options.aliases
+                .map((x) => x.toLowerCase())
+                .filter((x) => x !== command.options.name.toLowerCase());
 
             if (command.chatInputRun && !this._chatInputCommands.find((x) => x.options.name === command.options.name))
                 this._chatInputCommands.push(command);

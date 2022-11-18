@@ -11,7 +11,9 @@ export default new AmethystEvent('messageCreate', (message) => {
 
     const args = message.content.slice(test.length).trim().split(/ +/g);
     const cmdName = args.shift();
-    const cmd = message.client.messageCommands.find((x) => x.options.name === cmdName.toLowerCase() || x.options.aliases.includes(cmdName.toLowerCase()));
+    const cmd = message.client.messageCommands.find(
+        (x) => x.options.name === cmdName.toLowerCase() || x.options.aliases.includes(cmdName.toLowerCase())
+    );
 
     if (!cmd) {
         message.client.debug(`An user used an unexisting command: ${cmdName}`, DebugImportance.Information);
