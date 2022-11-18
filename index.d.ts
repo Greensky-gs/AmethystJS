@@ -71,6 +71,8 @@ declare module 'discord.js' {
         modalSubmit: [interaction: ModalSubmitInteraction];        
     }
     interface Client {
+        readonly configs: AmethystClientOptions;
+
         get messageCommands(): AmethystCommand[];
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
