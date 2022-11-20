@@ -73,5 +73,5 @@ export type deniedReason = {
         };
         [ key: string | number ]: any;
     };
-    code?: commandDeniedCode;
+    code?: commandDeniedCode | string;
 };

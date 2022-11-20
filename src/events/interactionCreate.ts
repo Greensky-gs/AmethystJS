@@ -148,7 +148,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                             isMessage: false
                         },
                         {
-                            code: commandDeniedCode.CustomPrecondition,
+                            code: prec?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
                             message: prec.message ?? 'Custom precondition failure',
                             metadata: prec.metadata ?? {}
                         }
