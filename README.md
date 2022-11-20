@@ -246,7 +246,8 @@ Go in your autocomplete listeners and create a new file
 import { AutocompleteListener } from 'amethystjs';
 
 export default new AutocompleteListener({
-    commandName: 'slash command name',
+    commandName: 'slash command name', // This parameter can also be like this:
+    commandName: ['eval', 'run', 'sql', 'dev'],
     run: (options) => {
         // Make your choice here are return :
         return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
@@ -258,7 +259,8 @@ export default new AutocompleteListener({
 const { AutocompleteListener } = require('amethystjs');
 
 module.exports = new AutocompleteListener({
-    commandName: 'slash command name',
+    commandName: 'slash command name', // This parameter can also be like this:
+    commandName: ['eval', 'run', 'sql', 'dev'],
     run: (options) => {
         // Make your choice here are return :
         return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
