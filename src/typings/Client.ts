@@ -71,6 +71,7 @@ export type deniedReason = {
             expected: ChannelType[];
             got: ChannelType;
         };
+        [ key: string | number ]: any;
     };
     code?: commandDeniedCode;
 };
