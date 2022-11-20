@@ -1,11 +1,20 @@
+<p align="center">
+  <a href="X">
+    <img src="https://github.com/Greensky-gs/AmethystJS/blob/master/logo.png" alt="Logo">
+  </a>
 
-# AmethystJS
-
-A complete framework for Discord.js v14 in TypeScript
+<p align="center">
+  <a href="https://discord.gg/NjsmxpnyXg">
+    <img src="https://img.shields.io/discord/974703720380133457?color=5865F2&logo=discord&logoColor=white" alt="Discord Server">
+  </a>
+ <a href="https://www.npmjs.com/package/amethystjs">
+    <img src="https://img.shields.io/npm/v/amethystjs" alt="Package NPM">
+  </a>
+ <a href="https://github.com/Greensky-gs/amethystjs/releases">
+    <img src="https://img.shields.io/github/downloads/Greensky-gs/amethystjs/total" alt="Download">
+</a>
 
 ## Installation
-
-Install `amethystjs` by :
 
 * yarn : `yarn add amethystjs`
 * pnpm : `pnpm add amethystjs`
@@ -267,6 +276,8 @@ module.exports = new AutocompleteListener({
 });
 ```
 
-### Contact
+# Contributors
 
-You can contact me on [this discord server](https://discord.gg/fHyN5w84g6)
+<a href="https://github.com/Greensky-gs/AmethystJS/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Greensky-gs/AmethystJS" />
+</a>
