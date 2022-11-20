@@ -6,6 +6,8 @@ export type preconditionRunReturn = {
     metadata?: {
         silent?: boolean;
         code?: string;
+    } & {
+        [key: string | number]: any;
     };
     ok: boolean;
     interaction?: CommandInteraction<CacheType>;
