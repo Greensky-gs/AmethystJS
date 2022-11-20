@@ -1,6 +1,6 @@
 {
   "name": "amethystjs",
-  "version": "1.0.51",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "repository": "https://github.com/Greensky-gs/amethystJS",
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
