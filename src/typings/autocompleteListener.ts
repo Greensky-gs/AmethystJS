@@ -16,6 +16,6 @@ export type AutocompleteListenerRun = (options: {
     | Promise<ApplicationCommandOptionChoiceData<string | number>[]>;
 
 export type AutocompleteListenerOptions = {
-    commandName: string;
+    commandName: string | string[];
     run: AutocompleteListenerRun;
 };

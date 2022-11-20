@@ -41,6 +41,7 @@ export class AmethystEvent<K extends keyof ClientEvents> {
 
 export class AutocompleteListener {
     public readonly name: string;
+    public readonly names: string[];
     public readonly run: AutocompleteListenerRun;
 
     public constructor(options: AutocompleteListenerOptions);
