@@ -116,7 +116,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     },
                     {
                         code: commandDeniedCode.InvalidChannelType,
-                        message: 'Command runned in ian invalid channel type',
+                        message: 'Command runned in an invalid channel type',
                         metadata: {
                             channelType: {
                                 expected: cmd.options.messageInputChannelTypes,
