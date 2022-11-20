@@ -57,7 +57,7 @@ export class AmethystClient extends Client {
 
         readdirSync(this.configs.commandsFolder).forEach((commandFile: string) => {
             let x = require(`../../../../${this.configs.commandsFolder}/${commandFile}`);
-            const command: AmethystCommand = x ?? x?.default;
+            const command: AmethystCommand = x?.default ?? x;
             if (!command || !(command instanceof AmethystCommand))
                 return this.debug(
                     `default value of file ${this.configs.commandsFolder}/${commandFile} is not an amhetyst command`,
@@ -111,7 +111,7 @@ export class AmethystClient extends Client {
 
         readdirSync(this.configs.preconditionsFolder).forEach((fileName) => {
             let x = require(`../../../../${this.configs.preconditionsFolder}/${fileName}`);
-            const file: Precondition = x ?? x?.default;
+            const file: Precondition = x?.default ?? x;
 
             if (!file || !(file instanceof Precondition)) {
                 return this.debug(
@@ -160,7 +160,7 @@ export class AmethystClient extends Client {
         let eventsCount = 0;
         readdirSync(this.configs.eventsFolder).forEach((eventFile: string) => {
             let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`);
-            const event: AmethystEvent<keyof ClientEvents> = x ?? x?.default;
+            const event: AmethystEvent<keyof ClientEvents> = x?.default ?? x;
 
             if (!event || !(event instanceof AmethystEvent))
                 return this.debug(
@@ -184,7 +184,7 @@ export class AmethystClient extends Client {
         let count = 0;
         readdirSync(this.configs.autocompleteListenersFolder).forEach((file: string) => {
             let x = require(`../../../../${this.configs.autocompleteListenersFolder}/${file}`);
-            const listener: AutocompleteListener = x ?? x?.default;
+            const listener: AutocompleteListener = x?.default ?? x;
 
             if (!listener || !(listener instanceof AutocompleteListener))
                 return this.debug(
