@@ -214,7 +214,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
 
         const result = await listeners[0].run({
             interaction,
-            options: interaction.options
+            options: interaction.options,
+            focused: interaction.options.getFocused(true),
+            focusedValue: interaction.options.getFocused(false)
         });
 
         interaction.respond(result);
