@@ -5,14 +5,14 @@ type WaitForInteraction<T> = T extends waitForType<ComponentType.Button>
     ? ButtonInteraction<'cached'>
     : SelectMenuInteraction<'cached'>;
 
-export async function waitForInteraction<T extends waitForType<MessageComponentType>>({
+export const waitForInteraction = <T extends waitForType<MessageComponentType>>({
     componentType,
     message,
     user,
     time = 120000,
     whoCanReact = 'useronly',
     replies
-}: T) {
+}: T) => {
     return new Promise<WaitForInteraction<T>>((resolve, reject) => {
         message
             .createMessageComponentCollector({
