@@ -28,7 +28,11 @@ export class AmethystClient extends Client {
             debug: configs?.debug ?? false,
             strictPrefix: configs?.strictPrefix ?? false,
             defaultCooldownTime: configs?.defaultCooldownTime ?? 5,
-            autocompleteListenersFolder: configs?.autocompleteListenersFolder
+            autocompleteListenersFolder: configs?.autocompleteListenersFolder,
+            waitForDefaultReplies: {
+                user: configs?.waitForDefaultReplies?.user ?? "You're not allowed to interact with this message",
+                everyone: configs?.waitForDefaultReplies?.everyone ?? "You're not allowed to interact with this message"
+            }
         };
     }
     public start({
