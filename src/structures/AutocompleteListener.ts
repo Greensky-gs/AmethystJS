@@ -2,11 +2,13 @@ import { AutocompleteListenerOptions, AutocompleteListenerRun } from '../typings
 
 export class AutocompleteListener {
     public readonly name: string = '';
-    public readonly names: string[] = []
+    public readonly names: string[] = [];
     public readonly run: AutocompleteListenerRun;
 
     constructor(options: AutocompleteListenerOptions) {
-        typeof options.commandName === 'string' ? this.name = options.commandName : this.names = options.commandName;
+        typeof options.commandName === 'string'
+            ? (this.name = options.commandName)
+            : (this.names = options.commandName);
         this.run = options.run;
     }
 }
