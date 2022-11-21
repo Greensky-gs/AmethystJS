@@ -54,4 +54,4 @@ export const waitForInteraction = <T extends waitForType<MessageComponentType>>(
                 reject(reason);
             });
     });
-}
+};
