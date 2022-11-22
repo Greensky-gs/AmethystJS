@@ -28,7 +28,11 @@ With this powerful framework you can :
 * [Handle errors](#handle-errors)
 * [Create a precondition](#record-your-own-preconditions)
 * [Use events](#registering-events)
+* [Handle autocomplete interactions](#autocomplete-listeners)
 
+## Requests
+
+You can request any feature by [opening an issue](https://github.com/Greensky-gs/AmethystJS/issues/new). If I can, I'll made it.
 ## Create Amythyst Client
 
 Import the client
