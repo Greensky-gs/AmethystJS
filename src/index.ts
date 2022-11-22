@@ -20,7 +20,10 @@ export {
     CommandType,
     errorCode,
     errorReason,
-    deniedReason
+    deniedReason,
+    waitForType,
+    canReactType,
+    DebugImportance
 } from './typings/Client';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
 export { AutocompleteListenerOptions, AutocompleteListenerRun } from './typings/autocompleteListener';
@@ -31,3 +34,4 @@ export const preconditions: Record<string, Precondition> = {
     GuildOnly,
     NsfwOnly
 };
+export { waitForInteraction } from './utils/waitForInteraction';

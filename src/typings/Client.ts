@@ -1,4 +1,11 @@
-import { ChannelType, PermissionsString } from 'discord.js';
+import {
+    ChannelType,
+    InteractionReplyOptions,
+    Message,
+    MessageComponentType,
+    PermissionsString,
+    User
+} from 'discord.js';
 
 type pathLike = `./${string}`;
 
@@ -15,6 +22,10 @@ export type AmethystClientOptions = {
     defaultCooldownTime?: number;
     preconditionsFolder?: pathLike;
     autocompleteListenersFolder?: pathLike;
+    waitForDefaultReplies?: {
+        user?: string;
+        everyone?: string;
+    };
 };
 export type startOptions = {
     loadCommands?: boolean;
@@ -71,7 +82,19 @@ export type deniedReason = {
             expected: ChannelType[];
             got: ChannelType;
         };
-        [ key: string | number ]: any;
+        [key: string | number]: any;
     };
-    code?: commandDeniedCode;
+    code?: commandDeniedCode | string;
+};
+export type canReactType = 'everyone' | 'useronly' | 'everyoneexceptuser';
+export type waitForType<T extends MessageComponentType> = {
+    message: Message<true>;
+    user: User;
+    componentType: T;
+    time?: number;
+    whoCanReact?: canReactType;
+    replies?: {
+        user?: InteractionReplyOptions;
+        everyone?: InteractionReplyOptions;
+    };
 };

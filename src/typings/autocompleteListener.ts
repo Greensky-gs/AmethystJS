@@ -2,7 +2,8 @@ import {
     ApplicationCommandOptionChoiceData,
     AutocompleteInteraction,
     CacheType,
-    CommandInteractionOptionResolver
+    CommandInteractionOptionResolver,
+    AutocompleteFocusedOption
 } from 'discord.js';
 
 export type AutocompleteListenerRun = (options: {
@@ -11,6 +12,8 @@ export type AutocompleteListenerRun = (options: {
         CommandInteractionOptionResolver<CacheType>,
         'getMessage' | 'getUser' | 'getAttachment' | 'getChannel' | 'getMember' | 'getMentionable' | 'getRole'
     >;
+    focused: AutocompleteFocusedOption;
+    focusedValue: string;
 }) =>
     | ApplicationCommandOptionChoiceData<string | number>[]
     | Promise<ApplicationCommandOptionChoiceData<string | number>[]>;

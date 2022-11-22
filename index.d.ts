@@ -1,10 +1,10 @@
 import { Client, ClientEvents, ClientOptions } from "discord.js";
-import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions, commandDeniedCode } from './dist/typings/Client';
+import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions, commandDeniedCode, waitForType, canReactType, errorCode } from './dist/typings/Client';
 import { PreconditionChatInputRun, PreconditionMessageRun } from "./dist/typings/Precondition";
 import { AutocompleteListenerOptions, AutocompleteListenerRun } from './dist/typings/autocompleteListener'
 import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from "./dist/typings/Command";
 
-export { PreconditionChatInputRun, PreconditionMessageRun, DebugImportance, startOptions, AmethystClientOptions, ClientOptions, commandDeniedCode };
+export { PreconditionChatInputRun, PreconditionMessageRun, DebugImportance, startOptions, AmethystClientOptions, ClientOptions, commandDeniedCode, waitForType, errorCode, canReactType };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
 export class AmethystClient extends Client {
@@ -61,6 +61,7 @@ export class AmethystCommand {
 
 type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
+export { waitForInteraction } from './dist/utils/waitForInteraction';
 
 declare module 'discord.js' {
     interface ClientEvents {
