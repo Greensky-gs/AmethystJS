@@ -26,7 +26,7 @@ export {
     DebugImportance
 } from './typings/Client';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
-export { AutocompleteListenerOptions, AutocompleteListenerRun } from './typings/autocompleteListener';
+export { AutocompleteListenerOptions, AutocompleteListenerRun, autocompleteListenerNamesType } from './typings/autocompleteListener';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {
