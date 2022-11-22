@@ -29,10 +29,14 @@ With this powerful framework you can :
 * [Create a precondition](#record-your-own-preconditions)
 * [Use events](#registering-events)
 * [Handle autocomplete interactions](#autocomplete-listeners)
+* [Wait for messages](#wait-for-messages)
+* [Wait for interactions](#wait-for-interactions)
+* [Handle buttons](#button-handler)
 
 ## Requests
 
 You can request any feature by [opening an issue](https://github.com/Greensky-gs/AmethystJS/issues/new). If I can, I'll made it.
+
 ## Create Amythyst Client
 
 Import the client
@@ -53,6 +57,7 @@ const client = new AmethystClient({
     defaultCooldownTime: 5, // Default cooldown time
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
+    buttonsFolder: './buttonsFolder' // Specify the button folder for button handlers - optionnal
 }, {
     // Amethyst client options
 });
@@ -81,6 +86,7 @@ const client = new AmethystClient({
     defaultCooldownTime: 5, // Default cooldown time
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
+    buttonsFolder: './buttonsFolder' // Specify the button folder for button handlers - optionnal
 }, {
     // Amethyst client options
 });
@@ -280,6 +286,160 @@ module.exports = new AutocompleteListener({
         
     }
 });
+```
+
+## Button handler
+
+Amethyst JS can handle button interactions for you.
+
+> In case you don't know, some events have been added to the client : `buttonInteraction`, `modalSubmit` and `selectMenuInteraction`
+
+Go to your buttons folder and create a new file
+
+```ts
+import { ButtonHandler } from 'amethystjs';
+
+export default new ButtonHandler({
+    customId: 'buttonCustomId',
+    permissions: ['Permissions required for the user'],
+    clientPermissions: ["Permissions required for the client"]
+})
+.setRun((options) => {
+    // Execute your code here
+})
+```
+
+```js
+const { ButtonHandler } = require('amethystjs');
+
+module.exports = new ButtonHandler({
+    customId: 'buttonCustomId',
+    permissions: ['Permissions required for the user'],
+    clientPermissions: ["Permissions required for the client"]
+})
+.setRun((options) => {
+    // Execute your code here
+})
+```
+
+If you specify permissions, you have to handle it in case of error.
+
+To handle it, [create a new event](#registering-events) and record for the `buttonDenied` event.
+
+## Wait for messages
+
+You can wait for messages using amethyst JS.
+
+You'll use `waitForMessage()` function.
+
+```ts
+import { waitForMessage } from 'amethystjs';
+
+// Important : this works only in an async function
+// For exemple, I'll do a simple client.on('messageCreate') to show you how to use it
+client.on('messageCreate', async(message) => {
+    if (message.content === '!ping') {
+        await message.channel.send(`Would you like me to reply ?\nReply by \`yes\` or \`no\``);
+        const reply = await waitForMessage({
+            user: message.author,
+            whoCanReact: 'useronly',
+            channel: message.channel,
+            time: 120000
+        });
+
+        if (!reply) message.channel.send(`You haven't replied :/`);
+        if (reply.content === 'yes') message.reply("Pong !");
+    }
+})
+```
+
+```js
+const { waitForMessage } = require('amethystjs');
+
+// Important : this works only in an async function
+// For exemple, I'll do a simple client.on('messageCreate') to show you how to use it
+client.on('messageCreate', async(message) => {
+    if (message.content === '!ping') {
+        await message.channel.send(`Would you like me to reply ?\nReply by \`yes\` or \`no\``);
+        const reply = await waitForMessage({
+            user: message.author,
+            whoCanReact: 'useronly',
+            channel: message.channel,
+            time: 120000
+        });
+
+        if (!reply) message.channel.send(`You haven't replied :/`);
+        if (reply.content === 'yes') message.reply("Pong !");
+    }
+})
+```
+
+## Wait for interactions
+
+Amethyst JS allows you to wait for interaction responses, like a select menu or a button click
+
+```ts
+import { waitForInteraction } from 'amethystjs';
+import { ButtonBuilder, ActionRowBuilder, componentType, Message } from 'discord.js';
+
+// This function works only in an async function.
+// Here i'm gonna show you in a very simple async function.
+// In this exemple, interaction is already defined
+
+(async() => {
+    const msg = await interaction.reply({
+        message: "Yes or no",
+        components: [ new ActionRowBuilder({
+            components: [
+                new ButtonBuilder({ label: 'Yes', style: ButtonStyle.Success, customId: 'yes' }),
+                new ButtonBuilder({ label: 'No', style: ButtonStyle.Danger, customId: 'no' })
+            ]
+        }) as ActionRowBuilder<ButtonBuilder>]
+    }) as Message<true>;
+
+    const reply = await waitForInteraction({
+        message: msg,
+        time: 120000,
+        whoCanReact = 'useronly',
+        user: interaction.user,
+        componentType: componentType.Button
+    });
+
+    if (!reply || reply.customId === 'no') return interaction.editReply("Ok, no");
+    interaction.editReply("Yes !");
+})()
+```
+
+```js
+const { waitForInteraction } = require('amethystjs');
+const { ActionRowBuilder, ButtonBuilder, componentType } = require('discord.js');
+
+// This function works only in an async function.
+// Here i'm gonna show you in a very simple async function.
+// In this exemple, interaction is already defined
+
+(async() => {
+    const msg = await interaction.reply({
+        message: "Yes or no",
+        components: [ new ActionRowBuilder({
+            components: [
+                new ButtonBuilder({ label: 'Yes', style: ButtonStyle.Success, customId: 'yes' }),
+                new ButtonBuilder({ label: 'No', style: ButtonStyle.Danger, customId: 'no' })
+            ]
+        }) ]
+    })
+
+    const reply = await waitForInteraction({
+        message: msg,
+        time: 120000,
+        whoCanReact = 'useronly',
+        user: interaction.user,
+        componentType: componentType.Button
+    });
+
+    if (!reply || reply.customId === 'no') return interaction.editReply("Ok, no");
+    interaction.editReply("Yes !");
+})()
 ```
 
 # Contributors
