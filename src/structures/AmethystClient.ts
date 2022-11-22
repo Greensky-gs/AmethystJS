@@ -195,8 +195,13 @@ export class AmethystClient extends Client {
             );
         });
         this.on('buttonDenied', (options) => {
-            this.debug(`A button has been denied: ${options.button.customId} (customId). Code: ${options.metadata?.code ?? "Not given"}: ${options.message ?? 'No message'}`, DebugImportance.Information);
-        })
+            this.debug(
+                `A button has been denied: ${options.button.customId} (customId). Code: ${
+                    options.metadata?.code ?? 'Not given'
+                }: ${options.message ?? 'No message'}`,
+                DebugImportance.Information
+            );
+        });
     }
     private loadEvents(load: boolean) {
         if (!load) return this.debug('Events configured to not loaded', DebugImportance.Information);
