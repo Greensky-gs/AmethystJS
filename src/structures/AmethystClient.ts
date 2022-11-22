@@ -1,5 +1,5 @@
 import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials } from 'discord.js';
-import { cp, existsSync, readdirSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
 import { commandDeniedPayload } from '../typings/Command';
 import { AutocompleteListener } from './AutocompleteListener';
