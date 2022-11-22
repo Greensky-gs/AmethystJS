@@ -26,6 +26,7 @@ export {
     DebugImportance,
     waitForMessageType
 } from './typings/Client';
+export { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './typings/ButtonHandler';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
 export {
     AutocompleteListenerOptions,

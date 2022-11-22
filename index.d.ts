@@ -18,6 +18,7 @@ import {
     autocompleteListenerNamesType
 } from './dist/typings/autocompleteListener';
 import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
+import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 
 export {
     PreconditionChatInputRun,
@@ -31,7 +32,11 @@ export {
     errorCode,
     canReactType,
     autocompleteListenerNamesType,
-    waitForMessageType
+    waitForMessageType,
+    ButtonDenied,
+    ButtonDeniedCode,
+    ButtonHandlerOptions,
+    ButtonHandlerRun
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
@@ -86,6 +91,13 @@ export class AmethystCommand {
     public get chatInputRun(): ChatInputRun | undefined;
     public get messageRun(): MessageRun | undefined;
 }
+export class ButtonHandler {
+    public readonly options: ButtonHandlerOptions;
+    public constructor(options: ButtonHandlerOptions);
+
+    setRun(run: ButtonHandler): this;
+    get run(): ButtonHandlerRun;
+}
 
 type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
@@ -100,6 +112,7 @@ declare module 'discord.js' {
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
+        buttonDenied: [ button: ButtonDenied ]
     }
     interface Client {
         readonly configs: AmethystClientOptions;
@@ -108,6 +121,7 @@ declare module 'discord.js' {
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
         get autocompleteListeners(): AutocompleteListener[];
+        get butttonHandlers(): ButtonHandler[]
 
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;
