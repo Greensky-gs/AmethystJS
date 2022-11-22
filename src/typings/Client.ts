@@ -3,8 +3,6 @@ import {
     InteractionReplyOptions,
     Message,
     MessageComponentType,
-    MessageCreateOptions,
-    MessagePayload,
     PermissionsString,
     TextChannel,
     User
@@ -29,12 +27,14 @@ export type AmethystClientOptions = {
         user?: string;
         everyone?: string;
     };
+    buttonsFolder?: pathLike;
 };
 export type startOptions = {
     loadCommands?: boolean;
     loadEvents?: boolean;
     loadPreconditions?: boolean;
     loadAutocompleteListeners?: boolean;
+    loadButtons?: boolean;
 };
 export type CommandType = 'message' | 'chatInput';
 export enum DebugImportance {
