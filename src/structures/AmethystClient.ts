@@ -60,22 +60,37 @@ export class AmethystClient extends Client {
     }
     private loadButtons(load: boolean) {
         if (!load) return this.debug(`Buttons configured to not loaded`, DebugImportance.Information);
-        if (!this.configs.buttonsFolder) return this.debug('Buttons folder not configured', DebugImportance.Information);
-        if (!existsSync(this.configs.buttonsFolder)) return this.debug(`Buttons folder does not exist`, DebugImportance.Unexpected)
+        if (!this.configs.buttonsFolder)
+            return this.debug('Buttons folder not configured', DebugImportance.Information);
+        if (!existsSync(this.configs.buttonsFolder))
+            return this.debug(`Buttons folder does not exist`, DebugImportance.Unexpected);
 
         readdirSync(this.configs.buttonsFolder).forEach((fileName) => {
             const x = require(`../../../../${this.configs.buttonsFolder}`);
             const button: ButtonHandler = x?.default ?? x;
 
-            if (!button || !(button instanceof ButtonHandler)) return this.debug(`Default value of file ${this.configs.buttonsFolder}/${fileName} is not an Amethyst button handler`, DebugImportance.Critical);
+            if (!button || !(button instanceof ButtonHandler))
+                return this.debug(
+                    `Default value of file ${this.configs.buttonsFolder}/${fileName} is not an Amethyst button handler`,
+                    DebugImportance.Critical
+                );
 
-            if (this._buttonHandler.find(x => x.options.customId === button.options.customId)) return this.debug(`Duplicate identifier for ${button.options.customId
-            } (button handler in ${this.configs.buttonsFolder}/${fileName})`, DebugImportance.Unexpected);
+            if (this._buttonHandler.find((x) => x.options.customId === button.options.customId))
+                return this.debug(
+                    `Duplicate identifier for ${button.options.customId} (button handler in ${this.configs.buttonsFolder}/${fileName})`,
+                    DebugImportance.Unexpected
+                );
 
             this._buttonHandler.push(button);
-            this.debug(`Button handler loaded: ${button.options.customId} (${this.configs.buttonsFolder}/${fileName})`, DebugImportance.Information);
+            this.debug(
+                `Button handler loaded: ${button.options.customId} (${this.configs.buttonsFolder}/${fileName})`,
+                DebugImportance.Information
+            );
         });
-        this.debug(`Button handlers loading ended: ${this._buttonHandler.length} handler(s) loaded`, DebugImportance.Information);
+        this.debug(
+            `Button handlers loading ended: ${this._buttonHandler.length} handler(s) loaded`,
+            DebugImportance.Information
+        );
     }
     private loadCommands(load: boolean) {
         if (!load) return this.debug('Commands configured to not loaded', DebugImportance.Information);
@@ -286,7 +301,7 @@ declare module 'discord.js' {
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
-        buttonDenied: [ options: ButtonDenied ];
+        buttonDenied: [options: ButtonDenied];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

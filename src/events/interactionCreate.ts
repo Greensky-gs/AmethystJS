@@ -197,8 +197,12 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         interaction.client.emit('buttonInteraction', interaction, interaction.message);
 
-        const handler = interaction.client.buttonHandlers.find(x => x.options.customId === interaction.customId);
-        if (!handler) return interaction.client.debug(`No button handler found for ${interaction.customId} button`, DebugImportance.Information);
+        const handler = interaction.client.buttonHandlers.find((x) => x.options.customId === interaction.customId);
+        if (!handler)
+            return interaction.client.debug(
+                `No button handler found for ${interaction.customId} button`,
+                DebugImportance.Information
+            );
 
         if (interaction.guild && handler.options?.clientPermissions?.length > 0) {
             const missing: PermissionsString[] = [];
@@ -209,17 +213,17 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             if (missing.length > 0) {
                 return interaction.client.emit('buttonDenied', {
                     button: interaction,
-                    message: "Client is missing permissions",
+                    message: 'Client is missing permissions',
                     metadata: {
                         permissions: {
-                            got: interaction.guild.members.me.permissions.toArray().filter(x => !missing.includes(x)),
+                            got: interaction.guild.members.me.permissions.toArray().filter((x) => !missing.includes(x)),
                             need: handler.options.clientPermissions,
                             missing
                         },
                         code: ButtonDeniedCode.ClientMissingPerms
                     },
                     user: interaction.user
-                })
+                });
             }
         }
         if (interaction.guild && handler.options?.permissions?.length > 0) {
@@ -232,17 +236,17 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             if (missing.length > 0) {
                 return interaction.client.emit('buttonDenied', {
                     button: interaction,
-                    message: "Client is missing permissions",
+                    message: 'Client is missing permissions',
                     metadata: {
                         permissions: {
-                            got: perms.toArray().filter(x => !missing.includes(x)),
+                            got: perms.toArray().filter((x) => !missing.includes(x)),
                             need: handler.options.clientPermissions,
                             missing
                         },
                         code: ButtonDeniedCode.ClientMissingPerms
                     },
                     user: interaction.user
-                })
+                });
             }
         }
         handler.run({

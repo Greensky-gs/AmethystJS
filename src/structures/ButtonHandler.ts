@@ -1,4 +1,4 @@
-import { ButtonHandlerOptions, ButtonHandlerRun } from "../typings/ButtonHandler";
+import { ButtonHandlerOptions, ButtonHandlerRun } from '../typings/ButtonHandler';
 
 export class ButtonHandler {
     public readonly options: ButtonHandlerOptions;
@@ -9,7 +9,7 @@ export class ButtonHandler {
             customId: options.customId,
             permissions: options.permissions ?? [],
             clientPermissions: options.clientPermissions ?? []
-        }
+        };
     }
     public setRun(run: ButtonHandlerRun): this {
         this._run = run;

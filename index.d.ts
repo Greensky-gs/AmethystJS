@@ -112,7 +112,7 @@ declare module 'discord.js' {
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
-        buttonDenied: [ button: ButtonDenied ]
+        buttonDenied: [button: ButtonDenied];
     }
     interface Client {
         readonly configs: AmethystClientOptions;
@@ -121,7 +121,7 @@ declare module 'discord.js' {
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
         get autocompleteListeners(): AutocompleteListener[];
-        get butttonHandlers(): ButtonHandler[]
+        get butttonHandlers(): ButtonHandler[];
 
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;
