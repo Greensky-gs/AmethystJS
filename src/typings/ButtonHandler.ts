@@ -1,13 +1,19 @@
 import { ButtonInteraction, Message, PermissionsString, User } from 'discord.js';
+import { Precondition } from '../structures/Precondition';
 
 export type ButtonHandlerOptions = {
     customId: string;
     permissions?: PermissionsString[];
     clientPermissions?: PermissionsString[];
+    preconditions?: Precondition[];
 };
 export enum ButtonDeniedCode {
     MissingPerms = 'User is missing permissions',
-    ClientMissingPerms = 'Client is missing permissions'
+    ClientMissingPerms = 'Client is missing permissions',
+    CustomPrecondition = "Custom precondition",
+    DMOnly = 'Direct messages only',
+    NsfwOnly = 'Nsfw channel only',
+    GuildOnly = 'Guild only'
 }
 export type ButtonDenied = {
     message?: string;

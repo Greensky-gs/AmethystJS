@@ -204,6 +204,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 DebugImportance.Information
             );
 
+        if (handler) {}
         if (interaction.guild && handler.options?.clientPermissions?.length > 0) {
             const missing: PermissionsString[] = [];
             for (const perm of handler.options.clientPermissions) {

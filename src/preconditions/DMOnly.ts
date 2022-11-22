@@ -1,4 +1,5 @@
 import { Precondition } from '../structures/Precondition';
+import { ButtonDeniedCode } from '../typings/ButtonHandler';
 import { commandDeniedCode } from '../typings/Client';
 
 export default new Precondition('DMOnly')
@@ -36,4 +37,22 @@ export default new Precondition('DMOnly')
             isChatInput: false,
             channelMessage: message
         };
+    })
+    .setButtonRun(({ button }) => {
+        if (button.guild) return {
+            ok: false,
+            isChatInput: false,
+            isButton: true,
+            message: "Button usable in direct messages only",
+            button,
+            metadata: {
+                code: ButtonDeniedCode.DMOnly
+            }
+        }
+        return {
+            ok: true,
+            isChatInput: false,
+            isButton: true,
+            button
+        }
     });
