@@ -3,7 +3,10 @@ import {
     InteractionReplyOptions,
     Message,
     MessageComponentType,
+    MessageCreateOptions,
+    MessagePayload,
     PermissionsString,
+    TextChannel,
     User
 } from 'discord.js';
 
@@ -98,3 +101,9 @@ export type waitForType<T extends MessageComponentType> = {
         everyone?: InteractionReplyOptions;
     };
 };
+export type waitForMessageType = {
+    channel: TextChannel,
+    user: User;
+    whoCanReply?: canReactType;
+    time?: number;
+}
