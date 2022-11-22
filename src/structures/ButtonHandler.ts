@@ -11,8 +11,9 @@ export class ButtonHandler {
             clientPermissions: options.clientPermissions ?? []
         }
     }
-    public setRun(run: ButtonHandlerRun) {
+    public setRun(run: ButtonHandlerRun): this {
         this._run = run;
+        return this;
     }
     public get run(): ButtonHandlerRun {
         return this._run;
