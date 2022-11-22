@@ -27,7 +27,11 @@ export {
     waitForMessageType
 } from './typings/Client';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
-export { AutocompleteListenerOptions, AutocompleteListenerRun, autocompleteListenerNamesType } from './typings/autocompleteListener';
+export {
+    AutocompleteListenerOptions,
+    AutocompleteListenerRun,
+    autocompleteListenerNamesType
+} from './typings/autocompleteListener';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {

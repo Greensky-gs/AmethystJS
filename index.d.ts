@@ -1,10 +1,38 @@
-import { Client, ClientEvents, ClientOptions } from "discord.js";
-import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions, commandDeniedCode, waitForType, canReactType, errorCode, waitForMessageType } from './dist/typings/Client';
-import { PreconditionChatInputRun, PreconditionMessageRun } from "./dist/typings/Precondition";
-import { AutocompleteListenerOptions, AutocompleteListenerRun, autocompleteListenerNamesType } from './dist/typings/autocompleteListener'
-import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from "./dist/typings/Command";
+import { Client, ClientEvents, ClientOptions } from 'discord.js';
+import {
+    AmethystClientOptions,
+    DebugImportance,
+    deniedReason,
+    errorReason,
+    startOptions,
+    commandDeniedCode,
+    waitForType,
+    canReactType,
+    errorCode,
+    waitForMessageType
+} from './dist/typings/Client';
+import { PreconditionChatInputRun, PreconditionMessageRun } from './dist/typings/Precondition';
+import {
+    AutocompleteListenerOptions,
+    AutocompleteListenerRun,
+    autocompleteListenerNamesType
+} from './dist/typings/autocompleteListener';
+import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
 
-export { PreconditionChatInputRun, PreconditionMessageRun, DebugImportance, startOptions, AmethystClientOptions, ClientOptions, commandDeniedCode, waitForType, errorCode, canReactType, autocompleteListenerNamesType, waitForMessageType };
+export {
+    PreconditionChatInputRun,
+    PreconditionMessageRun,
+    DebugImportance,
+    startOptions,
+    AmethystClientOptions,
+    ClientOptions,
+    commandDeniedCode,
+    waitForType,
+    errorCode,
+    canReactType,
+    autocompleteListenerNamesType,
+    waitForMessageType
+};
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
 export class AmethystClient extends Client {
@@ -71,7 +99,7 @@ declare module 'discord.js' {
         commandError: [command: commandDeniedPayload, reason: errorReason];
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
-        modalSubmit: [interaction: ModalSubmitInteraction];        
+        modalSubmit: [interaction: ModalSubmitInteraction];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

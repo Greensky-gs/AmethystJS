@@ -102,8 +102,8 @@ export type waitForType<T extends MessageComponentType> = {
     };
 };
 export type waitForMessageType = {
-    channel: TextChannel,
+    channel: TextChannel;
     user: User;
     whoCanReply?: canReactType;
     time?: number;
-}
+};
