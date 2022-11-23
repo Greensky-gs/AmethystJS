@@ -131,13 +131,14 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         let alreadyStopped = false;
         if (cmd.options.preconditions?.filter((x) => x.chatInputRun).length > 0)
             cmd.options.preconditions?.forEach((precondition) => {
+                if (alreadyStopped) return;
                 const prec = precondition.chatInputRun({
                     interaction,
                     command: cmd,
                     options: interaction.options as CommandInteractionOptionResolver
                 });
 
-                if (!prec.ok && !alreadyStopped) {
+                if (!prec.ok) {
                     alreadyStopped = true;
 
                     return interaction.client.emit(
