@@ -1,9 +1,10 @@
-import { PreconditionChatInputRun, PreconditionMessageRun } from '../typings/Precondition';
+import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun, preconditionRunReturn } from '../typings/Precondition';
 
 export class Precondition {
     public readonly name: string;
     public chatInputRun: PreconditionChatInputRun;
     public messageRun: PreconditionMessageRun;
+    public buttonRun: PreconditionButtonRun;
 
     constructor(name: string) {
         this.name = name;
@@ -14,6 +15,10 @@ export class Precondition {
     }
     public setMessageRun(run: PreconditionMessageRun) {
         this.messageRun = run;
+        return this;
+    }
+    public setButtonRun(run: PreconditionButtonRun) {
+        this.buttonRun = run;
         return this;
     }
 }

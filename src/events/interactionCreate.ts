@@ -7,6 +7,7 @@ import {
 } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
+import { ButtonDeniedCode } from '../typings/ButtonHandler';
 import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
 import { commandInteractionType } from '../typings/Command';
 
@@ -196,6 +197,65 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
     }
     if (interaction.isButton()) {
         interaction.client.emit('buttonInteraction', interaction, interaction.message);
+
+        const handler = interaction.client.buttonHandlers.find((x) => x.options.customId === interaction.customId);
+        if (!handler)
+            return interaction.client.debug(
+                `No button handler found for ${interaction.customId} button`,
+                DebugImportance.Information
+            );
+
+        if (handler) {}
+        if (interaction.guild && handler.options?.clientPermissions?.length > 0) {
+            const missing: PermissionsString[] = [];
+            for (const perm of handler.options.clientPermissions) {
+                if (!interaction.guild.members.me.permissions.has(perm)) missing.push(perm);
+            }
+
+            if (missing.length > 0) {
+                return interaction.client.emit('buttonDenied', {
+                    button: interaction,
+                    message: 'Client is missing permissions',
+                    metadata: {
+                        permissions: {
+                            got: interaction.guild.members.me.permissions.toArray().filter((x) => !missing.includes(x)),
+                            need: handler.options.clientPermissions,
+                            missing
+                        },
+                        code: ButtonDeniedCode.ClientMissingPerms
+                    },
+                    user: interaction.user
+                });
+            }
+        }
+        if (interaction.guild && handler.options?.permissions?.length > 0) {
+            const missing: PermissionsString[] = [];
+            const perms = (interaction.member as GuildMember).permissions;
+            for (const perm of handler.options.permissions) {
+                if (!perms.has(perm)) missing.push(perm);
+            }
+
+            if (missing.length > 0) {
+                return interaction.client.emit('buttonDenied', {
+                    button: interaction,
+                    message: 'Client is missing permissions',
+                    metadata: {
+                        permissions: {
+                            got: perms.toArray().filter((x) => !missing.includes(x)),
+                            need: handler.options.clientPermissions,
+                            missing
+                        },
+                        code: ButtonDeniedCode.ClientMissingPerms
+                    },
+                    user: interaction.user
+                });
+            }
+        }
+        handler.run({
+            button: interaction,
+            message: interaction.message,
+            user: interaction.user
+        });
     }
     if (interaction.isModalSubmit()) {
         interaction.client.emit('modalSubmit', interaction);
@@ -205,8 +265,17 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
     }
     if (interaction.isAutocomplete()) {
         const listeners = interaction.client.autocompleteListeners.filter(
-            (x) => x.name === interaction.commandName || x.names.includes(interaction.commandName)
+            (x) =>
+                x.name === interaction.commandName ||
+                x.names.filter(
+                    (y) =>
+                        (y.commandName === interaction.commandName &&
+                            y.optionName &&
+                            y.optionName === interaction.options.getFocused(true).name) ||
+                        true
+                )
         );
+
         if (listeners.length === 0)
             return interaction.client.debug(
                 `No autocomplete listeners found for ${interaction.commandName}`,

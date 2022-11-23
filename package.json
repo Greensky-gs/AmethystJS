@@ -17,8 +17,8 @@
     "typescript": "^4.9.3"
   },
   "scripts": {
-    "prettier": "prettier -w src",
-    "eslint": "eslint --fix --ext ts src",
+    "prettier": "prettier -w src index.d.ts",
+    "eslint": "eslint --fix --ext ts src index.d.ts",
     "build": "tsc -b"
   },
   "files": [

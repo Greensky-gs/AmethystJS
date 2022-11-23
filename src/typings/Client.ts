@@ -4,6 +4,7 @@ import {
     Message,
     MessageComponentType,
     PermissionsString,
+    TextChannel,
     User
 } from 'discord.js';
 
@@ -26,12 +27,14 @@ export type AmethystClientOptions = {
         user?: string;
         everyone?: string;
     };
+    buttonsFolder?: pathLike;
 };
 export type startOptions = {
     loadCommands?: boolean;
     loadEvents?: boolean;
     loadPreconditions?: boolean;
     loadAutocompleteListeners?: boolean;
+    loadButtons?: boolean;
 };
 export type CommandType = 'message' | 'chatInput';
 export enum DebugImportance {
@@ -97,4 +100,10 @@ export type waitForType<T extends MessageComponentType> = {
         user?: InteractionReplyOptions;
         everyone?: InteractionReplyOptions;
     };
+};
+export type waitForMessageType = {
+    channel: TextChannel;
+    user: User;
+    whoCanReply?: canReactType;
+    time?: number;
 };

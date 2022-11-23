@@ -1,8 +1,10 @@
 import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials } from 'discord.js';
-import { cp, existsSync, readdirSync } from 'fs';
+import { existsSync, readdirSync } from 'fs';
+import { ButtonDenied } from '../typings/ButtonHandler';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
 import { commandDeniedPayload } from '../typings/Command';
 import { AutocompleteListener } from './AutocompleteListener';
+import { ButtonHandler } from './ButtonHandler';
 import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
@@ -13,6 +15,7 @@ export class AmethystClient extends Client {
     private _chatInputCommands: AmethystCommand[] = [];
     private _preconditions: Precondition[] = [];
     private _autocompleteListeners: AutocompleteListener[] = [];
+    private _buttonHandler: ButtonHandler[] = [];
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
@@ -32,14 +35,16 @@ export class AmethystClient extends Client {
             waitForDefaultReplies: {
                 user: configs?.waitForDefaultReplies?.user ?? "You're not allowed to interact with this message",
                 everyone: configs?.waitForDefaultReplies?.everyone ?? "You're not allowed to interact with this message"
-            }
+            },
+            buttonsFolder: configs?.buttonsFolder
         };
     }
     public start({
         loadCommands = true,
         loadEvents = true,
         loadPreconditions = true,
-        loadAutocompleteListeners = true
+        loadAutocompleteListeners = true,
+        loadButtons = true
     }: startOptions) {
         this.login(this.configs.token);
 
@@ -47,10 +52,45 @@ export class AmethystClient extends Client {
         this.loadEvents(loadEvents);
         this.loadPreconditions(loadPreconditions);
         this.loadAutocompleteListeners(loadAutocompleteListeners);
+        this.loadButtons(loadButtons);
 
         this.checks();
         this.loadInternalEvents();
         this.listenCommandDenied();
+    }
+    private loadButtons(load: boolean) {
+        if (!load) return this.debug(`Buttons configured to not loaded`, DebugImportance.Information);
+        if (!this.configs.buttonsFolder)
+            return this.debug('Buttons folder not configured', DebugImportance.Information);
+        if (!existsSync(this.configs.buttonsFolder))
+            return this.debug(`Buttons folder does not exist`, DebugImportance.Unexpected);
+
+        readdirSync(this.configs.buttonsFolder).forEach((fileName) => {
+            const x = require(`../../../../${this.configs.buttonsFolder}`);
+            const button: ButtonHandler = x?.default ?? x;
+
+            if (!button || !(button instanceof ButtonHandler))
+                return this.debug(
+                    `Default value of file ${this.configs.buttonsFolder}/${fileName} is not an Amethyst button handler`,
+                    DebugImportance.Critical
+                );
+
+            if (this._buttonHandler.find((x) => x.options.customId === button.options.customId))
+                return this.debug(
+                    `Duplicate identifier for ${button.options.customId} (button handler in ${this.configs.buttonsFolder}/${fileName})`,
+                    DebugImportance.Unexpected
+                );
+
+            this._buttonHandler.push(button);
+            this.debug(
+                `Button handler loaded: ${button.options.customId} (${this.configs.buttonsFolder}/${fileName})`,
+                DebugImportance.Information
+            );
+        });
+        this.debug(
+            `Button handlers loading ended: ${this._buttonHandler.length} handler(s) loaded`,
+            DebugImportance.Information
+        );
     }
     private loadCommands(load: boolean) {
         if (!load) return this.debug('Commands configured to not loaded', DebugImportance.Information);
@@ -154,6 +194,14 @@ export class AmethystClient extends Client {
                 DebugImportance.Error
             );
         });
+        this.on('buttonDenied', (options) => {
+            this.debug(
+                `A button has been denied: ${options.button.customId} (customId). Code: ${
+                    options.metadata?.code ?? 'Not given'
+                }: ${options.message ?? 'No message'}`,
+                DebugImportance.Information
+            );
+        });
     }
     private loadEvents(load: boolean) {
         if (!load) return this.debug('Events configured to not loaded', DebugImportance.Information);
@@ -244,6 +292,9 @@ export class AmethystClient extends Client {
     public get autocompleteListeners(): AutocompleteListener[] {
         return this._autocompleteListeners;
     }
+    public get buttonHandlers(): ButtonHandler[] {
+        return this.buttonHandlers;
+    }
     private loadInternalEvents(): void {
         const interactionCreate = require(`../events/interactionCreate.js`).default;
         const messageCreate = require(`../events/messageCreate.js`).default;
@@ -258,6 +309,7 @@ declare module 'discord.js' {
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
+        buttonDenied: [options: ButtonDenied];
     }
     interface Client {
         readonly configs: AmethystClientOptions;
@@ -269,5 +321,6 @@ declare module 'discord.js' {
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
         get autocompleteListeners(): AutocompleteListener[];
+        get buttonHandlers(): ButtonHandler[];
     }
 }

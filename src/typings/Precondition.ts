@@ -1,4 +1,4 @@
-import { CacheType, CommandInteraction, CommandInteractionOptionResolver, Message } from 'discord.js';
+import { ButtonInteraction, CacheType, CommandInteraction, CommandInteractionOptionResolver, Message, User } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 
 export type preconditionRunReturn = {
@@ -12,6 +12,8 @@ export type preconditionRunReturn = {
     ok: boolean;
     interaction?: CommandInteraction<CacheType>;
     isChatInput: boolean;
+    isButton?: boolean;
+    button?: ButtonInteraction;
     channelMessage?: Message;
 };
 type BaseRun = {
@@ -29,3 +31,8 @@ export type PreconditionMessageRun = (
         message: Message;
     } & BaseRun
 ) => preconditionRunReturn;
+export type PreconditionButtonRun = (options: {
+    button: ButtonInteraction;
+    user: User;
+    message: Message;
+}) => preconditionRunReturn;

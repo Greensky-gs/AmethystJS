@@ -23,10 +23,16 @@ export {
     deniedReason,
     waitForType,
     canReactType,
-    DebugImportance
+    DebugImportance,
+    waitForMessageType
 } from './typings/Client';
+export { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './typings/ButtonHandler';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
-export { AutocompleteListenerOptions, AutocompleteListenerRun } from './typings/autocompleteListener';
+export {
+    AutocompleteListenerOptions,
+    AutocompleteListenerRun,
+    autocompleteListenerNamesType
+} from './typings/autocompleteListener';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {
@@ -35,3 +41,4 @@ export const preconditions: Record<string, Precondition> = {
     NsfwOnly
 };
 export { waitForInteraction } from './utils/waitForInteraction';
+export { waitForMessage } from './utils/waitForMessage';
