@@ -10,6 +10,7 @@ export { AmethystCommand } from './structures/Command';
 export { Precondition } from './structures/Precondition';
 export { AmethystEvent } from './structures/Event';
 export { AutocompleteListener } from './structures/AutocompleteListener';
+export { ButtonHandler } from './structures/ButtonHandler';
 
 // Types
 export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun } from './typings/Precondition';

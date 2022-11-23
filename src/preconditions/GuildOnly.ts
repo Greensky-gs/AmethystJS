@@ -35,4 +35,11 @@ export default new Precondition('GuildOnly')
             channelMessage: message,
             isChatInput: false
         };
+    })
+    .setButtonRun(({ button }) => {
+        if (!button.guild) {
+            return {
+                ok: false
+            }
+        }
     });

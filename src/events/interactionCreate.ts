@@ -251,6 +251,30 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 });
             }
         }
+        if (handler.options.preconditions?.filter(x => x.buttonRun)?.length > 0) {
+            let ok = true;
+            handler.options.preconditions.forEach((prec) => {
+                if (ok) {
+                    const rs = prec.buttonRun({
+                        button: interaction,
+                        user: interaction.user,
+                        message: interaction.message
+                    });
+                    if (!rs.ok) {
+                        ok = false;
+                        interaction.client.emit('buttonDenied', {
+                            message: "A precondition failed",
+                            button: interaction,
+                            user: interaction.user,
+                            metadata: {
+                                code: rs?.metadata?.code ?? ButtonDeniedCode.CustomPrecondition
+                            }
+                        })
+                    }
+                }
+            })
+            if (!ok) return;
+        }
         handler.run({
             button: interaction,
             message: interaction.message,

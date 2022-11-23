@@ -11,7 +11,7 @@ import {
     errorCode,
     waitForMessageType
 } from './dist/typings/Client';
-import { PreconditionChatInputRun, PreconditionMessageRun } from './dist/typings/Precondition';
+import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun } from './dist/typings/Precondition';
 import {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,
@@ -61,6 +61,8 @@ export class Precondition {
 
     public setChatInputRun(run: PreconditionChatInputRun): this;
     public setMessageRun(run: PreconditionMessageRun): this;
+    public setButtonRun(run: PreconditionButtonRun): this;
+    public get buttonRun(): PreconditionButtonRun;
     public get chatInputRun(): PreconditionChatInputRun;
     public get messageRun(): PreconditionMessageRun;
 }
