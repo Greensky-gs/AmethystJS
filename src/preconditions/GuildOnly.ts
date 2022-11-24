@@ -1,4 +1,5 @@
 import { Precondition } from '../structures/Precondition';
+import { ButtonDeniedCode } from '../typings/ButtonHandler';
 import { commandDeniedCode } from '../typings/Client';
 
 export default new Precondition('GuildOnly')
@@ -39,7 +40,20 @@ export default new Precondition('GuildOnly')
     .setButtonRun(({ button }) => {
         if (!button.guild) {
             return {
-                ok: false
+                ok: false,
+                message: "Button usable in a guild only",
+                metadata: {
+                    code: ButtonDeniedCode.GuildOnly
+                },
+                isChatInput: false,
+                isButton: true,
+                button
             }
+        }
+        return {
+            ok: true,
+            button,
+            isChatInput: false,
+            isButton: true
         }
     });

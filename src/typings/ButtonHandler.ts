@@ -13,7 +13,8 @@ export enum ButtonDeniedCode {
     CustomPrecondition = "Custom precondition",
     DMOnly = 'Direct messages only',
     NsfwOnly = 'Nsfw channel only',
-    GuildOnly = 'Guild only'
+    GuildOnly = 'Guild only',
+    UnknownChannelType = "Unknown channel type"
 }
 export type ButtonDenied = {
     message?: string;
