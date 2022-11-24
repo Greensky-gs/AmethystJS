@@ -39,20 +39,21 @@ export default new Precondition('DMOnly')
         };
     })
     .setButtonRun(({ button }) => {
-        if (button.guild) return {
-            ok: false,
-            isChatInput: false,
-            isButton: true,
-            message: "Button usable in direct messages only",
-            button,
-            metadata: {
-                code: ButtonDeniedCode.DMOnly
-            }
-        }
+        if (button.guild)
+            return {
+                ok: false,
+                isChatInput: false,
+                isButton: true,
+                message: 'Button usable in direct messages only',
+                button,
+                metadata: {
+                    code: ButtonDeniedCode.DMOnly
+                }
+            };
         return {
             ok: true,
             isChatInput: false,
             isButton: true,
             button
-        }
+        };
     });

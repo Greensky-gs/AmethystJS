@@ -41,19 +41,19 @@ export default new Precondition('GuildOnly')
         if (!button.guild) {
             return {
                 ok: false,
-                message: "Button usable in a guild only",
+                message: 'Button usable in a guild only',
                 metadata: {
                     code: ButtonDeniedCode.GuildOnly
                 },
                 isChatInput: false,
                 isButton: true,
                 button
-            }
+            };
         }
         return {
             ok: true,
             button,
             isChatInput: false,
             isButton: true
-        }
+        };
     });

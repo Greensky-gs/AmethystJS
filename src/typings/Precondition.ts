@@ -1,4 +1,11 @@
-import { ButtonInteraction, CacheType, CommandInteraction, CommandInteractionOptionResolver, Message, User } from 'discord.js';
+import {
+    ButtonInteraction,
+    CacheType,
+    CommandInteraction,
+    CommandInteractionOptionResolver,
+    Message,
+    User
+} from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 
 export type preconditionRunReturn = {

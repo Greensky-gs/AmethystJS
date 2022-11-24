@@ -1,4 +1,9 @@
-import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun, preconditionRunReturn } from '../typings/Precondition';
+import {
+    PreconditionButtonRun,
+    PreconditionChatInputRun,
+    PreconditionMessageRun,
+    preconditionRunReturn
+} from '../typings/Precondition';
 
 export class Precondition {
     public readonly name: string;

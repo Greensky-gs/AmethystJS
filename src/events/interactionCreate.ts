@@ -205,7 +205,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 DebugImportance.Information
             );
 
-        if (handler) {}
+        if (handler) {
+        }
         if (interaction.guild && handler.options?.clientPermissions?.length > 0) {
             const missing: PermissionsString[] = [];
             for (const perm of handler.options.clientPermissions) {
@@ -251,7 +252,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 });
             }
         }
-        if (handler.options.preconditions?.filter(x => x.buttonRun)?.length > 0) {
+        if (handler.options.preconditions?.filter((x) => x.buttonRun)?.length > 0) {
             let ok = true;
             handler.options.preconditions.forEach((prec) => {
                 if (ok) {
@@ -263,16 +264,16 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     if (!rs.ok) {
                         ok = false;
                         interaction.client.emit('buttonDenied', {
-                            message: "A precondition failed",
+                            message: 'A precondition failed',
                             button: interaction,
                             user: interaction.user,
                             metadata: {
                                 code: rs?.metadata?.code ?? ButtonDeniedCode.CustomPrecondition
                             }
-                        })
+                        });
                     }
                 }
-            })
+            });
             if (!ok) return;
         }
         handler.run({

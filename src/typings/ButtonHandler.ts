@@ -10,11 +10,11 @@ export type ButtonHandlerOptions = {
 export enum ButtonDeniedCode {
     MissingPerms = 'User is missing permissions',
     ClientMissingPerms = 'Client is missing permissions',
-    CustomPrecondition = "Custom precondition",
+    CustomPrecondition = 'Custom precondition',
     DMOnly = 'Direct messages only',
     NsfwOnly = 'Nsfw channel only',
     GuildOnly = 'Guild only',
-    UnknownChannelType = "Unknown channel type"
+    UnknownChannelType = 'Unknown channel type'
 }
 export type ButtonDenied = {
     message?: string;
