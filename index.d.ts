@@ -62,6 +62,7 @@ export class Precondition {
     public setChatInputRun(run: PreconditionChatInputRun): this;
     public setMessageRun(run: PreconditionMessageRun): this;
     public setButtonRun(run: PreconditionButtonRun): this;
+
     public get buttonRun(): PreconditionButtonRun;
     public get chatInputRun(): PreconditionChatInputRun;
     public get messageRun(): PreconditionMessageRun;
@@ -76,7 +77,7 @@ export class AmethystEvent<K extends keyof ClientEvents> {
 
 export class AutocompleteListener {
     public readonly name: string;
-    public readonly names: string[];
+    public readonly names: autocompleteListenerNamesType;
     public readonly run: AutocompleteListenerRun;
 
     public constructor(options: AutocompleteListenerOptions);
