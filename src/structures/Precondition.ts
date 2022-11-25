@@ -7,32 +7,23 @@ import {
 
 export class Precondition {
     public readonly name: string;
-    private _chatInputRun: PreconditionChatInputRun;
-    private _messageRun: PreconditionMessageRun;
-    private _buttonRun: PreconditionButtonRun;
+    public chatInputRun: PreconditionChatInputRun;
+    public messageRun: PreconditionMessageRun;
+    public buttonRun: PreconditionButtonRun;
 
     constructor(name: string) {
         this.name = name;
     }
     public setChatInputRun(run: PreconditionChatInputRun) {
-        this._chatInputRun = run;
+        this.chatInputRun = run;
         return this;
     }
     public setMessageRun(run: PreconditionMessageRun) {
-        this._messageRun = run;
+        this.messageRun = run;
         return this;
     }
     public setButtonRun(run: PreconditionButtonRun) {
-        this._buttonRun = run;
+        this.buttonRun = run;
         return this;
-    }
-    public get messageRun() {
-        return this._messageRun;
-    }
-    public get chatInputRun() {
-        return this._chatInputRun;
-    }
-    public get buttonRun() {
-        return this._buttonRun;
     }
 }

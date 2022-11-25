@@ -63,9 +63,9 @@ export class Precondition {
     public setMessageRun(run: PreconditionMessageRun): this;
     public setButtonRun(run: PreconditionButtonRun): this;
 
-    public get buttonRun(): PreconditionButtonRun;
-    public get chatInputRun(): PreconditionChatInputRun;
-    public get messageRun(): PreconditionMessageRun;
+    public buttonRun: PreconditionButtonRun;
+    public chatInputRun: PreconditionChatInputRun;
+    public messageRun: PreconditionMessageRun;
 }
 
 export class AmethystEvent<K extends keyof ClientEvents> {
