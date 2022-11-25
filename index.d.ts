@@ -98,7 +98,7 @@ export class ButtonHandler {
     public readonly options: ButtonHandlerOptions;
     public constructor(options: ButtonHandlerOptions);
 
-    setRun(run: ButtonHandler): this;
+    setRun(run: ButtonHandlerRun): this;
     get run(): ButtonHandlerRun;
 }
 
