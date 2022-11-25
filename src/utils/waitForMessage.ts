@@ -9,7 +9,7 @@ export const waitForMessage = ({
 }: waitForMessageType): Promise<Message> => {
     const { intents, partials } = channel.client.options;
     if (
-        !((channel.guild && intents.has('GuildMessages')) || intents.has('Guilds')) ||
+        !((channel.guild && intents.has('GuildMessages')) || !intents.has('Guilds')) ||
         !(!channel.guild && !intents.has('DirectMessages')) ||
         !intents.has('MessageContent')
     ) {
