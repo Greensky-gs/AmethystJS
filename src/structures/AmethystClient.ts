@@ -293,7 +293,7 @@ export class AmethystClient extends Client {
         return this._autocompleteListeners;
     }
     public get buttonHandlers(): ButtonHandler[] {
-        return this.buttonHandlers;
+        return this._buttonHandler;
     }
     private loadInternalEvents(): void {
         const interactionCreate = require(`../events/interactionCreate.js`).default;
