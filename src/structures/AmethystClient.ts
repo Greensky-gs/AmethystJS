@@ -66,7 +66,7 @@ export class AmethystClient extends Client {
             return this.debug(`Buttons folder does not exist`, DebugImportance.Unexpected);
 
         readdirSync(this.configs.buttonsFolder).forEach((fileName) => {
-            const x = require(`../../../../${this.configs.buttonsFolder}`);
+            const x = require(`../../../../${this.configs.buttonsFolder}/${fileName}`);
             const button: ButtonHandler = x?.default ?? x;
 
             if (!button || !(button instanceof ButtonHandler))
