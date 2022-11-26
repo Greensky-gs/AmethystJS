@@ -8,7 +8,8 @@ export class ButtonHandler {
         this.options = {
             customId: options.customId,
             permissions: options.permissions ?? [],
-            clientPermissions: options.clientPermissions ?? []
+            clientPermissions: options.clientPermissions ?? [],
+            preconditions: options?.preconditions ?? []
         };
     }
     public setRun(run: ButtonHandlerRun): this {

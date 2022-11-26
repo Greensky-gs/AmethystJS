@@ -267,9 +267,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                             message: 'A precondition failed',
                             button: interaction,
                             user: interaction.user,
-                            metadata: {
+                            metadata: Object.assign(rs?.metadata ?? {}, {
                                 code: rs?.metadata?.code ?? ButtonDeniedCode.CustomPrecondition
-                            }
+                            })
                         });
                     }
                 }
