@@ -113,7 +113,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                     },
                     {
                         message: `A precondition failed: ${prec.name}`,
-                        code: commandDeniedCode.CustomPrecondition
+                        code: commandDeniedCode.CustomPrecondition,
+                        metadata: result.metadata ?? {}
                     }
                 );
             }
