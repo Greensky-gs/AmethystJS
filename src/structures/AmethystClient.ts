@@ -299,6 +299,10 @@ export class AmethystClient extends Client {
         const interactionCreate = require(`../events/interactionCreate.js`).default;
         const messageCreate = require(`../events/messageCreate.js`).default;
         [interactionCreate, messageCreate].forEach((x) => this.on(x.key, x.run as Awaitable<any>));
+
+        this.on('ready', () => {
+            this.debug(`Logged as ${this.user.tag}`, DebugImportance.Information);
+        })
     }
 }
 
