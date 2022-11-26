@@ -289,7 +289,16 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         interaction.client.emit('selectMenuInteraction', interaction, interaction.message);
     }
     if (interaction.isAutocomplete()) {
-        const listeners = interaction.client.autocompleteListeners.filter((x) => x.name === interaction.commandName || ( x.names.length > 0 && x.names.filter((y) => (y.commandName === interaction.commandName && (y.optionName ?? '') === interaction.options.getFocused(true).name))));
+        const listeners = interaction.client.autocompleteListeners.filter(
+            (x) =>
+                x.name === interaction.commandName ||
+                (x.names.length > 0 &&
+                    x.names.filter(
+                        (y) =>
+                            y.commandName === interaction.commandName &&
+                            (y.optionName ?? '') === interaction.options.getFocused(true).name
+                    ))
+        );
 
         if (listeners.length === 0)
             return interaction.client.debug(

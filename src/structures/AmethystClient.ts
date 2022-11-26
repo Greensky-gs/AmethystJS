@@ -302,7 +302,7 @@ export class AmethystClient extends Client {
 
         this.on('ready', () => {
             this.debug(`Logged as ${this.user.tag}`, DebugImportance.Information);
-        })
+        });
     }
 }
 
