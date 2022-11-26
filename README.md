@@ -33,6 +33,8 @@ With this powerful framework you can :
 * [Wait for interactions](#wait-for-interactions)
 * [Handle buttons](#button-handler)
 
+See an example [right here](#examples)
+
 ## Requests
 
 You can request any feature by [opening an issue](https://github.com/Greensky-gs/AmethystJS/issues/new). If I can, I'll made it.
@@ -441,6 +443,12 @@ const { ActionRowBuilder, ButtonBuilder, componentType } = require('discord.js')
     interaction.editReply("Yes !");
 })()
 ```
+
+## Examples
+
+Here are some repositories that use Amethyst JS :
+
+* [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) (Amethyst JS v1.2.3)
 
 # Contributors
 
