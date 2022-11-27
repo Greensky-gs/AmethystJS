@@ -19,6 +19,7 @@ import {
 } from './dist/typings/autocompleteListener';
 import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
+import { PrefixesManager } from './dist/structures/prefixManager'
 
 export {
     PreconditionChatInputRun,
@@ -42,6 +43,7 @@ export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
+    public readonly prefixesManager: PrefixesManager;
 
     public constructor(options: ClientOptions, configs: AmethystClientOptions);
 
@@ -52,6 +54,7 @@ export class AmethystClient extends Client {
     public get chatInputCommands(): AmethystCommand[];
     public get preconditions(): Precondition[];
     public get autocompleteListeners(): AutocompleteListener[];
+    public get buttonHandlers(): ButtonHandler[];
 }
 
 export class Precondition {
@@ -96,6 +99,7 @@ export class AmethystCommand {
 }
 export class ButtonHandler {
     public readonly options: ButtonHandlerOptions;
+    private _run: ButtonHandlerRun;
     public constructor(options: ButtonHandlerOptions);
 
     setRun(run: ButtonHandlerRun): this;
@@ -106,7 +110,6 @@ type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
 export { waitForInteraction } from './dist/utils/waitForInteraction';
 export { waitForMessage } from './dist/utils/waitForMessage';
-
 declare module 'discord.js' {
     interface ClientEvents {
         amethystDebug: [message: string];
@@ -119,12 +122,13 @@ declare module 'discord.js' {
     }
     interface Client {
         readonly configs: AmethystClientOptions;
+        readonly prefixesManager: PrefixesManager;
 
         get messageCommands(): AmethystCommand[];
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
         get autocompleteListeners(): AutocompleteListener[];
-        get butttonHandlers(): ButtonHandler[];
+        get buttonHandlers(): ButtonHandler[];
 
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;

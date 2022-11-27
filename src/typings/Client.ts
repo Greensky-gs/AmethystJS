@@ -28,6 +28,7 @@ export type AmethystClientOptions = {
         everyone?: string;
     };
     buttonsFolder?: pathLike;
+    customPrefixAndDefaultAvailable?: boolean;
 };
 export type startOptions = {
     loadCommands?: boolean;

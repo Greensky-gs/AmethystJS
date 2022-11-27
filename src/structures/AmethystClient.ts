@@ -8,9 +8,12 @@ import { ButtonHandler } from './ButtonHandler';
 import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
+import { PrefixesManager } from './prefixManager';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
+    public readonly prefixesManager: PrefixesManager = new PrefixesManager(this);
+
     private _messageCommands: AmethystCommand[] = [];
     private _chatInputCommands: AmethystCommand[] = [];
     private _preconditions: Precondition[] = [];
@@ -36,7 +39,8 @@ export class AmethystClient extends Client {
                 user: configs?.waitForDefaultReplies?.user ?? "You're not allowed to interact with this message",
                 everyone: configs?.waitForDefaultReplies?.everyone ?? "You're not allowed to interact with this message"
             },
-            buttonsFolder: configs?.buttonsFolder
+            buttonsFolder: configs?.buttonsFolder,
+            customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true
         };
     }
     public start({
@@ -276,6 +280,11 @@ export class AmethystClient extends Client {
                 'You need Message and Channel partial on your client if you want use it in direct messages'
             );
         }
+        if (this.messageCommands.length > 0 && !this.configs.prefix) {
+            throw new Error(
+                'Prefix not configured. Please configure it with the `prefix` proprety of the client'
+            );
+        }
     }
     public debug(msg: string, imp: DebugImportance) {
         if (this.configs.debug) console.log(`[${imp}] ${msg}`);
@@ -308,23 +317,25 @@ export class AmethystClient extends Client {
 
 declare module 'discord.js' {
     interface ClientEvents {
+        amethystDebug: [message: string];
         commandDenied: [command: commandDeniedPayload, reason: deniedReason];
         commandError: [command: commandDeniedPayload, reason: errorReason];
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
-        buttonDenied: [options: ButtonDenied];
+        buttonDenied: [button: ButtonDenied];
     }
     interface Client {
         readonly configs: AmethystClientOptions;
-
-        start(options: startOptions): void;
-        debug(msg: string, imp: DebugImportance): void;
+        readonly prefixesManager: PrefixesManager;
 
         get messageCommands(): AmethystCommand[];
         get chatInputCommands(): AmethystCommand[];
         get preconditions(): Precondition[];
         get autocompleteListeners(): AutocompleteListener[];
         get buttonHandlers(): ButtonHandler[];
+
+        start(options: startOptions): void;
+        debug(msg: string, imp: DebugImportance): void;
     }
 }
