@@ -35,6 +35,12 @@ With this powerful framework you can :
 
 See an example [right here](#examples)
 
+## Not working features
+
+Amethyst JS has some features that are still in drveloppement but are published, such as :
+
+* [waitForMessage() function](./src/utils/waitForMessage.ts)
+
 ## Requests
 
 You can request any feature by [opening an issue](https://github.com/Greensky-gs/AmethystJS/issues/new). If I can, I'll made it.
@@ -47,6 +53,8 @@ Import the client
 import { AmethystClient } from 'amethyst';
 
 const client = new AmethystClient({
+    // Discord.js client options
+}, {
     botName: "your bot's name", // Optionnal
     botNameWorksAsPrefix: true, // Wether if we can use the bot's name as prefix - optionnal
     commandsFolder: './yourCommandsFolder', // Optionnal
@@ -60,8 +68,6 @@ const client = new AmethystClient({
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
     buttonsFolder: './buttonsFolder' // Specify the button folder for button handlers - optionnal
-}, {
-    // Amethyst client options
 });
 client.start({
     // All are optionnal
@@ -76,6 +82,8 @@ client.start({
 const { AmethystClient } = require('amethyst');
 
 const client = new AmethystClient({
+    // Discord.js client options
+}, {
     botName: "your bot's name", // Optionnal
     botNameWorksAsPrefix: true, // Wether if we can use the bot's name as prefix - optionnal
     commandsFolder: './yourCommandsFolder', // Optionnal
@@ -89,8 +97,6 @@ const client = new AmethystClient({
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
     buttonsFolder: './buttonsFolder' // Specify the button folder for button handlers - optionnal
-}, {
-    // Amethyst client options
 });
 client.start({
     // All are optionnal
