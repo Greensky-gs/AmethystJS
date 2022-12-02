@@ -9,9 +9,9 @@ export const waitForMessage = ({
 }: waitForMessageType): Promise<Message> => {
     const { intents, partials } = channel.client.options;
     if (
-        !((channel.guild && !intents.has('GuildMessages')) || !intents.has('Guilds')) ||
-        !(!channel.guild && !intents.has('DirectMessages')) ||
-        !intents.has('MessageContent')
+        (channel.guild && (!intents.has('Guilds') || !intents.has('GuildMessages'))) ||
+        !intents.has('MessageContent') ||
+        (!channel.guild && !intents.has('DirectMessages'))
     ) {
         throw new Error(
             'Missing intents to use waitForMessage(). You need Guilds, GuildMessages, DirectMessages (dependent of the server) and MessageContent'
