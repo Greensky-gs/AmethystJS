@@ -32,6 +32,7 @@ With this powerful framework you can :
 * [Wait for messages](#wait-for-messages)
 * [Wait for interactions](#wait-for-interactions)
 * [Handle buttons](#button-handler)
+* [Set custom prefixes](#register-custom-prefixes)
 
 See an example [right here](#examples)
 
@@ -67,7 +68,8 @@ const client = new AmethystClient({
     defaultCooldownTime: 5, // Default cooldown time
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
-    buttonsFolder: './buttonsFolder' // Specify the button folder for button handlers - optionnal
+    buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
+    customPrefixAndDefaultAvailable?: true // Specify if the default prefix is usable when a custom prefix is set - optionnal
 });
 client.start({
     // All are optionnal
@@ -96,7 +98,8 @@ const client = new AmethystClient({
     defaultCooldownTime: 5, // Default cooldown time
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
-    buttonsFolder: './buttonsFolder' // Specify the button folder for button handlers - optionnal
+    buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
+    customPrefixAndDefaultAvailable?: true // Specify if the default prefix is usable when a custom prefix is set - optionnal
 });
 client.start({
     // All are optionnal
@@ -448,6 +451,110 @@ const { ActionRowBuilder, ButtonBuilder, componentType } = require('discord.js')
     if (!reply || reply.customId === 'no') return interaction.editReply("Ok, no");
     interaction.editReply("Yes !");
 })()
+```
+
+## Register custom prefixes
+
+The [Amethyst client](#create-amythyst-client) has a `prefixesManager` proprety that allows you to set different prefixes for different servers
+
+:warning: **Important** The client **does not** save the prefixes, you have to use a **database** to save it for your bot. The manager register prefixes only to use it with Amethyst client
+
+### Summary
+
+Here is the summary of the [prefixes manager](#register-custom-prefixes)
+
+| Proprety | Type |
+|-|-|
+| [`setPrefix`](#setprefix) | Method |
+| [`getPrefix`](#getprefix) | Method |
+| [`samePrefix`](#same-prefix) | Method |
+| [`list`](#prefixes-list) | Proprety |
+| [`json`](#prefixes-json) | Proprety |
+
+#### setPrefix
+
+Set a prefix for a server.
+
+:warning: Use it when you load your bot, in a ready [event](#registering-events), for example.
+
+```js
+const prefixes = [
+    { guildId: '1324', prefix: '!' },
+    { guildId: '4321', prefix: '!!' },
+    { guildId: '1324', prefix: '??' }
+];
+
+for (const data of prefixes) {
+    client.prefixesManager.setPrefix({
+        guildId: data.guildId,
+        prefix: data.prefix
+    });
+}
+```
+
+#### getPrefix
+
+Get the custom prefix of a server.
+
+Returns default prefix if the server has no custom prefix
+
+```js
+client.prefixesManager.getPrefix('guild ID')
+```
+
+#### Same prefix
+
+Return all the servers with the same prefix
+
+The method returns an array of objects with 2 propreties :
+
+```ts
+{
+    guildId: string;
+    prefix: string
+}
+```
+
+```js
+client.prefixesManager.samePrefix('!')
+```
+
+#### prefixes list
+
+You can get the prefixes data to manage it if you want.
+
+This method will return a [map](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/map). If you want to get it as an array, use [json method](#prefixes-json) instead
+
+The map has 2 propreties :
+
+```ts
+Map<
+    string, // Corresponding to the guild ID
+    string // Corresponding to the prefix
+>
+```
+
+```js
+client.prefixesManager.list;
+```
+
+#### Prefixes json
+
+You can get the prefixes data to manage it if you want.
+
+This method will return an array. Use [map method](#prefixes-list) to get it as a map if you need.
+
+The array has 2 propreties :
+
+```ts
+{
+    guildId: string;
+    prefix: string;
+}[];
+```
+
+```js
+client.prefixesManager.json;
 ```
 
 ## Examples
