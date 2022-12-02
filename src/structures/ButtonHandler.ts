@@ -2,7 +2,7 @@ import { ButtonHandlerOptions, ButtonHandlerRun } from '../typings/ButtonHandler
 
 export class ButtonHandler {
     public readonly options: ButtonHandlerOptions;
-    private _run: ButtonHandlerRun;
+    public run: ButtonHandlerRun;
 
     constructor(options: ButtonHandlerOptions) {
         this.options = {
@@ -13,10 +13,8 @@ export class ButtonHandler {
         };
     }
     public setRun(run: ButtonHandlerRun): this {
-        this._run = run;
+        this.run = run;
         return this;
     }
-    public get run(): ButtonHandlerRun {
-        return this._run;
-    }
+    
 }

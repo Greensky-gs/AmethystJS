@@ -99,38 +99,13 @@ export class AmethystCommand {
 }
 export class ButtonHandler {
     public readonly options: ButtonHandlerOptions;
-    private _run: ButtonHandlerRun;
+    public run: ButtonHandlerRun;
     public constructor(options: ButtonHandlerOptions);
 
     setRun(run: ButtonHandlerRun): this;
-    get run(): ButtonHandlerRun;
 }
 
 type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
 export { waitForInteraction } from './dist/utils/waitForInteraction';
 export { waitForMessage } from './dist/utils/waitForMessage';
-declare module 'discord.js' {
-    interface ClientEvents {
-        amethystDebug: [message: string];
-        commandDenied: [command: commandDeniedPayload, reason: deniedReason];
-        commandError: [command: commandDeniedPayload, reason: errorReason];
-        buttonInteraction: [interaction: ButtonInteraction, message: Message];
-        selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
-        modalSubmit: [interaction: ModalSubmitInteraction];
-        buttonDenied: [button: ButtonDenied];
-    }
-    interface Client {
-        readonly configs: AmethystClientOptions;
-        readonly prefixesManager: PrefixesManager;
-
-        get messageCommands(): AmethystCommand[];
-        get chatInputCommands(): AmethystCommand[];
-        get preconditions(): Precondition[];
-        get autocompleteListeners(): AutocompleteListener[];
-        get buttonHandlers(): ButtonHandler[];
-
-        start(options: startOptions): void;
-        debug(msg: string, imp: DebugImportance): void;
-    }
-}
