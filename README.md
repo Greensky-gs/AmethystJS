@@ -36,12 +36,6 @@ With this powerful framework you can :
 
 See an example [right here](#examples)
 
-## Not working features
-
-Amethyst JS has some features that are still in drveloppement but are published, such as :
-
-* [waitForMessage() function](./src/utils/waitForMessage.ts)
-
 ## Requests
 
 You can request any feature by [opening an issue](https://github.com/Greensky-gs/AmethystJS/issues/new). If I can, I'll made it.
