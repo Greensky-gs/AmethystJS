@@ -27,7 +27,7 @@ export class PrefixesManager {
 
         return array;
     }
-    public samePrefixe(prefix: string) {
+    public samePrefix(prefix: string) {
         return this.json.filter(x => x.prefix === prefix);
     }
 }
