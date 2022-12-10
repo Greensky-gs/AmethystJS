@@ -291,13 +291,13 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
     if (interaction.isAutocomplete()) {
         const listeners = interaction.client.autocompleteListeners.filter(
             (x) =>
-                x.names.length > 0 &&
-                x.names.filter(
-                    (y) =>
-                        y.commandName === interaction.commandName &&
-                        y.optionName === interaction.options.getFocused(true).name &&
-                        y.optionName !== null
-                )
+                x.names.filter((y) => {
+                    console.log(y);
+                    const n = y.commandName === interaction.commandName;
+                    if (y.optionName === null) return n;
+
+                    return n && y.optionName === interaction.options.getFocused(true).name;
+                }).length > 0
         );
 
         if (listeners.length === 0)
