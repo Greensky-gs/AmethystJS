@@ -249,7 +249,7 @@ export class AmethystClient extends Client {
                 );
             this._autocompleteListeners.push(listener);
             count++;
-            this.debug(`Autocomplete Listeners loaded: ${listener}`, DebugImportance.Information);
+            this.debug(`Autocomplete Listeners loaded: ${listener.listenerName}`, DebugImportance.Information);
         });
         this.debug(
             `Autocomplete Listeners loading ended: ${count} Autocomplete Listeners(s) have been loaded`,
