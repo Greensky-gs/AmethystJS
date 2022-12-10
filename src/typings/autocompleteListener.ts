@@ -20,6 +20,7 @@ export type AutocompleteListenerRun = (options: {
 
 export type autocompleteListenerNamesType = { commandName: string; optionName?: string }[];
 export type AutocompleteListenerOptions = {
-    commandName: string | autocompleteListenerNamesType;
+    listenerName: string;
+    commandName: autocompleteListenerNamesType;
     run: AutocompleteListenerRun;
 };

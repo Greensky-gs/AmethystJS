@@ -270,8 +270,7 @@ Go in your autocomplete listeners and create a new file
 import { AutocompleteListener } from 'amethystjs';
 
 export default new AutocompleteListener({
-    commandName: 'slash command name', // This parameter can also be like this:
-    commandName: ['eval', 'run', 'sql', 'dev'],
+    commandName: [ { commandName: 'command name here' }, { commandName: 'another command name here', optionName: 'optionnal option name in the command here' } ],
     run: (options) => {
         // Make your choice here are return :
         return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
@@ -283,8 +282,7 @@ export default new AutocompleteListener({
 const { AutocompleteListener } = require('amethystjs');
 
 module.exports = new AutocompleteListener({
-    commandName: 'slash command name', // This parameter can also be like this:
-    commandName: ['eval', 'run', 'sql', 'dev'],
+    commandName: [ { commandName: 'command name here' }, { commandName: 'another command name here', optionName: 'optionnal option name in the command here' } ],
     run: (options) => {
         // Make your choice here are return :
         return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
@@ -292,6 +290,10 @@ module.exports = new AutocompleteListener({
     }
 });
 ```
+
+As you've maybe noticed, `commandName` is an array containing a commandName and a potential optionName.
+
+It means that the autocomplete will be applied to every command with the name included in the array, and if optionName is specified, it will also check if the option name correspond to the one specified.
 
 ## Button handler
 

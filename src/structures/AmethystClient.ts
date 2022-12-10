@@ -247,17 +247,9 @@ export class AmethystClient extends Client {
                     `Default value of file ${this.configs.autocompleteListenersFolder}/${file} is not an amethyst Autocomplete Listeners`,
                     DebugImportance.Critical
                 );
-
-            if (this._autocompleteListeners.find((x) => x.name === listener.name)) {
-                this.debug(
-                    `Duplicate identifier for an autocomplete. Received ${listener.name} twice`,
-                    DebugImportance.Critical
-                );
-                throw new Error(`Duplicate identifier for an autocomplete listener`);
-            }
             this._autocompleteListeners.push(listener);
             count++;
-            this.debug(`Autocomplete Listeners loaded: ${listener.name}`, DebugImportance.Information);
+            this.debug(`Autocomplete Listeners loaded: ${listener}`, DebugImportance.Information);
         });
         this.debug(
             `Autocomplete Listeners loading ended: ${count} Autocomplete Listeners(s) have been loaded`,
