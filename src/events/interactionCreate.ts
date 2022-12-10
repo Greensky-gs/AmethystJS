@@ -292,7 +292,6 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         const listeners = interaction.client.autocompleteListeners.filter(
             (x) =>
                 x.names.filter((y) => {
-                    console.log(y);
                     const n = y.commandName === interaction.commandName;
                     if (y.optionName === null) return n;
 

@@ -19,7 +19,8 @@
   "scripts": {
     "prettier": "prettier -w src index.d.ts",
     "eslint": "eslint --fix --ext ts src index.d.ts",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "post": "yarn build && npm publish --access public"
   },
   "files": [
     "./dist",
