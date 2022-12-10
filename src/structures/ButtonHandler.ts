@@ -16,5 +16,4 @@ export class ButtonHandler {
         this.run = run;
         return this;
     }
-    
 }

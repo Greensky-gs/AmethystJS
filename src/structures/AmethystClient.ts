@@ -273,9 +273,7 @@ export class AmethystClient extends Client {
             );
         }
         if (this.messageCommands.length > 0 && !this.configs.prefix) {
-            throw new Error(
-                'Prefix not configured. Please configure it with the `prefix` proprety of the client'
-            );
+            throw new Error('Prefix not configured. Please configure it with the `prefix` proprety of the client');
         }
     }
     public debug(msg: string, imp: DebugImportance) {

@@ -19,7 +19,7 @@ import {
 } from './dist/typings/autocompleteListener';
 import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
-import { PrefixesManager } from './dist/structures/prefixManager'
+import { PrefixesManager } from './dist/structures/prefixManager';
 
 export {
     PreconditionChatInputRun,
