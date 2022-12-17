@@ -39,8 +39,8 @@ export const waitForInteraction = <T extends waitForType<MessageComponentType>>(
                     ).catch(() => {});
                     return;
                 }
-                collector.stop();
                 resolve(interaction);
+                collector.stop();
             })
             .once('end', (_interactions, reason) => {
                 if (reason === 'idle') return;
