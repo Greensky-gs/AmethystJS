@@ -79,11 +79,11 @@ export class AmethystEvent<K extends keyof ClientEvents> {
 }
 
 export class AutocompleteListener {
-    public readonly name: string;
+    public readonly listenerName: string;
     public readonly names: autocompleteListenerNamesType;
     public readonly run: AutocompleteListenerRun;
 
-    public constructor(options: AutocompleteListenerOptions);
+    constructor(options: AutocompleteListenerOptions);
 }
 
 export class AmethystCommand {
