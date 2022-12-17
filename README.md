@@ -309,7 +309,8 @@ import { ButtonHandler } from 'amethystjs';
 export default new ButtonHandler({
     customId: 'buttonCustomId',
     permissions: ['Permissions required for the user'],
-    clientPermissions: ["Permissions required for the client"]
+    clientPermissions: ["Permissions required for the client"],
+    identifiers: [ 'optionnal array of more button custom identifiers' ]
 })
 .setRun((options) => {
     // Execute your code here
@@ -322,7 +323,8 @@ const { ButtonHandler } = require('amethystjs');
 module.exports = new ButtonHandler({
     customId: 'buttonCustomId',
     permissions: ['Permissions required for the user'],
-    clientPermissions: ["Permissions required for the client"]
+    clientPermissions: ["Permissions required for the client"],
+    identifiers: [ 'optionnal array of more button custom identifiers' ]
 })
 .setRun((options) => {
     // Execute your code here
@@ -330,6 +332,8 @@ module.exports = new ButtonHandler({
 ```
 
 If you specify permissions, you have to handle it in case of error.
+
+> The customId and identifiers propreties are button custom ID
 
 To handle it, [create a new event](#registering-events) and record for the `buttonDenied` event.
 

@@ -6,6 +6,7 @@ export type ButtonHandlerOptions = {
     permissions?: PermissionsString[];
     clientPermissions?: PermissionsString[];
     preconditions?: Precondition[];
+    identifiers?: string[];
 };
 export enum ButtonDeniedCode {
     MissingPerms = 'User is missing permissions',
