@@ -14,39 +14,32 @@ export const waitForInteraction = <T extends waitForType<MessageComponentType>>(
     replies
 }: T) => {
     return new Promise<WaitForInteraction<T>>((resolve, reject) => {
-        message
+        const collector = message
             .createMessageComponentCollector({
                 componentType,
                 time
             })
             .on('collect', async (interaction: WaitForInteraction<T>) => {
-                let valid = true;
-                const fnt = interaction[interaction.replied || interaction.deferred ? 'editReply' : 'reply'];
-                switch (whoCanReact) {
-                    case 'everyoneexceptuser':
-                        if (user.id === interaction.user.id) {
-                            valid = false;
-                            fnt(
-                                replies?.user ?? {
-                                    content: interaction.client.configs.waitForDefaultReplies.user,
-                                    ephemeral: true
-                                }
-                            ).catch(() => {});
+                const fnt = interaction.replied || interaction.deferred ? 'editReply' : 'reply';
+                if (whoCanReact === 'everyoneexceptuser' && user.id === interaction.user.id) {
+                    interaction[fnt](
+                        replies?.user ?? {
+                            content: interaction.client.configs.waitForDefaultReplies.user,
+                            ephemeral: true
                         }
-                        break;
-                    case 'useronly':
-                        if (user.id !== interaction.user.id) {
-                            valid = false;
-                            fnt(
-                                replies?.everyone ?? {
-                                    content: interaction.client.configs.waitForDefaultReplies.everyone,
-                                    ephemeral: true
-                                }
-                            );
-                        }
-                        break;
+                    ).catch(() => {});
+                    return;
                 }
-                if (!valid) return;
+                if (whoCanReact === 'useronly' && user.id !== interaction.user.id) {
+                    interaction[fnt](
+                        replies?.everyone ?? {
+                            content: interaction.client.configs.waitForDefaultReplies.everyone,
+                            ephemeral: true
+                        }
+                    ).catch(() => {});
+                    return;
+                }
+                collector.stop();
                 resolve(interaction);
             })
             .once('end', (_interactions, reason) => {
