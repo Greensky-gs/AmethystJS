@@ -313,12 +313,12 @@ declare module 'discord.js' {
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
         buttonDenied: [button: ButtonDenied];
-        stringSelectInteraction: [ selector: StringSelectMenuInteraction ];
-        selectMenuInteraction: [ selector: AnySelectMenuInteraction ];
-        roleSelectInteraction: [ selector: RoleSelectMenuInteraction ];
-        userSelectInteraction: [ selector: UserSelectMenuInteraction ];
-        channelSelectInteraction: [ selector: ChannelSelectMenuInteraction ];
-        mentionableSelectInteraction: [ selector: MentionableSelectMenuInteraction ];
+        stringSelectInteraction: [selector: StringSelectMenuInteraction];
+        selectMenuInteraction: [selector: AnySelectMenuInteraction];
+        roleSelectInteraction: [selector: RoleSelectMenuInteraction];
+        userSelectInteraction: [selector: UserSelectMenuInteraction];
+        channelSelectInteraction: [selector: ChannelSelectMenuInteraction];
+        mentionableSelectInteraction: [selector: MentionableSelectMenuInteraction];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

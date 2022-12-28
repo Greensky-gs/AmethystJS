@@ -198,7 +198,11 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         interaction.client.emit('buttonInteraction', interaction, interaction.message);
 
-        const handler = interaction.client.buttonHandlers.find((x) => x.options.customId === interaction.customId || (x.options.identifiers && x.options.identifiers.includes(interaction.customId)));
+        const handler = interaction.client.buttonHandlers.find(
+            (x) =>
+                x.options.customId === interaction.customId ||
+                (x.options.identifiers && x.options.identifiers.includes(interaction.customId))
+        );
         if (!handler)
             return interaction.client.debug(
                 `No button handler found for ${interaction.customId} button`,
