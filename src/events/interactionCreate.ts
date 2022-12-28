@@ -282,11 +282,23 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             user: interaction.user
         });
     }
-    if (interaction.isModalSubmit()) {
-        interaction.client.emit('modalSubmit', interaction);
+    if (interaction.isStringSelectMenu()) {
+        interaction.client.emit('stringSelectInteraction', interaction);
     }
-    if (interaction.isSelectMenu()) {
-        interaction.client.emit('selectMenuInteraction', interaction, interaction.message);
+    if (interaction.isAnySelectMenu()) {
+        interaction.client.emit('selectMenuInteraction', interaction);
+    }
+    if (interaction.isRoleSelectMenu()) {
+        interaction.client.emit('roleSelectInteraction', interaction);
+    }
+    if (interaction.isUserSelectMenu()) {
+        interaction.client.emit('userSelectInteraction', interaction);
+    }
+    if (interaction.isChannelSelectMenu()) {
+        interaction.client.emit('channelSelectInteraction', interaction);
+    }
+    if (interaction.isMentionableSelectMenu()) {
+        interaction.client.emit('mentionableSelectInteraction', interaction);
     }
     if (interaction.isAutocomplete()) {
         const listeners = interaction.client.autocompleteListeners.filter(

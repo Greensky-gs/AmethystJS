@@ -311,9 +311,14 @@ declare module 'discord.js' {
         commandDenied: [command: commandDeniedPayload, reason: deniedReason];
         commandError: [command: commandDeniedPayload, reason: errorReason];
         buttonInteraction: [interaction: ButtonInteraction, message: Message];
-        selectMenuInteraction: [interaction: SelectMenuInteraction, message: Message];
         modalSubmit: [interaction: ModalSubmitInteraction];
         buttonDenied: [button: ButtonDenied];
+        stringSelectInteraction: [ selector: StringSelectMenuInteraction ];
+        selectMenuInteraction: [ selector: AnySelectMenuInteraction ];
+        roleSelectInteraction: [ selector: RoleSelectMenuInteraction ];
+        userSelectInteraction: [ selector: UserSelectMenuInteraction ];
+        channelSelectInteraction: [ selector: ChannelSelectMenuInteraction ];
+        mentionableSelectInteraction: [ selector: MentionableSelectMenuInteraction ];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

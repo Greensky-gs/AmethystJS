@@ -299,7 +299,7 @@ It means that the autocomplete will be applied to every command with the name in
 
 Amethyst JS can handle button interactions for you.
 
-> In case you don't know, some events have been added to the client : `buttonInteraction`, `modalSubmit` and `selectMenuInteraction`
+> In case you don't know, some events have been added to the client : `buttonInteraction`, `modalSubmit` and events for each select menu interaction ( string, role, user, channel, mentionable and any )
 
 Go to your buttons folder and create a new file
 
