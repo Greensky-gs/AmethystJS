@@ -2,7 +2,10 @@
   "name": "amethystjs",
   "version": "1.3.2",
   "main": "dist/index.js",
-  "repository": "https://github.com/Greensky-gs/amethystJS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Greensky-gs/amethystJS.git"
+  },
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
@@ -47,5 +50,6 @@
     "discordjs",
     "discord-js",
     "framework"
-  ]
+  ],
+  "homepage": "https://github.com/Greensky-gs/amethystJS#readme"
 }
