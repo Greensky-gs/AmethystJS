@@ -6,6 +6,10 @@
     "type": "git",
     "url": "git+https://github.com/Greensky-gs/amethystJS.git"
   },
+  "publishConfig": {
+    "@greenskywastaken:registry": "https://npm.pkg.github.com"
+  },
+
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
