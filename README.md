@@ -561,7 +561,7 @@ client.prefixesManager.json;
 
 Here are some repositories that use Amethyst JS :
 
-* [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) (Amethyst JS v1.2.4)
+* [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) (Amethyst JS v1.3.2)
 
 # Contributors
 
