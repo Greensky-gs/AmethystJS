@@ -16,9 +16,11 @@
 
 ## Installation
 
-* yarn : `yarn add amethystjs`
-* pnpm : `pnpm add amethystjs`
-* npm : `npm install amethystjs`
+```yml
+npm : npm install amethystjs
+yarn : yarn add amethystjs
+pnpm : pnpm add amethystjs
+```
 
 ## Features
 
@@ -35,10 +37,6 @@ With this powerful framework you can :
 * [Set custom prefixes](#register-custom-prefixes)
 
 See an example [right here](#examples)
-
-## Requests
-
-You can request any feature by [opening an issue](https://github.com/Greensky-gs/AmethystJS/issues/new). If I can, I'll made it.
 
 ## Create Amythyst Client
 
@@ -563,7 +561,9 @@ Here are some repositories that use Amethyst JS :
 
 * [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) (Amethyst JS v1.3.2)
 
-# Contributors
+# Contributing
+
+Before creating an issue, please ensure that it hasn't already been reported/suggested, and double-check the documentation.
 
 <a href="https://github.com/Greensky-gs/AmethystJS/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Greensky-gs/AmethystJS" />
