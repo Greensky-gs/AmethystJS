@@ -1,6 +1,6 @@
 {
   "name": "amethystjs",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.7.1",
+    "discord.js": "^14.8.0",
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
