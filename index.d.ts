@@ -17,9 +17,10 @@ import {
     AutocompleteListenerRun,
     autocompleteListenerNamesType
 } from './dist/typings/autocompleteListener';
-import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
+import { ChatInputRun, commandOptions, MessageRun } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
+import log4js from './dist/utils/log4js';
 
 export {
     PreconditionChatInputRun,
@@ -37,7 +38,8 @@ export {
     ButtonDenied,
     ButtonDeniedCode,
     ButtonHandlerOptions,
-    ButtonHandlerRun
+    ButtonHandlerRun,
+    log4js
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 

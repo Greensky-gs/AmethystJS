@@ -3,6 +3,7 @@ import { Precondition } from './structures/Precondition';
 import DMOnly from './preconditions/DMOnly';
 import GuildOnly from './preconditions/GuildOnly';
 import NsfwOnly from './preconditions/NsfwOnly';
+import * as log4JS from './utils/log4js';
 
 // Structures
 export { AmethystClient } from './structures/AmethystClient';
@@ -25,7 +26,7 @@ export {
     waitForType,
     canReactType,
     DebugImportance,
-    waitForMessageType
+    waitForMessageType,
 } from './typings/Client';
 export { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './typings/ButtonHandler';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
@@ -41,5 +42,6 @@ export const preconditions: Record<string, Precondition> = {
     GuildOnly,
     NsfwOnly
 };
+export const log4js = log4JS
 export { waitForInteraction } from './utils/waitForInteraction';
 export { waitForMessage } from './utils/waitForMessage';
