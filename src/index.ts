@@ -45,3 +45,4 @@ export const preconditions: Record<string, Precondition> = {
 export const log4js = log4JS
 export { waitForInteraction } from './utils/waitForInteraction';
 export { waitForMessage } from './utils/waitForMessage';
+export { wait } from './utils/wait';

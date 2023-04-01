@@ -111,3 +111,4 @@ type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
 export { waitForInteraction } from './dist/utils/waitForInteraction';
 export { waitForMessage } from './dist/utils/waitForMessage';
+export { wait } from './dist/utils/wait';
