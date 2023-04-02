@@ -177,10 +177,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         }
         console.log(cooldowns);
         const cdTime = cmd.options.cooldown || interaction.client.configs.defaultCooldownTime;
-        cooldowns.set(
-            cdCode,
-            Date.now() + cdTime * 1000
-        );
+        cooldowns.set(cdCode, Date.now() + cdTime * 1000);
         setTimeout(() => {
             cooldowns.delete(cdCode);
         }, cdTime * 1000);

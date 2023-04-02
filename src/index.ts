@@ -27,7 +27,7 @@ export {
     waitForType,
     canReactType,
     DebugImportance,
-    waitForMessageType,
+    waitForMessageType
 } from './typings/Client';
 export { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './typings/ButtonHandler';
 export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
@@ -44,7 +44,7 @@ export const preconditions: Record<string, Precondition> = {
     GuildOnly,
     NsfwOnly
 };
-export const log4js = log4JS
+export const log4js = log4JS;
 export { waitForInteraction } from './utils/waitForInteraction';
 export { waitForMessage } from './utils/waitForMessage';
 export { wait } from './utils/wait';

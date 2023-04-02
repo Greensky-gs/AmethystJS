@@ -1,4 +1,13 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, Client, ClientEvents, ClientOptions, EmbedBuilder, InteractionCollector } from 'discord.js';
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    Client,
+    ClientEvents,
+    ClientOptions,
+    EmbedBuilder,
+    InteractionCollector
+} from 'discord.js';
 import {
     AmethystClientOptions,
     DebugImportance,

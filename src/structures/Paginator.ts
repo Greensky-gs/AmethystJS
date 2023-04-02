@@ -1,4 +1,4 @@
-import { Paginator, paginatorOptions } from "dsc-pagination";
+import { Paginator, paginatorOptions } from 'dsc-pagination';
 
 export class AmethystPaginator extends Paginator {
     constructor(options: paginatorOptions) {
