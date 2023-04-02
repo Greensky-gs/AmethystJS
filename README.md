@@ -35,6 +35,9 @@ With this powerful framework you can :
 * [Wait for interactions](#wait-for-interactions)
 * [Handle buttons](#button-handler)
 * [Set custom prefixes](#register-custom-prefixes)
+* [Wait a little time](#wait)
+* [Paginate embeds](#paginator)
+* [log4js](#log4js)
 
 See an example [right here](#examples)
 
@@ -555,12 +558,76 @@ The array has 2 propreties :
 client.prefixesManager.json;
 ```
 
+## Wait
+
+You can wait for a certain time before executing something else with Amethyst JS. Here is how to use the wait method
+
+```ts
+// Import wait
+import { wait } from 'amethystjs'
+
+// Use it in an async function, it wont work otherwise
+(async() => {
+    await wait(1000); // Wait 1s
+    await wait(1, 's'); // Wait 1s
+    await wait(1, 'm'); // Wait 1 minute
+})();
+```
+
+```js
+// Import wait
+const { wait } = require('amethystjs');
+
+// Use it in an async function, it wont work otherwise
+(async() => {
+    await wait(1000); // Wait 1s
+    await wait(1, 's'); // Wait 1s
+    await wait(1, 'm'); // Wait 1m
+})()
+```
+
+## Log4JS
+
+Amethyst JS allows you to log things in a log file with `log4js`
+
+This object has two methods
+
+### Trace
+
+The `trace()` method allows you to write something in the log file
+
+```js
+const { log4js } = require('amethystjs');
+
+log4js.trace("Something just happened");
+```
+
+### Config
+
+The `config()` method configs log4js.
+
+For now, you can config :
+
+* Trigger the time displaying
+* Time displaying format
+* log file
+
+```js
+const { log4js } = require('amethystjs');
+
+log4js.config('displayTime', true);
+```
+
+## Paginator
+
+The [Greensky's paginator](https://npmjs.com/package/dsc-pagination) under the name of `AmethystPaginator`. The method is the exact same than the package.
+
 ## Examples
 
 Here are some repositories that use Amethyst JS :
 
-* [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) by [Greensky](https://github.com/Greensky-gs/) (Amethyst JS v1.3.2)
-* [Draver Bot](https://github.com/DraverBot/DraverBot) by [Draver Industries](https://github.com/DraverBot) (Amethyst JS v1.3.2)
+* [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) by [Greensky](https://github.com/Greensky-gs/) (Amethyst JS v1.4.0)
+* [Draver Bot](https://github.com/DraverBot/DraverBot) by [Draver Industries](https://github.com/DraverBot) (Amethyst JS v1.4.0)
 
 # Contributing
 
