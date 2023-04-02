@@ -1,4 +1,4 @@
-import { Client, ClientEvents, ClientOptions } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, Client, ClientEvents, ClientOptions, EmbedBuilder, InteractionCollector } from 'discord.js';
 import {
     AmethystClientOptions,
     DebugImportance,
@@ -20,7 +20,9 @@ import {
 import { ChatInputRun, commandOptions, MessageRun } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
+import { amethystPaginatorOptions } from './dist/structures/Paginator';
 import log4js from './dist/utils/log4js';
+import { Paginator, paginatorOptions } from 'dsc-pagination';
 
 export {
     PreconditionChatInputRun,
@@ -39,6 +41,7 @@ export {
     ButtonDeniedCode,
     ButtonHandlerOptions,
     ButtonHandlerRun,
+    amethystPaginatorOptions,
     log4js
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
@@ -106,6 +109,7 @@ export class ButtonHandler {
 
     setRun(run: ButtonHandlerRun): this;
 }
+export class AmethystPaginator extends Paginator {}
 
 type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
 export const preconditions: Record<preconditionNames, Precondition>;

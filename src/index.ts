@@ -12,6 +12,7 @@ export { Precondition } from './structures/Precondition';
 export { AmethystEvent } from './structures/Event';
 export { AutocompleteListener } from './structures/AutocompleteListener';
 export { ButtonHandler } from './structures/ButtonHandler';
+export { AmethystPaginator } from './structures/Paginator';
 
 // Types
 export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun } from './typings/Precondition';
@@ -35,6 +36,7 @@ export {
     AutocompleteListenerRun,
     autocompleteListenerNamesType
 } from './typings/autocompleteListener';
+export { amethystPaginatorOptions } from './structures/Paginator';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {

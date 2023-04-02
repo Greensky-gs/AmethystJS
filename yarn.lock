@@ -275,6 +275,13 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+dsc-pagination@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/dsc-pagination/-/dsc-pagination-1.0.3.tgz#162d1ee463aee7aa3801867ea1b8cc571277770d"
+  integrity sha512-QYpblmyPaSJJJzrf8qruL5M5CqVpxDeDwgcIA8BjtE2ilc19dnVkIEztc40oNC9FNovNyVDD5xq5WLDWOC4R3g==
+  dependencies:
+    discord.js "^14.8.0"
+
 escape-string-regexp@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"

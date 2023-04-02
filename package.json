@@ -9,11 +9,11 @@
   "publishConfig": {
     "@Greensky-gs:registry": "https://npm.pkg.github.com"
   },
-
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^14.8.0",
+    "dsc-pagination": "^1.0.3",
     "fs": "^0.0.1-security"
   },
   "devDependencies": {
