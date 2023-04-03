@@ -175,7 +175,7 @@ export default new Precondition("Your precondition's name")
         message: 'Message in case of fail',
         metadata: {/* some more datas */},
         interaction: options.interaction,
-        isChatInput: true
+        type: 'chatInput'
     }
 })
 .setMessageRun((options) => {
@@ -185,8 +185,19 @@ export default new Precondition("Your precondition's name")
         ok: true,
         message: "Message in case of fail",
         metadata: { /* some extra datas */ },
-        isChatInput: false,
+        type: 'message',
         channelMessage: options.message
+    }
+})
+.setButtonRun((options) => {
+    // Run your precondition here for button
+    // You have to return something like this :
+    return {
+        ok: true,
+        message: 'Message in case of fail',
+        metadata: {/* Some extra options */},
+        button: options.button,
+        type: 'button'
     }
 })
 ```
@@ -203,7 +214,7 @@ module.exports = new Precondition("Your precondition's name")
         message: 'Message in case of fail',
         metadata: {/* some more datas */},
         interaction: options.interaction,
-        isChatInput: true
+        type: 'chatInput'
     }
 })
 .setMessageRun((options) => {
@@ -213,8 +224,19 @@ module.exports = new Precondition("Your precondition's name")
         ok: true,
         message: "Message in case of fail",
         metadata: { /* some extra datas */ },
-        isChatInput: false,
+        type: 'message',
         channelMessage: options.message
+    }
+})
+.setButtonRun((options) => {
+    // Run your precondition here for button
+    // You have to return something like this :
+    return {
+        ok: true,
+        message: 'Message in case of fail',
+        metadata: {/* Some extra options */},
+        button: options.button,
+        type: 'button'
     }
 })
 ```
