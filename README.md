@@ -189,17 +189,7 @@ export default new Precondition("Your precondition's name")
         channelMessage: options.message
     }
 })
-.setButtonRun((options) => {
-    // Run your precondition here for button
-    // You have to return something like this :
-    return {
-        ok: true,
-        message: 'Message in case of fail',
-        metadata: {/* Some extra options */},
-        button: options.button,
-        type: 'button'
-    }
-})
+
 ```
 
 ```js
