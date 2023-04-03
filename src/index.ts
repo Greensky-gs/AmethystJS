@@ -13,9 +13,11 @@ export { AmethystEvent } from './structures/Event';
 export { AutocompleteListener } from './structures/AutocompleteListener';
 export { ButtonHandler } from './structures/ButtonHandler';
 export { AmethystPaginator } from './structures/Paginator';
+export { ModalHandler } from './structures/ModalHandler';
+export { AmethystError } from './structures/AmethystError';
 
 // Types
-export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun } from './typings/Precondition';
+export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun, preconditionType, PreconditionButtonRun, PreconditionModalRun } from './typings/Precondition';
 export {
     startOptions,
     AmethystClientOptions,
@@ -37,6 +39,7 @@ export {
     autocompleteListenerNamesType
 } from './typings/autocompleteListener';
 export { amethystPaginatorOptions } from './structures/Paginator';
+export { modalHandlerOptions, modalHandlerRun } from './typings/ModalHandler';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {

@@ -1,12 +1,7 @@
 import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonInteraction,
     Client,
     ClientEvents,
     ClientOptions,
-    EmbedBuilder,
-    InteractionCollector
 } from 'discord.js';
 import {
     AmethystClientOptions,
@@ -20,7 +15,7 @@ import {
     errorCode,
     waitForMessageType
 } from './dist/typings/Client';
-import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun, preconditionRunReturn } from './dist/typings/Precondition';
+import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun, preconditionRunReturn, preconditionType, PreconditionModalRun } from './dist/typings/Precondition';
 import {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,
@@ -32,6 +27,7 @@ import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
 import log4js from './dist/utils/log4js';
 import { Paginator, paginatorOptions } from 'dsc-pagination';
+import { modalHandlerOptions, modalHandlerRun } from './dist/typings/ModalHandler'
 
 export {
     PreconditionChatInputRun,
@@ -79,10 +75,12 @@ export class Precondition {
     public setChatInputRun(run: PreconditionChatInputRun): this;
     public setMessageRun(run: PreconditionMessageRun): this;
     public setButtonRun(run: PreconditionButtonRun): this;
+    public setModalRun(run: PreconditionModalRun): this;
 
     public buttonRun: PreconditionButtonRun;
     public chatInputRun: PreconditionChatInputRun;
     public messageRun: PreconditionMessageRun;
+    public modalRun: PreconditionModalRun;
 }
 
 export class AmethystEvent<K extends keyof ClientEvents> {
@@ -117,6 +115,23 @@ export class ButtonHandler {
     public constructor(options: ButtonHandlerOptions);
 
     setRun(run: ButtonHandlerRun): this;
+}
+export class ModalHandler {
+    private _run: modalHandlerRun;
+    private _name: string;
+    private _ids: string[];
+    public readonly options: modalHandlerOptions;
+
+    public constructor(options: modalHandlerOptions);
+
+    public run: modalHandlerRun;
+    public setRun(run: modalHandlerRun): this;
+    
+    public get ids(): string[];
+    public get name(): string;
+}
+export class AmethystError extends Error {
+    constructor(message: string);
 }
 export class AmethystPaginator extends Paginator {}
 

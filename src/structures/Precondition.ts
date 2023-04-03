@@ -2,7 +2,7 @@ import {
     PreconditionButtonRun,
     PreconditionChatInputRun,
     PreconditionMessageRun,
-    preconditionRunReturn
+    PreconditionModalRun
 } from '../typings/Precondition';
 
 export class Precondition {
@@ -10,6 +10,7 @@ export class Precondition {
     public chatInputRun: PreconditionChatInputRun;
     public messageRun: PreconditionMessageRun;
     public buttonRun: PreconditionButtonRun;
+    public modalRun: PreconditionModalRun
 
     constructor(name: string) {
         this.name = name;
@@ -24,6 +25,10 @@ export class Precondition {
     }
     public setButtonRun(run: PreconditionButtonRun) {
         this.buttonRun = run;
+        return this;
+    }
+    public setModalRun(run: PreconditionModalRun) {
+        this.modalRun = run;
         return this;
     }
 }

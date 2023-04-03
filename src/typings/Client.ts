@@ -28,6 +28,7 @@ export type AmethystClientOptions = {
         everyone?: string;
     };
     buttonsFolder?: pathLike;
+    modalHandlersFolder?: pathLike;
     customPrefixAndDefaultAvailable?: boolean;
 };
 export type startOptions = {
@@ -36,6 +37,7 @@ export type startOptions = {
     loadPreconditions?: boolean;
     loadAutocompleteListeners?: boolean;
     loadButtons?: boolean;
+    loadModals?: boolean;
 };
 export type CommandType = 'message' | 'chatInput';
 export enum DebugImportance {

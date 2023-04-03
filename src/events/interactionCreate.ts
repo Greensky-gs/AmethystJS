@@ -329,4 +329,25 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
 
         interaction.respond(result);
     }
+    if (interaction.isModalSubmit()) {
+        const modal = interaction.client.modalHandlers.find(x => x.ids.includes(interaction.customId));
+        if (!modal) return interaction.client.debug(`No modal handler found for modal ${interaction.customId}`, DebugImportance.Information);
+
+        if (modal.options.preconditions?.length > 0) {
+            let stopped = false;
+            modal.options.preconditions.forEach((precondition) => {
+                if (precondition.modalRun && !stopped) {
+                    const render = precondition.modalRun({
+                        modal: interaction,
+                        user: interaction.user
+                    })
+                    if (!render.ok) {
+                        stopped = false;
+                    };
+                }
+            })
+
+            if (!stopped) return;
+        }
+    }
 });

@@ -9,6 +9,7 @@ import { AmethystCommand } from './Command';
 import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
 import { PrefixesManager } from './prefixManager';
+import { ModalHandler } from './ModalHandler';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
@@ -19,6 +20,7 @@ export class AmethystClient extends Client {
     private _preconditions: Precondition[] = [];
     private _autocompleteListeners: AutocompleteListener[] = [];
     private _buttonHandler: ButtonHandler[] = [];
+    private _modalHandlers: ModalHandler[] = [];
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
@@ -40,7 +42,8 @@ export class AmethystClient extends Client {
                 everyone: configs?.waitForDefaultReplies?.everyone ?? "You're not allowed to interact with this message"
             },
             buttonsFolder: configs?.buttonsFolder,
-            customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true
+            customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true,
+            modalHandlersFolder: configs?.modalHandlersFolder
         };
     }
     public start({
@@ -48,7 +51,8 @@ export class AmethystClient extends Client {
         loadEvents = true,
         loadPreconditions = true,
         loadAutocompleteListeners = true,
-        loadButtons = true
+        loadButtons = true,
+        loadModals = true
     }: startOptions) {
         this.login(this.configs.token);
 
@@ -57,10 +61,28 @@ export class AmethystClient extends Client {
         this.loadPreconditions(loadPreconditions);
         this.loadAutocompleteListeners(loadAutocompleteListeners);
         this.loadButtons(loadButtons);
+        this.loadModals(loadModals);
 
         this.checks();
         this.loadInternalEvents();
         this.listenCommandDenied();
+    }
+    private loadModals(load: boolean) {
+        if (!load) return this.debug(`Modals configured to not loaded`, DebugImportance.Information);
+        if (!this.configs.modalHandlersFolder) return this.debug(`Modals folder not configured`, DebugImportance.Information);
+        if (!existsSync(this.configs.modalHandlersFolder)) return this.debug(`Modals folder does not exist`, DebugImportance.Unexpected);
+
+        readdirSync(this.configs.buttonsFolder).forEach((fileName) => {
+            const x = require(`../../../../${this.configs.modalHandlersFolder}/${fileName}`);
+            const modalHandler: ModalHandler = x?.default ?? x;
+            if (!modalHandler || !(modalHandler instanceof ModalHandler)) return this.debug(`Default value of file ${this.configs.modalHandlersFolder}/${fileName} is not an Amethyst Modal handler`, DebugImportance.Critical);
+
+            if (this._modalHandlers.find(x => modalHandler.ids.some(y => x.ids.includes(y)))) return this.debug(`Duplicate identifier for ${modalHandler.ids[0]} ( modal handler in ${this.configs.modalHandlersFolder}/${fileName} )`, DebugImportance.Unexpected);
+
+            this._modalHandlers.push(modalHandler);
+            this.debug(`Button handler loaded: ${modalHandler.ids[0]} ( ${this.configs.modalHandlersFolder}/${fileName} )`, DebugImportance.Information);
+        })
+        this.debug(`Modal handlers loading ended: ${this._modalHandlers.length} handler(s) loaded`, DebugImportance.Information);
     }
     private loadButtons(load: boolean) {
         if (!load) return this.debug(`Buttons configured to not loaded`, DebugImportance.Information);
@@ -294,6 +316,9 @@ export class AmethystClient extends Client {
     public get buttonHandlers(): ButtonHandler[] {
         return this._buttonHandler;
     }
+    public get modalHandlers(): ModalHandler[] {
+        return this._modalHandlers;
+    }
     private loadInternalEvents(): void {
         const interactionCreate = require(`../events/interactionCreate.js`).default;
         const messageCreate = require(`../events/messageCreate.js`).default;
@@ -329,6 +354,7 @@ declare module 'discord.js' {
         get preconditions(): Precondition[];
         get autocompleteListeners(): AutocompleteListener[];
         get buttonHandlers(): ButtonHandler[];
+        get modalHandlers(): ModalHandler[];
 
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;
