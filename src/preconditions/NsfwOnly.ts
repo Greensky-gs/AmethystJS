@@ -16,7 +16,7 @@ export default new Precondition('NsfwOnly')
                 metadata: {
                     code: commandDeniedCode.UnknownChannelType
                 },
-                isChatInput: true,
+                type: 'chatInput',
                 interaction
             };
         }
@@ -27,12 +27,12 @@ export default new Precondition('NsfwOnly')
                 metadata: {
                     code: commandDeniedCode.ChannelNotNsfw
                 },
-                isChatInput: true,
+                type: 'chatInput',
                 interaction
             };
         return {
             ok: true,
-            isChatInput: true,
+            type: 'chatInput',
             interaction
         };
     })
@@ -44,7 +44,7 @@ export default new Precondition('NsfwOnly')
                 metadata: {
                     code: commandDeniedCode.UnknownChannelType
                 },
-                isChatInput: false,
+                type: 'message',
                 channelMessage: message
             };
         }
@@ -55,16 +55,16 @@ export default new Precondition('NsfwOnly')
                 metadata: {
                     code: commandDeniedCode.ChannelNotNsfw
                 },
-                isChatInput: false,
+                type: 'message',
                 channelMessage: message
             };
         return {
             ok: true,
-            isChatInput: false,
+            type: 'message',
             channelMessage: message
         };
     })
-    .setButtonRun(({ message }) => {
+    .setButtonRun(({ message, button }) => {
         if (message.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
             return {
                 ok: false,
@@ -72,8 +72,8 @@ export default new Precondition('NsfwOnly')
                 metadata: {
                     code: ButtonDeniedCode.UnknownChannelType
                 },
-                isChatInput: false,
-                channelMessage: message
+                type: 'button',
+                button
             };
         }
         if (!message.channel.nsfw)
@@ -83,12 +83,12 @@ export default new Precondition('NsfwOnly')
                 metadata: {
                     code: ButtonDeniedCode.NsfwOnly
                 },
-                isChatInput: false,
-                channelMessage: message
+                type: 'button',
+                button
             };
         return {
             ok: true,
-            isChatInput: false,
-            channelMessage: message
+            type: 'button',
+            button
         };
     });

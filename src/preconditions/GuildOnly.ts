@@ -8,7 +8,7 @@ export default new Precondition('GuildOnly')
             return {
                 ok: false,
                 message: 'Command executable in a guild only',
-                isChatInput: true,
+                type: 'chatInput',
                 metadata: {
                     code: commandDeniedCode.GuildOnly
                 },
@@ -16,7 +16,7 @@ export default new Precondition('GuildOnly')
             };
         return {
             ok: true,
-            isChatInput: true,
+            type: 'chatInput',
             interaction
         };
     })
@@ -29,12 +29,12 @@ export default new Precondition('GuildOnly')
                     code: commandDeniedCode.GuildOnly
                 },
                 channelMessage: message,
-                isChatInput: false
+                type: 'message'
             };
         return {
             ok: true,
             channelMessage: message,
-            isChatInput: false
+            type: 'message'
         };
     })
     .setButtonRun(({ button }) => {
@@ -45,15 +45,13 @@ export default new Precondition('GuildOnly')
                 metadata: {
                     code: ButtonDeniedCode.GuildOnly
                 },
-                isChatInput: false,
-                isButton: true,
+                type: 'button',
                 button
             };
         }
         return {
             ok: true,
             button,
-            isChatInput: false,
-            isButton: true
+            type: 'button'
         };
     });

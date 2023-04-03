@@ -20,7 +20,7 @@ import {
     errorCode,
     waitForMessageType
 } from './dist/typings/Client';
-import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun } from './dist/typings/Precondition';
+import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun, preconditionRunReturn } from './dist/typings/Precondition';
 import {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,

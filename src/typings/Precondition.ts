@@ -8,6 +8,7 @@ import {
 } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 
+export type preconditionType = 'message' | 'chatInput' | 'button';
 export type preconditionRunReturn = {
     message?: string;
     metadata?: {
@@ -18,8 +19,7 @@ export type preconditionRunReturn = {
     };
     ok: boolean;
     interaction?: CommandInteraction<CacheType>;
-    isChatInput: boolean;
-    isButton?: boolean;
+    type: preconditionType;
     button?: ButtonInteraction;
     channelMessage?: Message;
 };

@@ -8,7 +8,7 @@ export default new Precondition('DMOnly')
             return {
                 ok: false,
                 message: 'Command usable in private messages only',
-                isChatInput: true,
+                type: 'chatInput',
                 interaction,
                 metadata: {
                     code: commandDeniedCode.DMOnly
@@ -17,14 +17,14 @@ export default new Precondition('DMOnly')
         return {
             ok: true,
             interaction,
-            isChatInput: true
+            type: 'chatInput'
         };
     })
     .setMessageRun(({ message }) => {
         if (message.guild) {
             return {
                 ok: false,
-                isChatInput: false,
+                type: 'message',
                 channelMessage: message,
                 message: 'Command usable in private messages only',
                 metadata: {
@@ -34,7 +34,7 @@ export default new Precondition('DMOnly')
         }
         return {
             ok: true,
-            isChatInput: false,
+            type: 'message',
             channelMessage: message
         };
     })
@@ -42,8 +42,7 @@ export default new Precondition('DMOnly')
         if (button.guild)
             return {
                 ok: false,
-                isChatInput: false,
-                isButton: true,
+                type: 'button',
                 message: 'Button usable in direct messages only',
                 button,
                 metadata: {
@@ -52,8 +51,7 @@ export default new Precondition('DMOnly')
             };
         return {
             ok: true,
-            isChatInput: false,
-            isButton: true,
+            type: 'button',
             button
         };
     });
