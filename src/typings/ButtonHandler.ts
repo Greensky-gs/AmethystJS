@@ -21,7 +21,7 @@ export type ButtonDenied = {
     message?: string;
     button: ButtonInteraction;
     metadata?: {
-        code?: ButtonDenied | string | number;
+        code?: ButtonDeniedCode | string | number;
         permissions?: {
             got: PermissionsString[];
             need: PermissionsString[];

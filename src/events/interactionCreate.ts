@@ -343,11 +343,23 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     })
                     if (!render.ok) {
                         stopped = false;
+                        interaction.client.emit('modalRejected', {
+                            message: 'A precondition failed',
+                            modal: interaction,
+                            user: interaction.user,
+                            metadata: Object.assign(render?.metadata ?? {}, {
+                                code: render?.metadata?.code ?? 'Custom precondition'
+                            })
+                        });
                     };
                 }
             })
 
             if (!stopped) return;
         }
+        modal.run({
+            modal: interaction,
+            user: interaction.user
+        });
     }
 });

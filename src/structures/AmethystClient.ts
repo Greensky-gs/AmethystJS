@@ -10,6 +10,7 @@ import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
 import { PrefixesManager } from './prefixManager';
 import { ModalHandler } from './ModalHandler';
+import { ModalDenied } from '../typings/ModalHandler';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
@@ -344,6 +345,7 @@ declare module 'discord.js' {
         userSelectInteraction: [selector: UserSelectMenuInteraction];
         channelSelectInteraction: [selector: ChannelSelectMenuInteraction];
         mentionableSelectInteraction: [selector: MentionableSelectMenuInteraction];
+        modalRejected: [reason: ModalDenied];
     }
     interface Client {
         readonly configs: AmethystClientOptions;

@@ -39,7 +39,7 @@ export {
     autocompleteListenerNamesType
 } from './typings/autocompleteListener';
 export { amethystPaginatorOptions } from './structures/Paginator';
-export { modalHandlerOptions, modalHandlerRun } from './typings/ModalHandler';
+export { modalHandlerOptions, modalHandlerRun, ModalDenied } from './typings/ModalHandler';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {

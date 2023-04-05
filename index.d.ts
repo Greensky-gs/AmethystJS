@@ -27,7 +27,7 @@ import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
 import log4js from './dist/utils/log4js';
 import { Paginator, paginatorOptions } from 'dsc-pagination';
-import { modalHandlerOptions, modalHandlerRun } from './dist/typings/ModalHandler'
+import { modalHandlerOptions, modalHandlerRun, ModalDenied } from './dist/typings/ModalHandler'
 
 export {
     PreconditionChatInputRun,
@@ -47,6 +47,7 @@ export {
     ButtonHandlerOptions,
     ButtonHandlerRun,
     amethystPaginatorOptions,
+    ModalDenied,
     log4js
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
