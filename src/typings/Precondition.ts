@@ -46,7 +46,4 @@ export type PreconditionButtonRun = (options: {
     user: User;
     message: Message;
 }) => preconditionRunReturn;
-export type PreconditionModalRun = (options: {
-    modal: ModalSubmitInteraction;
-    user: User;
-}) => preconditionRunReturn;
+export type PreconditionModalRun = (options: { modal: ModalSubmitInteraction; user: User }) => preconditionRunReturn;

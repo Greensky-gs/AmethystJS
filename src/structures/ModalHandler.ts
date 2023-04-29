@@ -1,5 +1,5 @@
-import { modalHandlerOptions, modalHandlerRun } from "../typings/ModalHandler";
-import { AmethystError } from "./AmethystError";
+import { modalHandlerOptions, modalHandlerRun } from '../typings/ModalHandler';
+import { AmethystError } from './AmethystError';
 
 export class ModalHandler {
     private _name: string;
@@ -16,7 +16,12 @@ export class ModalHandler {
         }
 
         this._name = options.name;
-        this._ids = typeof options.modalId === 'string' ? [options.modalId] : options.modalId instanceof Array ? [...new Set(options.modalId)] : [];
+        this._ids =
+            typeof options.modalId === 'string'
+                ? [options.modalId]
+                : options.modalId instanceof Array
+                ? [...new Set(options.modalId)]
+                : [];
         if (this._ids.length === 0) {
             throw new AmethystError(`Modal ID not provided in modal handler`);
         }

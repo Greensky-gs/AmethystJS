@@ -130,7 +130,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         }
 
         let alreadyStopped = false;
-        if (cmd.options.preconditions?.filter((x) => x.chatInputRun).filter(x => x !== undefined).length > 0)
+        if (cmd.options.preconditions?.filter((x) => x.chatInputRun).filter((x) => x !== undefined).length > 0)
             cmd.options.preconditions?.forEach((precondition) => {
                 if (alreadyStopped) return;
                 const prec = precondition.chatInputRun({
@@ -254,7 +254,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 });
             }
         }
-        if (handler.options.preconditions?.filter((x) => x.buttonRun).filter(x => x!== undefined)?.length > 0) {
+        if (handler.options.preconditions?.filter((x) => x.buttonRun).filter((x) => x !== undefined)?.length > 0) {
             let ok = true;
             handler.options.preconditions.forEach((prec) => {
                 if (ok) {
@@ -329,8 +329,12 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         interaction.respond(result);
     }
     if (interaction.isModalSubmit()) {
-        const modal = interaction.client.modalHandlers.find(x => x.ids.includes(interaction.customId));
-        if (!modal) return interaction.client.debug(`No modal handler found for modal ${interaction.customId}`, DebugImportance.Information);
+        const modal = interaction.client.modalHandlers.find((x) => x.ids.includes(interaction.customId));
+        if (!modal)
+            return interaction.client.debug(
+                `No modal handler found for modal ${interaction.customId}`,
+                DebugImportance.Information
+            );
 
         if (modal.options.preconditions?.length > 0) {
             let stopped = false;
@@ -339,7 +343,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     const render = precondition.modalRun({
                         modal: interaction,
                         user: interaction.user
-                    })
+                    });
                     if (!render.ok) {
                         stopped = false;
                         interaction.client.emit('modalRejected', {
@@ -350,9 +354,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                                 code: render?.metadata?.code ?? 'Custom precondition'
                             })
                         });
-                    };
+                    }
                 }
-            })
+            });
 
             if (!stopped) return;
         }

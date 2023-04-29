@@ -10,7 +10,7 @@ export class Precondition {
     public chatInputRun: PreconditionChatInputRun;
     public messageRun: PreconditionMessageRun;
     public buttonRun: PreconditionButtonRun;
-    public modalRun: PreconditionModalRun
+    public modalRun: PreconditionModalRun;
 
     constructor(name: string) {
         this.name = name;

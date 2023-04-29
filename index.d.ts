@@ -1,8 +1,4 @@
-import {
-    Client,
-    ClientEvents,
-    ClientOptions,
-} from 'discord.js';
+import { Client, ClientEvents, ClientOptions } from 'discord.js';
 import {
     AmethystClientOptions,
     DebugImportance,
@@ -15,7 +11,14 @@ import {
     errorCode,
     waitForMessageType
 } from './dist/typings/Client';
-import { PreconditionButtonRun, PreconditionChatInputRun, PreconditionMessageRun, preconditionRunReturn, preconditionType, PreconditionModalRun } from './dist/typings/Precondition';
+import {
+    PreconditionButtonRun,
+    PreconditionChatInputRun,
+    PreconditionMessageRun,
+    preconditionRunReturn,
+    preconditionType,
+    PreconditionModalRun
+} from './dist/typings/Precondition';
 import {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,
@@ -27,7 +30,7 @@ import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
 import log4js from './dist/utils/log4js';
 import { Paginator, paginatorOptions } from 'dsc-pagination';
-import { modalHandlerOptions, modalHandlerRun, ModalDenied } from './dist/typings/ModalHandler'
+import { modalHandlerOptions, modalHandlerRun, ModalDenied } from './dist/typings/ModalHandler';
 
 export {
     PreconditionChatInputRun,
@@ -127,7 +130,7 @@ export class ModalHandler {
 
     public run: modalHandlerRun;
     public setRun(run: modalHandlerRun): this;
-    
+
     public get ids(): string[];
     public get name(): string;
 }

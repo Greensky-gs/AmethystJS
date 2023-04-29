@@ -70,20 +70,36 @@ export class AmethystClient extends Client {
     }
     private loadModals(load: boolean) {
         if (!load) return this.debug(`Modals configured to not loaded`, DebugImportance.Information);
-        if (!this.configs.modalHandlersFolder) return this.debug(`Modals folder not configured`, DebugImportance.Information);
-        if (!existsSync(this.configs.modalHandlersFolder)) return this.debug(`Modals folder does not exist`, DebugImportance.Unexpected);
+        if (!this.configs.modalHandlersFolder)
+            return this.debug(`Modals folder not configured`, DebugImportance.Information);
+        if (!existsSync(this.configs.modalHandlersFolder))
+            return this.debug(`Modals folder does not exist`, DebugImportance.Unexpected);
 
         readdirSync(this.configs.modalHandlersFolder).forEach((fileName) => {
             const x = require(`../../../../${this.configs.modalHandlersFolder}/${fileName}`);
             const modalHandler: ModalHandler = x?.default ?? x;
-            if (!modalHandler || !(modalHandler instanceof ModalHandler)) return this.debug(`Default value of file ${this.configs.modalHandlersFolder}/${fileName} is not an Amethyst Modal handler`, DebugImportance.Critical);
+            if (!modalHandler || !(modalHandler instanceof ModalHandler))
+                return this.debug(
+                    `Default value of file ${this.configs.modalHandlersFolder}/${fileName} is not an Amethyst Modal handler`,
+                    DebugImportance.Critical
+                );
 
-            if (this._modalHandlers.find(x => modalHandler.ids.some(y => x.ids.includes(y)))) return this.debug(`Duplicate identifier for ${modalHandler.ids[0]} ( modal handler in ${this.configs.modalHandlersFolder}/${fileName} )`, DebugImportance.Unexpected);
+            if (this._modalHandlers.find((x) => modalHandler.ids.some((y) => x.ids.includes(y))))
+                return this.debug(
+                    `Duplicate identifier for ${modalHandler.ids[0]} ( modal handler in ${this.configs.modalHandlersFolder}/${fileName} )`,
+                    DebugImportance.Unexpected
+                );
 
             this._modalHandlers.push(modalHandler);
-            this.debug(`Button handler loaded: ${modalHandler.ids[0]} ( ${this.configs.modalHandlersFolder}/${fileName} )`, DebugImportance.Information);
-        })
-        this.debug(`Modal handlers loading ended: ${this._modalHandlers.length} handler(s) loaded`, DebugImportance.Information);
+            this.debug(
+                `Button handler loaded: ${modalHandler.ids[0]} ( ${this.configs.modalHandlersFolder}/${fileName} )`,
+                DebugImportance.Information
+            );
+        });
+        this.debug(
+            `Modal handlers loading ended: ${this._modalHandlers.length} handler(s) loaded`,
+            DebugImportance.Information
+        );
     }
     private loadButtons(load: boolean) {
         if (!load) return this.debug(`Buttons configured to not loaded`, DebugImportance.Information);

@@ -17,7 +17,14 @@ export { ModalHandler } from './structures/ModalHandler';
 export { AmethystError } from './structures/AmethystError';
 
 // Types
-export { PreconditionChatInputRun, preconditionRunReturn, PreconditionMessageRun, preconditionType, PreconditionButtonRun, PreconditionModalRun } from './typings/Precondition';
+export {
+    PreconditionChatInputRun,
+    preconditionRunReturn,
+    PreconditionMessageRun,
+    preconditionType,
+    PreconditionButtonRun,
+    PreconditionModalRun
+} from './typings/Precondition';
 export {
     startOptions,
     AmethystClientOptions,
