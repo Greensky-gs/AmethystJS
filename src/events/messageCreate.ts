@@ -95,7 +95,7 @@ export default new AmethystEvent('messageCreate', (message) => {
     }
 
     let ok = true;
-    if (cmd.options.preconditions?.length > 0 && cmd.options.preconditions.filter((x) => x.messageRun).length > 0) {
+    if (cmd.options.preconditions?.length > 0 && cmd.options.preconditions.filter((x) => x.messageRun).filter(x => x !== undefined).length > 0) {
         cmd.options.preconditions.forEach((prec) => {
             if (!ok) return;
             const result = prec.messageRun({
