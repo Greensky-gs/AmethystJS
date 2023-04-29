@@ -34,6 +34,7 @@ With this powerful framework you can :
 * [Wait for messages](#wait-for-messages)
 * [Wait for interactions](#wait-for-interactions)
 * [Handle buttons](#button-handler)
+* [Handle modals](#modal-handlers)
 * [Set custom prefixes](#register-custom-prefixes)
 * [Wait a little time](#wait)
 * [Paginate embeds](#paginator)
@@ -64,14 +65,16 @@ const client = new AmethystClient({
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
     buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
-    customPrefixAndDefaultAvailable?: true // Specify if the default prefix is usable when a custom prefix is set - optionnal
+    customPrefixAndDefaultAvailable?: true, // Specify if the default prefix is usable when a custom prefix is set - optionnal
+    modalHandlersFolder: "./yourModalHandlersFolder" // Specify the modal handlers folder
 });
 client.start({
     // All are optionnal
     loadCommands: true, // Load commands
     loadEvents: true, // Load events
     loadPreconditions: true, // Load preconditions
-    loadAutocompleteListeners: true // Load autocomplete listeners
+    loadAutocompleteListeners: true, // Load autocomplete listeners
+    loadModals: true // Load modals handlers
 });
 ```
 
@@ -94,7 +97,8 @@ const client = new AmethystClient({
     preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
     buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
-    customPrefixAndDefaultAvailable?: true // Specify if the default prefix is usable when a custom prefix is set - optionnal
+    customPrefixAndDefaultAvailable?: true, // Specify if the default prefix is usable when a custom prefix is set - optionnal
+    modalHandlersFolder: "./yourModalHandlersFolder" // Specify the modal handlers folder
 });
 client.start({
     // All are optionnal
@@ -596,6 +600,34 @@ const { wait } = require('amethystjs');
     await wait(1, 's'); // Wait 1s
     await wait(1, 'm'); // Wait 1m
 })()
+```
+
+## Modal Handlers
+
+You can use modal handlers with Amethyst JS, it can handle modals trought an object inside the modals handler folder
+
+```ts
+import { ModalHandler } from 'amethystjs';
+
+export default new ModalHandler({
+    modalId: ['identifiers of modals to be handled'],
+    name: "Name of the handler"
+}).setRun((opts) => {
+    opts.modal;
+    opts.user;
+});
+```
+
+```js
+const { ModalHandler } = require('amethystjs');
+
+module.exports = new ModalHandler({
+    modalId: ['identifiers of modals to be handled'],
+    name: "Name of the handler"
+}).setRun((opts) => {
+    opts.modal;
+    opts.user;
+});
 ```
 
 ## Log4JS
