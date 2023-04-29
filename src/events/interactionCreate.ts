@@ -131,32 +131,34 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
 
         let alreadyStopped = false;
         if (cmd.options.preconditions?.filter((x) => x.chatInputRun !== undefined).length > 0)
-            cmd.options.preconditions?.forEach((precondition) => {
-                if (alreadyStopped) return;
-                const prec = precondition.chatInputRun({
-                    interaction,
-                    command: cmd,
-                    options: interaction.options as CommandInteractionOptionResolver
+            cmd.options.preconditions
+                ?.filter((x) => x.chatInputRun !== undefined)
+                .forEach((precondition) => {
+                    if (alreadyStopped) return;
+                    const prec = precondition.chatInputRun({
+                        interaction,
+                        command: cmd,
+                        options: interaction.options as CommandInteractionOptionResolver
+                    });
+
+                    if (!prec.ok) {
+                        alreadyStopped = true;
+
+                        return interaction.client.emit(
+                            'commandDenied',
+                            {
+                                command: cmd,
+                                interaction,
+                                isMessage: false
+                            },
+                            {
+                                code: prec?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
+                                message: prec.message ?? 'Custom precondition failure',
+                                metadata: prec.metadata ?? {}
+                            }
+                        );
+                    }
                 });
-
-                if (!prec.ok) {
-                    alreadyStopped = true;
-
-                    return interaction.client.emit(
-                        'commandDenied',
-                        {
-                            command: cmd,
-                            interaction,
-                            isMessage: false
-                        },
-                        {
-                            code: prec?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
-                            message: prec.message ?? 'Custom precondition failure',
-                            metadata: prec.metadata ?? {}
-                        }
-                    );
-                }
-            });
         if (alreadyStopped) return;
 
         const cdCode = `${interaction.user.id}.${interaction.commandName}`;
@@ -256,26 +258,28 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         }
         if (handler.options.preconditions?.filter((x) => x.buttonRun !== undefined)?.length > 0) {
             let ok = true;
-            handler.options.preconditions.forEach((prec) => {
-                if (ok) {
-                    const rs = prec.buttonRun({
-                        button: interaction,
-                        user: interaction.user,
-                        message: interaction.message
-                    });
-                    if (!rs.ok) {
-                        ok = false;
-                        interaction.client.emit('buttonDenied', {
-                            message: 'A precondition failed',
+            handler.options.preconditions
+                .filter((pr) => pr.buttonRun !== undefined)
+                .forEach((prec) => {
+                    if (ok) {
+                        const rs = prec.buttonRun({
                             button: interaction,
                             user: interaction.user,
-                            metadata: Object.assign(rs?.metadata ?? {}, {
-                                code: rs?.metadata?.code ?? ButtonDeniedCode.CustomPrecondition
-                            })
+                            message: interaction.message
                         });
+                        if (!rs.ok) {
+                            ok = false;
+                            interaction.client.emit('buttonDenied', {
+                                message: 'A precondition failed',
+                                button: interaction,
+                                user: interaction.user,
+                                metadata: Object.assign(rs?.metadata ?? {}, {
+                                    code: rs?.metadata?.code ?? ButtonDeniedCode.CustomPrecondition
+                                })
+                            });
+                        }
                     }
-                }
-            });
+                });
             if (!ok) return;
         }
         handler.run({
@@ -338,25 +342,27 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
 
         if (modal.options.preconditions?.length > 0) {
             let stopped = false;
-            modal.options.preconditions.forEach((precondition) => {
-                if (precondition.modalRun && !stopped) {
-                    const render = precondition.modalRun({
-                        modal: interaction,
-                        user: interaction.user
-                    });
-                    if (!render.ok) {
-                        stopped = false;
-                        interaction.client.emit('modalRejected', {
-                            message: 'A precondition failed',
+            modal.options.preconditions
+                .filter((pr) => pr.modalRun !== undefined)
+                .forEach((precondition) => {
+                    if (precondition.modalRun && !stopped) {
+                        const render = precondition.modalRun({
                             modal: interaction,
-                            user: interaction.user,
-                            metadata: Object.assign(render?.metadata ?? {}, {
-                                code: render?.metadata?.code ?? 'Custom precondition'
-                            })
+                            user: interaction.user
                         });
+                        if (!render.ok) {
+                            stopped = false;
+                            interaction.client.emit('modalRejected', {
+                                message: 'A precondition failed',
+                                modal: interaction,
+                                user: interaction.user,
+                                metadata: Object.assign(render?.metadata ?? {}, {
+                                    code: render?.metadata?.code ?? 'Custom precondition'
+                                })
+                            });
+                        }
                     }
-                }
-            });
+                });
 
             if (!stopped) return;
         }

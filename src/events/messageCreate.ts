@@ -99,29 +99,31 @@ export default new AmethystEvent('messageCreate', (message) => {
         cmd.options.preconditions?.length > 0 &&
         cmd.options.preconditions.filter((x) => x.messageRun !== undefined).length > 0
     ) {
-        cmd.options.preconditions.forEach((prec) => {
-            if (!ok) return;
-            const result = prec.messageRun({
-                message,
-                command: cmd
+        cmd.options.preconditions
+            .filter((x) => x.messageRun !== undefined)
+            .forEach((prec) => {
+                if (!ok) return;
+                const result = prec.messageRun({
+                    message,
+                    command: cmd
+                });
+                if (!result.ok) {
+                    ok = false;
+                    return message.client.emit(
+                        'commandDenied',
+                        {
+                            command: cmd,
+                            isMessage: true,
+                            message
+                        },
+                        {
+                            message: `A precondition failed: ${prec.name}`,
+                            code: commandDeniedCode.CustomPrecondition,
+                            metadata: result.metadata ?? {}
+                        }
+                    );
+                }
             });
-            if (!result.ok) {
-                ok = false;
-                return message.client.emit(
-                    'commandDenied',
-                    {
-                        command: cmd,
-                        isMessage: true,
-                        message
-                    },
-                    {
-                        message: `A precondition failed: ${prec.name}`,
-                        code: commandDeniedCode.CustomPrecondition,
-                        metadata: result.metadata ?? {}
-                    }
-                );
-            }
-        });
     }
     if (!ok) return;
 
