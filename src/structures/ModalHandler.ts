@@ -25,7 +25,7 @@ export class ModalHandler {
     }
 
     public get ids(): string[] {
-        return this.ids;
+        return this._ids;
     }
     public get name() {
         return this._name;

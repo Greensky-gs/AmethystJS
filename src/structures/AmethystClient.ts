@@ -73,7 +73,7 @@ export class AmethystClient extends Client {
         if (!this.configs.modalHandlersFolder) return this.debug(`Modals folder not configured`, DebugImportance.Information);
         if (!existsSync(this.configs.modalHandlersFolder)) return this.debug(`Modals folder does not exist`, DebugImportance.Unexpected);
 
-        readdirSync(this.configs.buttonsFolder).forEach((fileName) => {
+        readdirSync(this.configs.modalHandlersFolder).forEach((fileName) => {
             const x = require(`../../../../${this.configs.modalHandlersFolder}/${fileName}`);
             const modalHandler: ModalHandler = x?.default ?? x;
             if (!modalHandler || !(modalHandler instanceof ModalHandler)) return this.debug(`Default value of file ${this.configs.modalHandlersFolder}/${fileName} is not an Amethyst Modal handler`, DebugImportance.Critical);
