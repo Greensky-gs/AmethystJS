@@ -4,10 +4,12 @@ import {
     CommandInteraction,
     PermissionsString,
     Message,
-    ChannelType
+    ChannelType,
+    User
 } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 import { Precondition } from '../structures/Precondition';
+import { AmethystClient } from '../structures/AmethystClient';
 
 export type commandOptions = {
     /**
@@ -54,32 +56,135 @@ export type commandOptions = {
      *     preconditions: [ preconditions.GuildOnly, staffOnly ]
      * });
      * ```
-     * @event `commandDenied` When a command is denied by precondition, the `commandDenied` event is emitted and the metadata depends of your precondition. If you used a precondi
+     * @event `commandDenied` When a command is denied by precondition, the `commandDenied` event is emitted and the metadata depends of your precondition. If you used a precondition from AmethystJS, a `commandDeniedCode` is provided in `<#PreconditionReturn>.metadata.code`
      */
     preconditions?: Precondition[];
+    /**
+     * These are the types of channel the command can run in
+     * It is an array containing `ChannelType` from discord.js
+     * 
+     * ```js
+     * const { ChannelType } = require('discord.js');
+     * 
+     * new AmethystCommand({
+     *     messageInputChannelTypes: [ ChannelType.GuildText ]
+     * });
+     * ```
+     * @event `commandDenied` When a command is denied by invalid channel type, the `commandDenied` event is emitted and the `metadata` object is `{ channelType: { expected: ChannelType[]; got: ChannelType; } }`
+     */
     messageInputChannelTypes?: ChannelType[];
+    /**
+     * Aliases for the message input command
+     * Use all the aliases you want in the array
+     * 
+     * ```js
+     * new AmethystCommand({
+     *     name: 'mute',
+     *     aliases: ['timeout', 'silent']
+     * });
+     * ```
+     */
     aliases?: string[];
+    /**
+     * Description of the message input command, if you need to use a different description from the slash command description
+     * 
+     * ```js
+     * new AmethystComamnd({
+     *     description: "Show your inventory",
+     *     messageInputDescription: "Manage a member's inventory"
+     * });
+     * ```
+     */
     messageInputDescription?: string;
 } & ChatInputApplicationCommandData;
 
 export type ChatInputRun = (options: {
+    /**
+     * Interaction that emitted the command
+     */
     interaction: CommandInteraction;
+    /**
+     * Options of the interaction
+     */
     options: CommandInteractionOptionResolver;
+    /**
+     * Amethyst Client
+     */
+    client: AmethystClient;
 }) => void | unknown;
 export type MessageRun = (options: {
+    /**
+     * Message that emitted the command
+     */
     message: Message;
+    /**
+     * Options of the message
+     */
     options: {
+        /**
+         * First argument parsed by the user
+         * It can be null if the user parses no arguments
+         */
         first: string | null;
+        /**
+         * Second argument parsed by the user
+         * It can be null if the user parses only one argument
+         */
         second: string | null;
+        /**
+         * Arguments parsed for the command
+         * Arguments are the rest of the command, splitted by space, after the command name
+         * 
+         * This proprety also includes `first` and `second` arguments in options
+         */
         args: string[];
+        /**
+         * Indicates if arguments have been parsed by the user or not
+         */
         emptyArgs: boolean;
+        /**
+         * Name of the command used by the user to trigger the command
+         */
         commandName: string;
     };
+    /**
+     * Amethyst Client of the command
+     */
+    client: AmethystClient;
 }) => void | unknown;
 export type commandDeniedPayload = {
+    /**
+     * Indicate if command used is a message input command.
+     * If it is false, the command is a slash input comamnd
+     */
     isMessage: boolean;
+    /**
+     * Command used by the user
+     * 
+     * It is an `AmethystCommand`
+     */
     command: AmethystCommand;
+    /**
+     * Interaction used by the user
+     * 
+     * If the value of `isMessage` is true, this value is null
+     * If the value of `isMessage` is false, this proprety is a `CommandInteraction`, from discord.js
+     */
     interaction?: CommandInteraction;
+    /**
+     * Message sent by the user
+     * 
+     * If the value of `isMessage` is true, this proprety is a `Message` from discord.js
+     * If the value of `isMessage` is false, this proprety is null
+     */
     message?: Message;
+    /**
+     * User that triggered the event and the command
+     */
+    user: User;
+    /**
+     * Amethyst client of the command
+     */
+    client: AmethystClient;
 };
 export type commandInteractionType<K extends boolean> = K extends true ? 'cached' : K extends false ? 'raw' : 'raw';

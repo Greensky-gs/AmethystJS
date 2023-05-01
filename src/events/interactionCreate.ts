@@ -10,6 +10,7 @@ import { AmethystEvent } from '../structures/Event';
 import { ButtonDeniedCode } from '../typings/ButtonHandler';
 import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
 import { commandInteractionType } from '../typings/Command';
+import { AmethystClient } from '../structures/AmethystClient';
 
 export default new AmethystEvent('interactionCreate', async (interaction) => {
     if (interaction.isCommand()) {
@@ -20,7 +21,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 {
                     isMessage: false,
                     interaction: interaction,
-                    command: cmd
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
                 },
                 {
                     code: errorCode.UnknownChatInputCommand,
@@ -38,7 +41,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 {
                     isMessage: false,
                     interaction,
-                    command: cmd
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
                 },
                 {
                     code: errorCode.NoChatInputRun,
@@ -62,7 +67,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     {
                         isMessage: false,
                         interaction,
-                        command: cmd
+                        command: cmd,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
                     },
                     {
                         message: 'Client needs permissions that not have in the guild',
@@ -90,7 +97,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     {
                         isMessage: false,
                         interaction,
-                        command: cmd
+                        command: cmd,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
                     },
                     {
                         message: 'User needs permissions that not have in the guild',
@@ -113,7 +122,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     {
                         command: cmd,
                         isMessage: false,
-                        interaction
+                        interaction,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
                     },
                     {
                         code: commandDeniedCode.InvalidChannelType,
@@ -149,7 +160,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                             {
                                 command: cmd,
                                 interaction,
-                                isMessage: false
+                                isMessage: false,
+                                user: interaction.user,
+                                client: interaction.client as AmethystClient
                             },
                             {
                                 code: prec?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
@@ -168,7 +181,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                 {
                     isMessage: false,
                     interaction,
-                    command: cmd
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
                 },
                 {
                     code: commandDeniedCode.UnderCooldown,
@@ -186,9 +201,11 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         const options: {
             options: CommandInteractionOptionResolver;
             interaction: CommandInteraction<CacheType>;
+            client: AmethystClient;
         } = {
             options: interaction.options as CommandInteractionOptionResolver,
-            interaction: interaction as CommandInteraction<commandInteractionType<false>>
+            interaction: interaction as CommandInteraction<commandInteractionType<false>>,
+            client: interaction.client as AmethystClient
         };
         if (interaction.guild) {
             options.interaction = interaction as CommandInteraction<commandInteractionType<true>>;

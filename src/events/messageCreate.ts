@@ -3,6 +3,7 @@ import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
 import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
 import { testMessage } from '../utils/functions';
+import { AmethystClient } from '../structures/AmethystClient';
 
 export default new AmethystEvent('messageCreate', (message) => {
     const test = testMessage(message);
@@ -25,7 +26,9 @@ export default new AmethystEvent('messageCreate', (message) => {
             {
                 isMessage: true,
                 message,
-                command: cmd
+                command: cmd,
+                user: message.author,
+                client: message.client as AmethystClient
             },
             {
                 code: errorCode.NoMessageRun,
@@ -49,7 +52,9 @@ export default new AmethystEvent('messageCreate', (message) => {
                 {
                     command: cmd,
                     message,
-                    isMessage: true
+                    isMessage: true,
+                    user: message.author,
+                    client: message.client as AmethystClient
                 },
                 {
                     message: 'Client is missing permissions',
@@ -77,7 +82,9 @@ export default new AmethystEvent('messageCreate', (message) => {
                 {
                     command: cmd,
                     message,
-                    isMessage: true
+                    isMessage: true,
+                    user: message.author,
+                    client: message.client as AmethystClient
                 },
                 {
                     message: 'User is missing permissions',
@@ -114,11 +121,13 @@ export default new AmethystEvent('messageCreate', (message) => {
                         {
                             command: cmd,
                             isMessage: true,
-                            message
+                            message,
+                            user: message.author,
+                            client: message.client as AmethystClient
                         },
                         {
                             message: `A precondition failed: ${prec.name}`,
-                            code: commandDeniedCode.CustomPrecondition,
+                            code: result?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
                             metadata: result.metadata ?? {}
                         }
                     );
@@ -126,6 +135,30 @@ export default new AmethystEvent('messageCreate', (message) => {
             });
     }
     if (!ok) return;
+    if (cmd.options.messageInputChannelTypes?.length > 0) {
+        if (!cmd.options.messageInputChannelTypes.includes(message.channel.type)) {
+            return message.client.emit(
+                'commandDenied',
+                {
+                    command: cmd,
+                    isMessage: true,
+                    message,
+                    user: message.author,
+                    client: message.client as AmethystClient
+                },
+                {
+                    code: commandDeniedCode.InvalidChannelType,
+                    message: 'Command runned in an invalid channel type',
+                    metadata: {
+                        channelType: {
+                            expected: cmd.options.messageInputChannelTypes,
+                            got: message.channel.type
+                        }
+                    }
+                }
+            );
+        }
+    }
 
     const cdCode = `${message.author.id}.${cmd.options.name}`;
     if (cooldowns.has(cdCode)) {
@@ -134,7 +167,9 @@ export default new AmethystEvent('messageCreate', (message) => {
             {
                 isMessage: true,
                 message,
-                command: cmd
+                command: cmd,
+                user: message.author,
+                client: message.client as AmethystClient
             },
             {
                 message: 'User is under cooldown',
@@ -158,6 +193,7 @@ export default new AmethystEvent('messageCreate', (message) => {
             second: args[1] ?? null,
             emptyArgs: args.length === 0,
             commandName: cmdName
-        }
+        },
+        client: message.client as AmethystClient,
     });
 });

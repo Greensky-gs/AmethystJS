@@ -1,9 +1,21 @@
 import prefixes from '../maps/prefixes';
 import { AmethystClient } from './AmethystClient';
 
+/**
+ * Prefixes manager for `AmethystClient`
+ */
 export class PrefixesManager {
+    /**
+     * Client of the prefixes manager
+     * 
+     * @readonly
+     */
     public readonly client: AmethystClient;
 
+    /**
+     * 
+     * @param client AmethystClient
+     */
     constructor(client: AmethystClient) {
         this.client = client;
     }

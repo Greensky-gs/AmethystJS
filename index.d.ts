@@ -55,8 +55,27 @@ export {
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
+/**
+ * #### Amethyst Client
+ * This is the base of the framework
+ * 
+ * @extends Client from discord.js
+ * @example https://github.com/Greensky-gs/lofi-girl
+ * @example https://github.com/Greensky-gs/frenchart-bot
+ * @example https://github.com/DraverBot/DraverBot
+ */
 export class AmethystClient extends Client {
+    /**
+     * Options parsed in constructor
+     * 
+     * @readonly
+     */
     public readonly configs: AmethystClientOptions;
+    /**
+     * Prefixes manager of the client
+     * 
+     * @readonly
+     */
     public readonly prefixesManager: PrefixesManager;
 
     public constructor(options: ClientOptions, configs: AmethystClientOptions);
@@ -111,6 +130,8 @@ export class AutocompleteListener {
 export class AmethystCommand {
     /**
      * Options provided when the command is created
+     * 
+     * @readonly
      */
     public readonly options: commandOptions;
 
@@ -118,13 +139,54 @@ export class AmethystCommand {
      * Construction of the command
      * Use the `commandOptions` type to parse the object to the constructor
      * @param options Options to provide to Amethyst JS for the command
+     * 
+     * ```js
+     * const { preconditions } = require('amethystjs');
+     * 
+     * new AmethystCommand({
+     *     name: 'commandName',
+     *     description: "Description",
+     *     messageInputDescription: "Description of message command", // Optional
+     *     cooldown: 5, // Optional
+     *     options: [ ], // Options for the slash command - optional
+     *     messageInputChannelTypes: [], // Optional
+     *     preconditions: [ preconditions.GuildOnly ], // Optional
+     *     aliases: [ 'other command names' ], // Optional
+     *     permissions: ['Administrator'], // Optional
+     *     clientPermissions: ['ManageChannels'], // Optional
+     * })
+     *     .setChatInputRun(({ interaction, options, user, client }) => {
+     *          interaction.reply(`Hello ${user}`);
+     *     })
+     *     .setMessageRun(({ message, user, options, client }) => {
+     *         message.reply(`Hello ${user}`);
+     *     })
+     * ```
      */
     public constructor(options: commandOptions);
 
+    /**
+     * Sets the listener of slash commands for this command
+     * @param run ChatInputRun from AmethystJS to be runned on a slash command
+     * @returns this
+     */
     public setChatInputRun(run: ChatInputRun): this;
+    /**
+     * Sets the listener of message commands for this command
+     * @param run MessageRun from AmethystJS to be runned on a message command
+     * @returns this
+     */
     public setMessageRun(run: MessageRun): this;
 
+    /**
+     * Returns the slash command listener configured for this command
+     * @returns `ChatInputRun` from the command, or undefined if not configured
+     */
     public get chatInputRun(): ChatInputRun | undefined;
+    /**
+     * Returns the message command listener configured for this command
+     * @returns `MessageRun` from the command, or undefined if not configured
+     */
     public get messageRun(): MessageRun | undefined;
 }
 export class ButtonHandler {
