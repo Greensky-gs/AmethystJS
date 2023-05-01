@@ -102,9 +102,23 @@ export class AutocompleteListener {
     constructor(options: AutocompleteListenerOptions);
 }
 
+/**
+ * Class Amethyst command
+ * 
+ * Use it in a new file as the default value of the file
+ * Use the methods to build the command
+ */
 export class AmethystCommand {
+    /**
+     * Options provided when the command is created
+     */
     public readonly options: commandOptions;
 
+    /**
+     * Construction of the command
+     * Use the `commandOptions` type to parse the object to the constructor
+     * @param options Options to provide to Amethyst JS for the command
+     */
     public constructor(options: commandOptions);
 
     public setChatInputRun(run: ChatInputRun): this;

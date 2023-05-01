@@ -125,7 +125,9 @@ export default new AmethystCommands({
     clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
-    aliases: ['alias 1', 'alias 2', '...'] // Command aliases - optionnal
+    aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
+    description: "Description of the command", // Description - required
+    messageInputDescription: "Description of the message command (optionnal)" // Message description - optionna
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
@@ -145,7 +147,9 @@ module.exports = new AmethystCommands({
     clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
-    aliases: ['alias 1', 'alias 2', '...'] // Command aliases - optionnal
+    aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
+    description: "Description of the command", // Description - required
+    messageInputDescription: "Description of the message command (optionnal)" // Message description - optionna
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
