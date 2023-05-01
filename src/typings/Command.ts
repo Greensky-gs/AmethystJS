@@ -16,6 +16,7 @@ export type commandOptions = {
     preconditions?: Precondition[];
     messageInputChannelTypes?: ChannelType[];
     aliases?: string[];
+    messageInputDescription?: string;
 } & ChatInputApplicationCommandData;
 
 export type ChatInputRun = (options: {
