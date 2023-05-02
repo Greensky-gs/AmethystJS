@@ -11,6 +11,7 @@ import { Precondition } from './Precondition';
 import { PrefixesManager } from './prefixManager';
 import { ModalHandler } from './ModalHandler';
 import { ModalDenied } from '../typings/ModalHandler';
+import { AmethystError } from './AmethystError';
 
 export class AmethystClient extends Client {
     public readonly configs: AmethystClientOptions;
@@ -296,6 +297,9 @@ export class AmethystClient extends Client {
         );
     }
     private checks() {
+        if (this._messageCommands.length > 0 && !this.configs.prefix) {
+            throw new AmethystError(`You have to set a prefix if you want to use message commands`)
+        }
         if (
             this._messageCommands.filter(
                 (x) =>
