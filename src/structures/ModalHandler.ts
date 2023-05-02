@@ -2,9 +2,9 @@ import { modalHandlerOptions, modalHandlerRun } from '../typings/ModalHandler';
 import { AmethystError } from './AmethystError';
 
 export class ModalHandler {
-    private _name: string;
-    private _run: modalHandlerRun;
-    private _ids: string[];
+    private _modalName: string;
+    private _runMethod: modalHandlerRun;
+    private _idsList: string[];
     public readonly options: modalHandlerOptions;
 
     constructor(options: modalHandlerOptions) {
@@ -15,14 +15,14 @@ export class ModalHandler {
             throw new AmethystError(`Modal ID not provided in modal handler`);
         }
 
-        this._name = options.name;
-        this._ids =
+        this._modalName = options.name;
+        this._idsList =
             typeof options.modalId === 'string'
                 ? [options.modalId]
                 : options.modalId instanceof Array
                 ? [...new Set(options.modalId)]
                 : [];
-        if (this._ids.length === 0) {
+        if (this._idsList.length === 0) {
             throw new AmethystError(`Modal ID not provided in modal handler`);
         }
 
@@ -30,16 +30,16 @@ export class ModalHandler {
     }
 
     public get ids(): string[] {
-        return this._ids;
+        return this._idsList;
     }
     public get name() {
-        return this._name;
+        return this._modalName;
     }
     public get run() {
-        return this._run;
+        return this._runMethod;
     }
     public setRun(run: modalHandlerRun): this {
-        this._run = run;
+        this._runMethod = run;
         return this;
     }
 }

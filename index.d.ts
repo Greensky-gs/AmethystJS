@@ -78,9 +78,59 @@ export class AmethystClient extends Client {
      */
     public readonly prefixesManager: PrefixesManager;
 
+    /**
+     * Construct the Amethyst Client with options of Discord.js and AmethystJS
+     * Only the token is required by AmethystJS and folders are used if you need to deploy commands or events
+     * Prefix is required if you have message commands
+     * 
+     * ```js
+     * const { Partials } = require('discord.js')
+     * const { config } = require('dotenv')
+     * const { AmethystClient } = require('amethystjs');
+     * config();
+     * 
+     * new AmethystClient({
+     *     intents: ['Guilds', 'MessageContent', 'GuildMessages'],
+     *     partials: [Partials.Channel, Partials.Message]
+     * }, {
+     *     token: process.env.token,
+     *     debug: true,
+     *     commandsFolder: './commands',
+     *     buttonsFolder: './button',
+     *     eventsFolder: './events',
+     *     modalHandlersFolder: './modals',
+     *     autocompleteListenersFolder: './autocompletes',
+     *     preconditionsFolder: './preconditions',
+     *     prefix: '!!',
+     *     strictPrefix: false,
+     *     botName: 'Amethyst',
+     *     botNameWorksAsPrefix: true,
+     *     mentionWorksAsPrefix: true,
+     *     defaultCooldownTime: 10,
+     *     waitForDefaultReplies: {
+     *         user: "You cannot interact with this messageg",
+     *         everyone: "You cannot interact with this message"
+     *     }
+     * })
+     * ```
+     * 
+     * @param options Options required by Discord.js
+     * @param configs Options required by AmethystJS
+     */
     public constructor(options: ClientOptions, configs: AmethystClientOptions);
 
+    /**
+     * Start AmethystClient
+     * @param options Options of starting for the bot
+     * @returns `voide`
+     */
     public start(options: startOptions): void;
+    /**
+     * Display a message in the console screen
+     * @param msg `string` message to display
+     * @param imp `DebugImportance` Importance of the message
+     * @returns `void`
+     */
     public debug(msg: string, imp: DebugImportance): void;
 
     public get messageCommands(): AmethystCommand[];
@@ -88,6 +138,7 @@ export class AmethystClient extends Client {
     public get preconditions(): Precondition[];
     public get autocompleteListeners(): AutocompleteListener[];
     public get buttonHandlers(): ButtonHandler[];
+    public get modalHandlers(): ModalHandler[];
 }
 
 export class Precondition {

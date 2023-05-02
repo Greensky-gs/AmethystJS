@@ -148,7 +148,7 @@ export type AmethystClientOptions = {
      * ```js
      * new AmethystClient({}, {
      *     buttonsFolder: './dist/buttons'
-     * });
+w     * });
      * ```
      * @default `undefined`
      */
