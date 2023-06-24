@@ -5,7 +5,10 @@ const configs = {
     displayTimeFormat: (time: Date) =>
         `[${time.getDay()}/${time.getMonth()}/${time.getFullYear()}:${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}]`,
     file: 'logs.log' as `${string}.${string}`,
-    objectIndentation: 4
+    objectIndentation: 4,
+    onLog: (log: any) => {
+        
+    }
 };
 
 const config = <Key extends keyof typeof configs>(key: Key, value: typeof configs[Key]) => {
@@ -46,6 +49,7 @@ Started ${date}
         );
 
     const trace = `${configs.displayTime ? `${date} ` : ''}${content}`;
+    if (configs.onLog instanceof Function) configs.onLog(log);
     writeFileSync(configs.file, `${readFileSync(configs.file).toString()}\n${trace}`);
 };
 
