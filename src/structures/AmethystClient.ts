@@ -44,7 +44,8 @@ export class AmethystClient extends Client {
             },
             buttonsFolder: configs?.buttonsFolder,
             customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true,
-            modalHandlersFolder: configs?.modalHandlersFolder
+            modalHandlersFolder: configs?.modalHandlersFolder,
+            debuggerColors: configs?.debuggerColors ?? 'icon'
         };
     }
     public start({
@@ -325,7 +326,21 @@ export class AmethystClient extends Client {
         }
     }
     public debug(msg: string, imp: DebugImportance) {
-        if (this.configs.debug) console.log(`[${imp}] ${msg}`);
+        const colors: Record<DebugImportance, number> = {
+            '#': 91,
+            '*': 36,
+            '!!': 31,
+            '?': 93,
+            '??': 90,
+            '!': 33
+        }
+
+        const message = () => {
+            if (this.configs.debuggerColors === 'none') return `[${imp}] ${msg}`;
+            if (this.configs.debuggerColors === 'icon') return `\x1b[${colors[imp]}m[${imp}]\x1b[0m ${msg}`
+            if (this.configs.debuggerColors === 'line') return `\x1b[${colors[imp]}m[${imp}] ${msg}\x1b[0m`
+        }
+        if (this.configs.debug) console.log(message());
     }
     public get messageCommands(): AmethystCommand[] {
         return this._messageCommands;

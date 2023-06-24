@@ -174,6 +174,12 @@ w     * });
      * @default `true`
      */
     customPrefixAndDefaultAvailable?: boolean;
+    /**
+     * Trigger the colors on the debug interface
+     * 
+     * @default `icon`
+     */
+    debuggerColors?: 'none' | 'icon' | 'line';
 };
 export type startOptions = {
     /**
