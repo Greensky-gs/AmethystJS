@@ -26,7 +26,16 @@ import {
     AutocompleteListenerRun,
     autocompleteListenerNamesType
 } from './dist/typings/autocompleteListener';
-import { ChatInputRun, commandDeniedPayload, commandOptions, MessageContextRun, MessageRun, UserContextRun, commandInteractionType, deniedPayloadInteractionType } from './dist/typings/Command';
+import {
+    ChatInputRun,
+    commandDeniedPayload,
+    commandOptions,
+    MessageContextRun,
+    MessageRun,
+    UserContextRun,
+    commandInteractionType,
+    deniedPayloadInteractionType
+} from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
@@ -54,7 +63,8 @@ export {
     amethystPaginatorOptions,
     ModalDenied,
     log4js,
-    UserContextRun, MessageContextRun,
+    UserContextRun,
+    MessageContextRun,
     commandInteractionType,
     deniedPayloadInteractionType
 };
@@ -63,7 +73,7 @@ export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 /**
  * #### Amethyst Client
  * This is the base of the framework
- * 
+ *
  * @extends Client from discord.js
  * @example https://github.com/Greensky-gs/lofi-girl
  * @example https://github.com/Greensky-gs/frenchart-bot
@@ -73,13 +83,13 @@ export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 export class AmethystClient extends Client {
     /**
      * Options parsed in constructor
-     * 
+     *
      * @readonly
      */
     public readonly configs: AmethystClientOptions;
     /**
      * Prefixes manager of the client
-     * 
+     *
      * @readonly
      */
     public readonly prefixesManager: PrefixesManager;
@@ -88,13 +98,13 @@ export class AmethystClient extends Client {
      * Construct the Amethyst Client with options of Discord.js and AmethystJS
      * Only the token is required by AmethystJS and folders are used if you need to deploy commands or events
      * Prefix is required if you have message commands
-     * 
+     *
      * ```js
      * const { Partials } = require('discord.js')
      * const { config } = require('dotenv')
      * const { AmethystClient } = require('amethystjs');
      * config();
-     * 
+     *
      * new AmethystClient({
      *     intents: ['Guilds', 'MessageContent', 'GuildMessages'],
      *     partials: [Partials.Channel, Partials.Message]
@@ -119,7 +129,7 @@ export class AmethystClient extends Client {
      *     }
      * })
      * ```
-     * 
+     *
      * @param options Options required by Discord.js
      * @param configs Options required by AmethystJS
      */
@@ -184,7 +194,7 @@ export class Precondition {
     public setMessageRun(run: PreconditionMessageRun): this;
     public setButtonRun(run: PreconditionButtonRun): this;
     public setModalRun(run: PreconditionModalRun): this;
-    public setUserContextMenuRun(run: PreconditionUserContextMenuRun): this
+    public setUserContextMenuRun(run: PreconditionUserContextMenuRun): this;
     public setMessageContextMenuRun(run: PreconditionMessageContextMenuRun): this;
 
     public buttonRun: PreconditionButtonRun;
@@ -212,14 +222,14 @@ export class AutocompleteListener {
 
 /**
  * Class Amethyst command
- * 
+ *
  * Use it in a new file as the default value of the file
  * Use the methods to build the command
  */
 export class AmethystCommand {
     /**
      * Options provided when the command is created
-     * 
+     *
      * @readonly
      */
     public readonly options: commandOptions;
@@ -228,10 +238,10 @@ export class AmethystCommand {
      * Construction of the command
      * Use the `commandOptions` type to parse the object to the constructor
      * @param options Options to provide to Amethyst JS for the command
-     * 
+     *
      * ```js
      * const { preconditions } = require('amethystjs');
-     * 
+     *
      * new AmethystCommand({
      *     name: 'commandName',
      *     description: "Description",

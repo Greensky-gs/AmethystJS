@@ -65,13 +65,13 @@ export default new Precondition('DMOnly')
                     code: commandDeniedCode.DMOnly
                 },
                 modal
-            }
+            };
         }
         return {
             ok: true,
             type: 'modal',
             modal
-        }
+        };
     })
     .setMessageContextMenuRun(({ interaction }) => {
         if (interaction.guild) {
@@ -83,7 +83,7 @@ export default new Precondition('DMOnly')
                     code: commandDeniedCode.DMOnly
                 },
                 contextMenu: interaction
-            }
+            };
         }
         return {
             ok: true,
@@ -92,8 +92,9 @@ export default new Precondition('DMOnly')
                 code: commandDeniedCode.DMOnly
             },
             contextMenu: interaction
-        }
-    }).setUserContextMenuRun(({ interaction }) => {
+        };
+    })
+    .setUserContextMenuRun(({ interaction }) => {
         if (interaction.guild) {
             return {
                 ok: false,
@@ -103,7 +104,7 @@ export default new Precondition('DMOnly')
                     code: commandDeniedCode.DMOnly
                 },
                 contextMenu: interaction
-            }
+            };
         }
         return {
             ok: true,
@@ -112,5 +113,5 @@ export default new Precondition('DMOnly')
                 code: commandDeniedCode.DMOnly
             },
             contextMenu: interaction
-        }
+        };
     });

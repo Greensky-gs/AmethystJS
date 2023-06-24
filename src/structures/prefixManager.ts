@@ -7,13 +7,13 @@ import { AmethystClient } from './AmethystClient';
 export class PrefixesManager {
     /**
      * Client of the prefixes manager
-     * 
+     *
      * @readonly
      */
     public readonly client: AmethystClient;
 
     /**
-     * 
+     *
      * @param client AmethystClient
      */
     constructor(client: AmethystClient) {
@@ -21,7 +21,7 @@ export class PrefixesManager {
     }
     /**
      * Gets the custom prefix of a server
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: "prefix",
@@ -39,7 +39,7 @@ export class PrefixesManager {
     }
     /**
      * Sets the prefix of a server
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: "setprefix",
@@ -54,7 +54,7 @@ export class PrefixesManager {
      * }).setChatInputRun(({ interaction, client, options }) => {
      *     const prefix = options.getString('prefix');
      *     client.prefixesManager.setPrefix(interaction.guild.id, prefix);
-     * 
+     *
      *     interaction.reply(`Prefix set to \`${prefix\``);
      * })
      * ```
@@ -66,7 +66,7 @@ export class PrefixesManager {
     }
     /**
      * Get the list of all prefixes as a map
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: "prefix",
@@ -83,7 +83,7 @@ export class PrefixesManager {
     }
     /**
      * Get the list of all prefixes as a json array
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: "delallprefixes",
@@ -99,15 +99,15 @@ export class PrefixesManager {
      *             tested.push(x.prefix)
      *         }
      *     });
-     * 
+     *
      *     duplicates.forEach((dup) => {
      *         client.prefixesManager.setPrefix(dup.guildId, client.configs.prefix);
      *     });
-     * 
+     *
      *     message.reply(`Found ${duplicates.length} duplicates`);
      * });
      * ```
-     * 
+     *
      * @returns `{prefix: string; guildId: string}[]` Array of all prefixes
      */
     public get json() {
@@ -124,7 +124,7 @@ export class PrefixesManager {
     /**
      * Gets all the servers with a given prefix
      *
-     * ```js 
+     * ```js
      * new AmethystCommand({
      *     name: "isoriginal",
      *     description: "Shows how many servers have your prefix"
@@ -133,7 +133,7 @@ export class PrefixesManager {
      *     interaction.reply(`\`${same.length.toLocaleString(interaction.locale)}\` servers have the same prefix than you`);
      * })
      * ```
-     * 
+     *
      * @param prefix Prefix to test
      * @returns `{ guildId: string; prefix: string }[]` Array of all the servers with this prefix
      */

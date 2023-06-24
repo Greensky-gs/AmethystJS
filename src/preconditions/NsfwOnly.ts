@@ -91,8 +91,13 @@ export default new Precondition('NsfwOnly')
             type: 'button',
             button
         };
-    }).setModalRun(({ modal }) => {
-        if (modal.message.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
+    })
+    .setModalRun(({ modal }) => {
+        if (
+            modal.message.channel.type !== ChannelType.GuildText ||
+            ChannelType.GuildAnnouncement ||
+            ChannelType.GuildForum
+        ) {
             return {
                 ok: false,
                 message: 'Could not determine channel type',
@@ -118,8 +123,13 @@ export default new Precondition('NsfwOnly')
             type: 'modal',
             modal
         };
-    }).setUserContextMenuRun(({ interaction }) => {
-        if (interaction.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
+    })
+    .setUserContextMenuRun(({ interaction }) => {
+        if (
+            interaction.channel.type !== ChannelType.GuildText ||
+            ChannelType.GuildAnnouncement ||
+            ChannelType.GuildForum
+        ) {
             return {
                 ok: false,
                 message: 'Could not determine channel type',
@@ -145,7 +155,8 @@ export default new Precondition('NsfwOnly')
             type: 'userContextMenu',
             contextMenu: interaction
         };
-    }).setMessageContextMenuRun(({ interaction,  target: message }) => {
+    })
+    .setMessageContextMenuRun(({ interaction, target: message }) => {
         if (message.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
             return {
                 ok: false,

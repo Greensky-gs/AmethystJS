@@ -1,6 +1,7 @@
 import {
     ButtonInteraction,
-    CacheType, CommandInteraction,
+    CacheType,
+    CommandInteraction,
     CommandInteractionOptionResolver,
     ContextMenuCommandInteraction,
     Message,
@@ -49,5 +50,13 @@ export type PreconditionButtonRun = (options: {
     message: Message;
 }) => preconditionRunReturn;
 export type PreconditionModalRun = (options: { modal: ModalSubmitInteraction; user: User }) => preconditionRunReturn;
-export type PreconditionUserContextMenuRun = (options: { interaction: UserContextMenuCommandInteraction; target: User; command: AmethystCommand; }) => preconditionRunReturn;
-export type PreconditionMessageContextMenuRun = (options: { interaction: MessageContextMenuCommandInteraction; target: Message; command: AmethystCommand }) => preconditionRunReturn
+export type PreconditionUserContextMenuRun = (options: {
+    interaction: UserContextMenuCommandInteraction;
+    target: User;
+    command: AmethystCommand;
+}) => preconditionRunReturn;
+export type PreconditionMessageContextMenuRun = (options: {
+    interaction: MessageContextMenuCommandInteraction;
+    target: Message;
+    command: AmethystCommand;
+}) => preconditionRunReturn;

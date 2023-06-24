@@ -16,7 +16,7 @@ import { AmethystClient } from '../structures/AmethystClient';
 export type commandOptions = {
     /**
      * Cooldown time in seconds of the command
-     * 
+     *
      * Users will have to wait `<#AmethystCommand>.options.cooldown` seconds before use the command again
      * @event `commandDenied` When a command is denied by cooldown, the event `commandDenied` will be emited. The metadata object will contain `{ remainingCooldownTime: number }` as the remaining time in milliseconds
      * @default Default value is the same as `<#AmethystClient>.options.defaultCooldownTime`
@@ -25,7 +25,7 @@ export type commandOptions = {
     /**
      * These are the permissions required for the user to use the command in a server
      * It is an array containing `PermissionsString` from discord.js
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     permissions: [ "ManageChannels", "BanMembers" ]
@@ -38,7 +38,7 @@ export type commandOptions = {
      * These are the permissions required for the client to use the command in a server.
      * Use this proprety to tell users what permissions your bot needs
      * It is an array containing `PermissionsString` from discord.js
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     clientPermissions: [ 'BannMembers', 'ViewAuditLogs' ]
@@ -50,7 +50,7 @@ export type commandOptions = {
     /**
      * These are the preconditions required by the command before running
      * You can use your own preconditions from the preconditions folder or the default preconditions provided by AmethystJS
-     * 
+     *
      * ```js
      * const { preconditions } = require('amethystjs');
      * const staffOnly = require('../preconditions/staffOnly');
@@ -64,10 +64,10 @@ export type commandOptions = {
     /**
      * These are the types of channel the command can run in
      * It is an array containing `ChannelType` from discord.js
-     * 
+     *
      * ```js
      * const { ChannelType } = require('discord.js');
-     * 
+     *
      * new AmethystCommand({
      *     messageInputChannelTypes: [ ChannelType.GuildText ]
      * });
@@ -78,7 +78,7 @@ export type commandOptions = {
     /**
      * Aliases for the message input command
      * Use all the aliases you want in the array
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: 'mute',
@@ -89,7 +89,7 @@ export type commandOptions = {
     aliases?: string[];
     /**
      * Description of the message input command, if you need to use a different description from the slash command description
-     * 
+     *
      * ```js
      * new AmethystComamnd({
      *     description: "Show your inventory",
@@ -136,7 +136,7 @@ export type MessageRun = (options: {
         /**
          * Arguments parsed for the command
          * Arguments are the rest of the command, splitted by space, after the command name
-         * 
+         *
          * This proprety also includes `first` and `second` arguments in options
          */
         args: string[];
@@ -165,7 +165,11 @@ export type UserContextRun = (options: {
     user: User;
 }) => void | unknown;
 export type deniedPayloadInteractionType = 'message' | 'chatInput' | 'userContextMenu' | 'messageContextMenu';
-export type MessageContextRun = (options: { interaction: MessageContextMenuCommandInteraction; client: AmethystClient; message: Message; }) => void | unknown;
+export type MessageContextRun = (options: {
+    interaction: MessageContextMenuCommandInteraction;
+    client: AmethystClient;
+    message: Message;
+}) => void | unknown;
 export type commandDeniedPayload = {
     /**
      * Indicate if command used is a message input command.
@@ -179,20 +183,20 @@ export type commandDeniedPayload = {
     type: deniedPayloadInteractionType;
     /**
      * Command used by the user
-     * 
+     *
      * It is an `AmethystCommand`
      */
     command: AmethystCommand;
     /**
      * Interaction used by the user
-     * 
+     *
      * If the value of `isMessage` is true, this value is null
      * If the value of `isMessage` is false, this proprety is a `CommandInteraction`, from discord.js
      */
     interaction?: CommandInteraction;
     /**
      * Message sent by the user
-     * 
+     *
      * If the value of `isMessage` is true, this proprety is a `Message` from discord.js
      * If the value of `isMessage` is false, this proprety is null
      */

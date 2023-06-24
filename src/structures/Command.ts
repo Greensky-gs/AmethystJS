@@ -24,13 +24,13 @@ export class AmethystCommand {
     }
     public setMessageContextRun(run: MessageContextRun) {
         this._messageContextMenuRun = run;
-        return this
+        return this;
     }
     public get messageContextMenuRun(): MessageContextRun | undefined {
-        return this._messageContextMenuRun
+        return this._messageContextMenuRun;
     }
     public get userContextMenuRun(): UserContextRun | undefined {
-        return this._userContextMenuRun
+        return this._userContextMenuRun;
     }
     public get chatInputRun(): ChatInputRun | undefined {
         return this._chatInputRun;

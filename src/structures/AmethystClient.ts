@@ -1,4 +1,13 @@
-import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials, ContextMenuCommandBuilder, ApplicationCommandType } from 'discord.js';
+import {
+    Client,
+    ClientEvents,
+    ClientOptions,
+    ApplicationCommandData,
+    Awaitable,
+    Partials,
+    ContextMenuCommandBuilder,
+    ApplicationCommandType
+} from 'discord.js';
 import { existsSync, readdirSync } from 'fs';
 import { AmethystClientOptions, DebugImportance, startOptions } from '../typings/Client';
 import { AutocompleteListener } from './AutocompleteListener';
@@ -161,10 +170,17 @@ export class AmethystClient extends Client {
                 this._chatInputCommands.push(command);
             if (command.messageRun && !this._messageCommands.find((x) => x.options.name === command.options.name))
                 this._messageCommands.push(command);
-            if (command.userContextMenuRun && !this._userContextCommands.find(x => x.options.name === command.options.name)) {
+            if (
+                command.userContextMenuRun &&
+                !this._userContextCommands.find((x) => x.options.name === command.options.name)
+            ) {
                 this._userContextCommands.push(command);
             }
-            if (command.messageContextMenuRun && !this._messageContextCommands.find(x => x.options.name === command.options.name)) this._messageContextCommands.push(command)
+            if (
+                command.messageContextMenuRun &&
+                !this._messageContextCommands.find((x) => x.options.name === command.options.name)
+            )
+                this._messageContextCommands.push(command);
 
             this.debug(
                 `Command loaded: ${command.options.name} as ${this.getLoadingType(command)}`,
@@ -176,10 +192,21 @@ export class AmethystClient extends Client {
             DebugImportance.Information
         );
 
-        if (this._chatInputCommands.length + this._userContextCommands.length + this._messageContextCommands.length > 0) {
+        if (
+            this._chatInputCommands.length + this._userContextCommands.length + this._messageContextCommands.length >
+            0
+        ) {
             this.on('ready', () => {
-                const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [...this._chatInputCommands.map((cmd) => cmd.options), ...this._userContextCommands.map(x => new ContextMenuCommandBuilder().setName(x.options.name).setType(ApplicationCommandType.User)), ...this._messageContextCommands.map(x => new ContextMenuCommandBuilder().setName(x.options.name).setType(ApplicationCommandType.Message))];
-    
+                const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [
+                    ...this._chatInputCommands.map((cmd) => cmd.options),
+                    ...this._userContextCommands.map((x) =>
+                        new ContextMenuCommandBuilder().setName(x.options.name).setType(ApplicationCommandType.User)
+                    ),
+                    ...this._messageContextCommands.map((x) =>
+                        new ContextMenuCommandBuilder().setName(x.options.name).setType(ApplicationCommandType.Message)
+                    )
+                ];
+
                 this.application.commands.set(sc).catch((error) => {
                     this.debug(`Error on commands deployment: ${error}`, DebugImportance.Error);
                 });
@@ -222,8 +249,8 @@ export class AmethystClient extends Client {
         const types = [];
         if (cmd.chatInputRun) types.push('chat input');
         if (cmd.messageRun) types.push('message');
-        if (cmd.userContextMenuRun) types.push('user context menu')
-        if (cmd.messageContextMenuRun) types.push('message context menu')
+        if (cmd.userContextMenuRun) types.push('user context menu');
+        if (cmd.messageContextMenuRun) types.push('message context menu');
 
         return `${types.join(', ')} command`;
     }
@@ -304,7 +331,7 @@ export class AmethystClient extends Client {
     }
     private checks() {
         if (this._messageCommands.length > 0 && !this.configs.prefix) {
-            throw new AmethystError(`You have to set a prefix if you want to use message commands`)
+            throw new AmethystError(`You have to set a prefix if you want to use message commands`);
         }
         if (
             this._messageCommands.filter(
@@ -333,13 +360,13 @@ export class AmethystClient extends Client {
             '?': 93,
             '??': 90,
             '!': 33
-        }
+        };
 
         const message = () => {
             if (this.configs.debuggerColors === 'none') return `[${imp}] ${msg}`;
-            if (this.configs.debuggerColors === 'icon') return `\x1b[${colors[imp]}m[${imp}]\x1b[0m ${msg}`
-            if (this.configs.debuggerColors === 'line') return `\x1b[${colors[imp]}m[${imp}] ${msg}\x1b[0m`
-        }
+            if (this.configs.debuggerColors === 'icon') return `\x1b[${colors[imp]}m[${imp}]\x1b[0m ${msg}`;
+            if (this.configs.debuggerColors === 'line') return `\x1b[${colors[imp]}m[${imp}] ${msg}\x1b[0m`;
+        };
         if (this.configs.debug) console.log(message());
     }
     public get messageCommands(): AmethystCommand[] {
@@ -361,7 +388,7 @@ export class AmethystClient extends Client {
         return this._modalHandlers;
     }
     public get userContextCommands() {
-        return this._userContextCommands
+        return this._userContextCommands;
     }
     public get messageContextCommands() {
         return this._messageContextCommands;

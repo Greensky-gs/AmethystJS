@@ -68,8 +68,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         isMessage: false,
-                    type: 'chatInput',
-                    interaction,
+                        type: 'chatInput',
+                        interaction,
                         command: cmd,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -99,8 +99,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         isMessage: false,
-                    type: 'chatInput',
-                    interaction,
+                        type: 'chatInput',
+                        interaction,
                         command: cmd,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -125,8 +125,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         command: cmd,
-                    type: 'chatInput',
-                    isMessage: false,
+                        type: 'chatInput',
+                        isMessage: false,
                         interaction,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -164,8 +164,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                             'commandDenied',
                             {
                                 command: cmd,
-                    type: 'chatInput',
-                    interaction,
+                                type: 'chatInput',
+                                interaction,
                                 isMessage: false,
                                 user: interaction.user,
                                 client: interaction.client as AmethystClient
@@ -396,7 +396,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         });
     }
     if (interaction.isUserContextMenuCommand()) {
-        const cmd = interaction.client.userContextCommands.find(x => x.options.name === interaction.commandName);
+        const cmd = interaction.client.userContextCommands.find((x) => x.options.name === interaction.commandName);
         if (!cmd) {
             interaction.client.emit(
                 'commandError',
@@ -450,8 +450,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         isMessage: false,
-                    type: 'userContextMenu',
-                    interaction,
+                        type: 'userContextMenu',
+                        interaction,
                         command: cmd,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -481,8 +481,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         isMessage: false,
-                    type: 'userContextMenu',
-                    interaction,
+                        type: 'userContextMenu',
+                        interaction,
                         command: cmd,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -507,8 +507,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         command: cmd,
-                    type: 'userContextMenu',
-                    isMessage: false,
+                        type: 'userContextMenu',
+                        isMessage: false,
                         interaction,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -537,7 +537,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                         interaction,
                         target: interaction.targetUser,
                         command: cmd
-                    })
+                    });
 
                     if (!prec.ok) {
                         alreadyStopped = true;
@@ -548,8 +548,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                                 command: cmd,
                                 interaction,
                                 isMessage: false,
-                    type: 'userContextMenu',
-                    user: interaction.user,
+                                type: 'userContextMenu',
+                                user: interaction.user,
                                 client: interaction.client as AmethystClient
                             },
                             {
@@ -591,10 +591,10 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             interaction,
             client: interaction.client as AmethystClient,
             user: interaction.targetUser
-        })
+        });
     }
     if (interaction.isMessageContextMenuCommand()) {
-        const cmd = interaction.client.messageContextCommands.find(x => x.options.name === interaction.commandName);
+        const cmd = interaction.client.messageContextCommands.find((x) => x.options.name === interaction.commandName);
         if (!cmd) {
             interaction.client.emit(
                 'commandError',
@@ -648,8 +648,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         isMessage: false,
-                    type: 'messageContextMenu',
-                    interaction,
+                        type: 'messageContextMenu',
+                        interaction,
                         command: cmd,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -679,8 +679,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     'commandDenied',
                     {
                         isMessage: false,
-                    type: 'messageContextMenu',
-                    interaction,
+                        type: 'messageContextMenu',
+                        interaction,
                         command: cmd,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
@@ -706,8 +706,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     {
                         command: cmd,
                         isMessage: false,
-                    type: 'messageContextMenu',
-                    interaction,
+                        type: 'messageContextMenu',
+                        interaction,
                         user: interaction.user,
                         client: interaction.client as AmethystClient
                     },
@@ -735,7 +735,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                         interaction,
                         target: interaction.targetMessage,
                         command: cmd
-                    })
+                    });
 
                     if (!prec.ok) {
                         alreadyStopped = true;
@@ -744,8 +744,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                             'commandDenied',
                             {
                                 command: cmd,
-                    type: 'messageContextMenu',
-                    interaction,
+                                type: 'messageContextMenu',
+                                interaction,
                                 isMessage: false,
                                 user: interaction.user,
                                 client: interaction.client as AmethystClient
@@ -789,6 +789,6 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             interaction,
             client: interaction.client as AmethystClient,
             message: interaction.targetMessage
-        })
+        });
     }
 });

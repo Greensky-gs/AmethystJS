@@ -52,8 +52,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 'commandDenied',
                 {
                     command: cmd,
-                type: 'message',
-                message,
+                    type: 'message',
+                    message,
                     isMessage: true,
                     user: message.author,
                     client: message.client as AmethystClient
@@ -84,8 +84,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 {
                     command: cmd,
                     message,
-                type: 'message',
-                isMessage: true,
+                    type: 'message',
+                    isMessage: true,
                     user: message.author,
                     client: message.client as AmethystClient
                 },
@@ -123,8 +123,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                         'commandDenied',
                         {
                             command: cmd,
-                type: 'message',
-                isMessage: true,
+                            type: 'message',
+                            isMessage: true,
                             message,
                             user: message.author,
                             client: message.client as AmethystClient
@@ -145,8 +145,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 'commandDenied',
                 {
                     command: cmd,
-                type: 'message',
-                isMessage: true,
+                    type: 'message',
+                    isMessage: true,
                     message,
                     user: message.author,
                     client: message.client as AmethystClient
@@ -200,6 +200,6 @@ export default new AmethystEvent('messageCreate', (message) => {
             emptyArgs: args.length === 0,
             commandName: cmdName
         },
-        client: message.client as AmethystClient,
+        client: message.client as AmethystClient
     });
 });

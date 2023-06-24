@@ -37,7 +37,7 @@ export class Precondition {
     }
     public setUserContextMenuRun(run: PreconditionUserContextMenuRun) {
         this.userContextMenuRun = run;
-        return this
+        return this;
     }
     public setMessageContextMenuRun(run: PreconditionMessageContextMenuRun) {
         this.messageContextMenuRun = run;

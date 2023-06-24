@@ -54,45 +54,55 @@ export default new Precondition('GuildOnly')
             button,
             type: 'button'
         };
-    }).setModalRun(({ modal }) => {
-        if (!modal.guild) return { ok: false, message: "Modal usable in a guild only", metadata: { code:  commandDeniedCode.GuildOnly }, type: 'modal', modal }
+    })
+    .setModalRun(({ modal }) => {
+        if (!modal.guild)
+            return {
+                ok: false,
+                message: 'Modal usable in a guild only',
+                metadata: { code: commandDeniedCode.GuildOnly },
+                type: 'modal',
+                modal
+            };
         return {
             ok: true,
             type: 'modal',
             modal
-        }
-    }).setUserContextMenuRun(({ interaction }) => {
+        };
+    })
+    .setUserContextMenuRun(({ interaction }) => {
         if (!interaction.guild) {
             return {
                 ok: false,
-                message: "Command usable in a guild only",
+                message: 'Command usable in a guild only',
                 metadata: {
                     code: commandDeniedCode.GuildOnly
                 },
                 type: 'userContextMenu',
                 contextMenu: interaction
-            }
+            };
         }
         return {
             ok: true,
             type: 'userContextMenu',
             contextMenu: interaction
-        }
-    }).setMessageContextMenuRun(({ interaction }) => {
+        };
+    })
+    .setMessageContextMenuRun(({ interaction }) => {
         if (!interaction.guild) {
             return {
                 ok: false,
-                message: "Command usable in a guild only",
+                message: 'Command usable in a guild only',
                 metadata: {
                     code: commandDeniedCode.GuildOnly
                 },
                 type: 'messageContextMenu',
                 contextMenu: interaction
-            }
+            };
         }
         return {
             ok: true,
             type: 'messageContextMenu',
             contextMenu: interaction
-        }
+        };
     });

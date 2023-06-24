@@ -6,9 +6,7 @@ const configs = {
         `[${time.getDay()}/${time.getMonth()}/${time.getFullYear()}:${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}]`,
     file: 'logs.log' as `${string}.${string}`,
     objectIndentation: 4,
-    onLog: (log: any) => {
-        
-    }
+    onLog: (log: any) => {}
 };
 
 const config = <Key extends keyof typeof configs>(key: Key, value: typeof configs[Key]) => {

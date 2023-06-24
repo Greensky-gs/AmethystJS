@@ -50,7 +50,16 @@ export {
     waitForMessageType
 } from './typings/Client';
 export { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './typings/ButtonHandler';
-export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun, UserContextRun, MessageContextRun, commandInteractionType, deniedPayloadInteractionType } from './typings/Command';
+export {
+    ChatInputRun,
+    commandDeniedPayload,
+    commandOptions,
+    MessageRun,
+    UserContextRun,
+    MessageContextRun,
+    commandInteractionType,
+    deniedPayloadInteractionType
+} from './typings/Command';
 export {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,
