@@ -164,13 +164,19 @@ export type UserContextRun = (options: {
      */
     user: User;
 }) => void | unknown;
+export type deniedPayloadInteractionType = 'message' | 'chatInput' | 'userContextMenu' | 'messageContextMenu';
 export type MessageContextRun = (options: { interaction: MessageContextMenuCommandInteraction; client: AmethystClient; message: Message; }) => void | unknown;
 export type commandDeniedPayload = {
     /**
      * Indicate if command used is a message input command.
      * If it is false, the command is a slash input comamnd
+     * @deprecated Use the type instead
      */
     isMessage: boolean;
+    /**
+     * Type of the denied command
+     */
+    type: deniedPayloadInteractionType;
     /**
      * Command used by the user
      * 

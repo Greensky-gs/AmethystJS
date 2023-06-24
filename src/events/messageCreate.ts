@@ -25,6 +25,7 @@ export default new AmethystEvent('messageCreate', (message) => {
             'commandError',
             {
                 isMessage: true,
+                type: 'message',
                 message,
                 command: cmd,
                 user: message.author,
@@ -51,7 +52,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 'commandDenied',
                 {
                     command: cmd,
-                    message,
+                type: 'message',
+                message,
                     isMessage: true,
                     user: message.author,
                     client: message.client as AmethystClient
@@ -82,7 +84,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 {
                     command: cmd,
                     message,
-                    isMessage: true,
+                type: 'message',
+                isMessage: true,
                     user: message.author,
                     client: message.client as AmethystClient
                 },
@@ -120,7 +123,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                         'commandDenied',
                         {
                             command: cmd,
-                            isMessage: true,
+                type: 'message',
+                isMessage: true,
                             message,
                             user: message.author,
                             client: message.client as AmethystClient
@@ -141,7 +145,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 'commandDenied',
                 {
                     command: cmd,
-                    isMessage: true,
+                type: 'message',
+                isMessage: true,
                     message,
                     user: message.author,
                     client: message.client as AmethystClient
@@ -167,6 +172,7 @@ export default new AmethystEvent('messageCreate', (message) => {
             {
                 isMessage: true,
                 message,
+                type: 'message',
                 command: cmd,
                 user: message.author,
                 client: message.client as AmethystClient

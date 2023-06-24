@@ -26,7 +26,7 @@ import {
     AutocompleteListenerRun,
     autocompleteListenerNamesType
 } from './dist/typings/autocompleteListener';
-import { ChatInputRun, commandDeniedPayload, commandOptions, MessageContextRun, MessageRun, UserContextRun } from './dist/typings/Command';
+import { ChatInputRun, commandDeniedPayload, commandOptions, MessageContextRun, MessageRun, UserContextRun, commandInteractionType, deniedPayloadInteractionType } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
@@ -54,7 +54,9 @@ export {
     amethystPaginatorOptions,
     ModalDenied,
     log4js,
-    UserContextRun, MessageContextRun
+    UserContextRun, MessageContextRun,
+    commandInteractionType,
+    deniedPayloadInteractionType
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
@@ -66,6 +68,7 @@ export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
  * @example https://github.com/Greensky-gs/lofi-girl
  * @example https://github.com/Greensky-gs/frenchart-bot
  * @example https://github.com/DraverBot/DraverBot
+ * @example https://github.com/Greensky-gs/hitomori-summer
  */
 export class AmethystClient extends Client {
     /**
