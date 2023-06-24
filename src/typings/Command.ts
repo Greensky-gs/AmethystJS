@@ -5,7 +5,9 @@ import {
     PermissionsString,
     Message,
     ChannelType,
-    User
+    User,
+    UserContextMenuCommandInteraction,
+    MessageContextMenuCommandInteraction
 } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 import { Precondition } from '../structures/Precondition';
@@ -152,6 +154,17 @@ export type MessageRun = (options: {
      */
     client: AmethystClient;
 }) => void | unknown;
+
+export type UserContextRun = (options: {
+    interaction: UserContextMenuCommandInteraction;
+    client: AmethystClient;
+    /**
+     * User targetted by the command
+     * @type User
+     */
+    user: User;
+}) => void | unknown;
+export type MessageContextRun = (options: { interaction: MessageContextMenuCommandInteraction; client: AmethystClient; message: Message; }) => void | unknown;
 export type commandDeniedPayload = {
     /**
      * Indicate if command used is a message input command.

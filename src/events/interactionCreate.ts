@@ -13,7 +13,7 @@ import { commandInteractionType } from '../typings/Command';
 import { AmethystClient } from '../structures/AmethystClient';
 
 export default new AmethystEvent('interactionCreate', async (interaction) => {
-    if (interaction.isCommand()) {
+    if (interaction.isCommand() && !interaction.isContextMenuCommand()) {
         const cmd = interaction.client.chatInputCommands.find((x) => x.options.name === interaction.commandName);
         if (!cmd) {
             interaction.client.emit(
@@ -387,5 +387,387 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             modal: interaction,
             user: interaction.user
         });
+    }
+    if (interaction.isUserContextMenuCommand()) {
+        const cmd = interaction.client.userContextCommands.find(x => x.options.name === interaction.commandName);
+        if (!cmd) {
+            interaction.client.emit(
+                'commandError',
+                {
+                    isMessage: false,
+                    interaction: interaction,
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
+                },
+                {
+                    code: errorCode.UnknownUserContextCommand,
+                    message: `Unable to find command`,
+                    metadata: {
+                        commandName: cmd.options.name
+                    }
+                }
+            );
+            return;
+        }
+        if (!cmd.userContextMenuRun) {
+            return interaction.client.emit(
+                'commandError',
+                {
+                    isMessage: false,
+                    interaction,
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
+                },
+                {
+                    code: errorCode.NoUserContextCommand,
+                    message: `The command hasn't a run proprety. Use <#AmethytCommand>.setUserContextRun()`,
+                    metadata: {
+                        commandName: cmd.options.name
+                    }
+                }
+            );
+        }
+
+        if (cmd.options?.clientPermissions?.length > 0 && interaction.guild) {
+            let missingPerms: PermissionsString[] = [];
+            for (const perm of cmd.options.clientPermissions) {
+                if (!interaction.guild.members.me.permissions.has(perm)) missingPerms.push(perm);
+            }
+
+            if (missingPerms.length > 0) {
+                return interaction.client.emit(
+                    'commandDenied',
+                    {
+                        isMessage: false,
+                        interaction,
+                        command: cmd,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
+                    },
+                    {
+                        message: 'Client needs permissions that not have in the guild',
+                        code: commandDeniedCode.ClientMissingPerms,
+                        metadata: {
+                            permissions: {
+                                need: cmd.options.clientPermissions,
+                                got: cmd.options.clientPermissions.filter((x) => !missingPerms.includes(x)),
+                                missing: missingPerms
+                            }
+                        }
+                    }
+                );
+            }
+        }
+        if (cmd.options?.permissions?.length > 0 && interaction.guild) {
+            let missingPerms: PermissionsString[] = [];
+            for (const perm of cmd.options.permissions) {
+                if (!(interaction.member as GuildMember).permissions.has(perm)) missingPerms.push(perm);
+            }
+
+            if (missingPerms.length > 0) {
+                return interaction.client.emit(
+                    'commandDenied',
+                    {
+                        isMessage: false,
+                        interaction,
+                        command: cmd,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
+                    },
+                    {
+                        message: 'User needs permissions that not have in the guild',
+                        code: commandDeniedCode.UserMissingPerms,
+                        metadata: {
+                            permissions: {
+                                need: cmd.options.permissions,
+                                got: cmd.options.permissions.filter((x) => !missingPerms.includes(x)),
+                                missing: missingPerms
+                            }
+                        }
+                    }
+                );
+            }
+        }
+        if (cmd.options.messageInputChannelTypes?.length > 0) {
+            if (!cmd.options.messageInputChannelTypes.includes(interaction.channel.type)) {
+                return interaction.client.emit(
+                    'commandDenied',
+                    {
+                        command: cmd,
+                        isMessage: false,
+                        interaction,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
+                    },
+                    {
+                        code: commandDeniedCode.InvalidChannelType,
+                        message: 'Command runned in an invalid channel type',
+                        metadata: {
+                            channelType: {
+                                expected: cmd.options.messageInputChannelTypes,
+                                got: interaction.channel.type
+                            }
+                        }
+                    }
+                );
+            }
+        }
+
+        let alreadyStopped = false;
+        if (cmd.options.preconditions?.filter((x) => x.userContextMenuRun !== undefined).length > 0)
+            cmd.options.preconditions
+                ?.filter((x) => x.userContextMenuRun !== undefined)
+                .forEach((precondition) => {
+                    if (alreadyStopped) return;
+                    const prec = precondition.userContextMenuRun({
+                        interaction,
+                        target: interaction.targetUser,
+                        command: cmd
+                    })
+
+                    if (!prec.ok) {
+                        alreadyStopped = true;
+
+                        return interaction.client.emit(
+                            'commandDenied',
+                            {
+                                command: cmd,
+                                interaction,
+                                isMessage: false,
+                                user: interaction.user,
+                                client: interaction.client as AmethystClient
+                            },
+                            {
+                                code: prec?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
+                                message: prec.message ?? 'Custom precondition failure',
+                                metadata: prec.metadata ?? {}
+                            }
+                        );
+                    }
+                });
+        if (alreadyStopped) return;
+
+        const cdCode = `${interaction.user.id}.${interaction.commandName}`;
+        if (cooldowns.has(cdCode)) {
+            return interaction.client.emit(
+                'commandDenied',
+                {
+                    isMessage: false,
+                    interaction,
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
+                },
+                {
+                    code: commandDeniedCode.UnderCooldown,
+                    message: 'User under cooldown',
+                    metadata: { remainingCooldownTime: cooldowns.get(cdCode) - Date.now() }
+                }
+            );
+        }
+        const cdTime = cmd.options.cooldown || interaction.client.configs.defaultCooldownTime;
+        cooldowns.set(cdCode, Date.now() + cdTime * 1000);
+        setTimeout(() => {
+            cooldowns.delete(cdCode);
+        }, cdTime * 1000);
+
+        cmd.userContextMenuRun({
+            interaction,
+            client: interaction.client as AmethystClient,
+            user: interaction.targetUser
+        })
+    }
+    if (interaction.isMessageContextMenuCommand()) {
+        const cmd = interaction.client.messageContextCommands.find(x => x.options.name === interaction.commandName);
+        if (!cmd) {
+            interaction.client.emit(
+                'commandError',
+                {
+                    isMessage: false,
+                    interaction: interaction,
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
+                },
+                {
+                    code: errorCode.UnknownMessageContextCommand,
+                    message: `Unable to find command`,
+                    metadata: {
+                        commandName: cmd.options.name
+                    }
+                }
+            );
+            return;
+        }
+        if (!cmd.messageContextMenuRun) {
+            return interaction.client.emit(
+                'commandError',
+                {
+                    isMessage: false,
+                    interaction,
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
+                },
+                {
+                    code: errorCode.noMessageContextCommand,
+                    message: `The command hasn't a run proprety. Use <#AmethytCommand>.setMessageContextRun()`,
+                    metadata: {
+                        commandName: cmd.options.name
+                    }
+                }
+            );
+        }
+
+        if (cmd.options?.clientPermissions?.length > 0 && interaction.guild) {
+            let missingPerms: PermissionsString[] = [];
+            for (const perm of cmd.options.clientPermissions) {
+                if (!interaction.guild.members.me.permissions.has(perm)) missingPerms.push(perm);
+            }
+
+            if (missingPerms.length > 0) {
+                return interaction.client.emit(
+                    'commandDenied',
+                    {
+                        isMessage: false,
+                        interaction,
+                        command: cmd,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
+                    },
+                    {
+                        message: 'Client needs permissions that not have in the guild',
+                        code: commandDeniedCode.ClientMissingPerms,
+                        metadata: {
+                            permissions: {
+                                need: cmd.options.clientPermissions,
+                                got: cmd.options.clientPermissions.filter((x) => !missingPerms.includes(x)),
+                                missing: missingPerms
+                            }
+                        }
+                    }
+                );
+            }
+        }
+        if (cmd.options?.permissions?.length > 0 && interaction.guild) {
+            let missingPerms: PermissionsString[] = [];
+            for (const perm of cmd.options.permissions) {
+                if (!(interaction.member as GuildMember).permissions.has(perm)) missingPerms.push(perm);
+            }
+
+            if (missingPerms.length > 0) {
+                return interaction.client.emit(
+                    'commandDenied',
+                    {
+                        isMessage: false,
+                        interaction,
+                        command: cmd,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
+                    },
+                    {
+                        message: 'User needs permissions that not have in the guild',
+                        code: commandDeniedCode.UserMissingPerms,
+                        metadata: {
+                            permissions: {
+                                need: cmd.options.permissions,
+                                got: cmd.options.permissions.filter((x) => !missingPerms.includes(x)),
+                                missing: missingPerms
+                            }
+                        }
+                    }
+                );
+            }
+        }
+        if (cmd.options.messageInputChannelTypes?.length > 0) {
+            if (!cmd.options.messageInputChannelTypes.includes(interaction.channel.type)) {
+                return interaction.client.emit(
+                    'commandDenied',
+                    {
+                        command: cmd,
+                        isMessage: false,
+                        interaction,
+                        user: interaction.user,
+                        client: interaction.client as AmethystClient
+                    },
+                    {
+                        code: commandDeniedCode.InvalidChannelType,
+                        message: 'Command runned in an invalid channel type',
+                        metadata: {
+                            channelType: {
+                                expected: cmd.options.messageInputChannelTypes,
+                                got: interaction.channel.type
+                            }
+                        }
+                    }
+                );
+            }
+        }
+
+        let alreadyStopped = false;
+        if (cmd.options.preconditions?.filter((x) => x.messageContextMenuRun !== undefined).length > 0)
+            cmd.options.preconditions
+                ?.filter((x) => x.messageContextMenuRun !== undefined)
+                .forEach((precondition) => {
+                    if (alreadyStopped) return;
+                    const prec = precondition.messageContextMenuRun({
+                        interaction,
+                        target: interaction.targetMessage,
+                        command: cmd
+                    })
+
+                    if (!prec.ok) {
+                        alreadyStopped = true;
+
+                        return interaction.client.emit(
+                            'commandDenied',
+                            {
+                                command: cmd,
+                                interaction,
+                                isMessage: false,
+                                user: interaction.user,
+                                client: interaction.client as AmethystClient
+                            },
+                            {
+                                code: prec?.metadata?.code ?? commandDeniedCode.CustomPrecondition,
+                                message: prec.message ?? 'Custom precondition failure',
+                                metadata: prec.metadata ?? {}
+                            }
+                        );
+                    }
+                });
+        if (alreadyStopped) return;
+
+        const cdCode = `${interaction.user.id}.${interaction.commandName}`;
+        if (cooldowns.has(cdCode)) {
+            return interaction.client.emit(
+                'commandDenied',
+                {
+                    isMessage: false,
+                    interaction,
+                    command: cmd,
+                    user: interaction.user,
+                    client: interaction.client as AmethystClient
+                },
+                {
+                    code: commandDeniedCode.UnderCooldown,
+                    message: 'User under cooldown',
+                    metadata: { remainingCooldownTime: cooldowns.get(cdCode) - Date.now() }
+                }
+            );
+        }
+        const cdTime = cmd.options.cooldown || interaction.client.configs.defaultCooldownTime;
+        cooldowns.set(cdCode, Date.now() + cdTime * 1000);
+        setTimeout(() => {
+            cooldowns.delete(cdCode);
+        }, cdTime * 1000);
+
+        cmd.messageContextMenuRun({
+            interaction,
+            client: interaction.client as AmethystClient,
+            message: interaction.targetMessage
+        })
     }
 });

@@ -17,14 +17,16 @@ import {
     PreconditionMessageRun,
     preconditionRunReturn,
     preconditionType,
-    PreconditionModalRun
+    PreconditionModalRun,
+    PreconditionMessageContextMenuRun,
+    PreconditionUserContextMenuRun
 } from './dist/typings/Precondition';
 import {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,
     autocompleteListenerNamesType
 } from './dist/typings/autocompleteListener';
-import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
+import { ChatInputRun, commandDeniedPayload, commandOptions, MessageContextRun, MessageRun, UserContextRun } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
@@ -51,7 +53,8 @@ export {
     ButtonHandlerRun,
     amethystPaginatorOptions,
     ModalDenied,
-    log4js
+    log4js,
+    UserContextRun, MessageContextRun
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
@@ -159,6 +162,14 @@ export class AmethystClient extends Client {
      * List of all modal handlers of the client
      */
     public get modalHandlers(): ModalHandler[];
+    /**
+     * List of all user context menu commands
+     */
+    public get userContextCommands(): AmethystCommand[];
+    /**
+     * List of all message context menu commands
+     */
+    public get messageContextCommands(): AmethystCommand[];
 }
 
 export class Precondition {
@@ -170,11 +181,15 @@ export class Precondition {
     public setMessageRun(run: PreconditionMessageRun): this;
     public setButtonRun(run: PreconditionButtonRun): this;
     public setModalRun(run: PreconditionModalRun): this;
+    public setUserContextMenuRun(run: PreconditionUserContextMenuRun): this
+    public setMessageContextMenuRun(run: PreconditionMessageContextMenuRun): this;
 
     public buttonRun: PreconditionButtonRun;
     public chatInputRun: PreconditionChatInputRun;
     public messageRun: PreconditionMessageRun;
     public modalRun: PreconditionModalRun;
+    public userContextMenuRun: PreconditionUserContextMenuRun;
+    public messageContextMenuRun: PreconditionMessageContextMenuRun;
 }
 
 export class AmethystEvent<K extends keyof ClientEvents> {
@@ -248,7 +263,18 @@ export class AmethystCommand {
      * @returns this
      */
     public setMessageRun(run: MessageRun): this;
-
+    /**
+     * Sets the listener of an user context command
+     * @param run userContextRun from AmethystJS to be runned on a user context menu interactions
+     * @returns this
+     */
+    public setUserContextRun(run: UserContextRun): this;
+    /**
+     * Sets the listener of a message context command
+     * @param run messageContextRun from AmethystJS to be runned on a message context menu interactions
+     * @returns this
+     */
+    public setMessageContextRun(run: MessageContextRun): this;
     /**
      * Returns the slash command listener configured for this command
      * @returns `ChatInputRun` from the command, or undefined if not configured
@@ -259,6 +285,16 @@ export class AmethystCommand {
      * @returns `MessageRun` from the command, or undefined if not configured
      */
     public get messageRun(): MessageRun | undefined;
+    /**
+     * Returns the message context command listener configured for this command
+     * @reteurns `MessageContextRun` from the command, or undefined if not configured
+     */
+    public get messageContextMenuRun(): MessageContextRun | undefined;
+    /**
+     * Returns the user context command listener configured for this command
+     * @reteurns `UserContextRun` from the command, or undefined if not configured
+     */
+    public get userContextMenuRun(): UserContextRun | undefined;
 }
 export class ButtonHandler {
     public readonly options: ButtonHandlerOptions;

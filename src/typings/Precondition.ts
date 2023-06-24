@@ -1,17 +1,16 @@
 import {
-    AnySelectMenuInteraction,
     ButtonInteraction,
-    CacheType,
-    ChatInputCommandInteraction,
-    CommandInteraction,
+    CacheType, CommandInteraction,
     CommandInteractionOptionResolver,
     Message,
+    MessageContextMenuCommandInteraction,
     ModalSubmitInteraction,
-    User
+    User,
+    UserContextMenuCommandInteraction
 } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 
-export type preconditionType = 'message' | 'chatInput' | 'button' | 'modal';
+export type preconditionType = 'message' | 'chatInput' | 'button' | 'modal' | 'userContextMenu' | 'messageContextMenu';
 export type preconditionRunReturn = {
     message?: string;
     metadata?: {
@@ -47,3 +46,5 @@ export type PreconditionButtonRun = (options: {
     message: Message;
 }) => preconditionRunReturn;
 export type PreconditionModalRun = (options: { modal: ModalSubmitInteraction; user: User }) => preconditionRunReturn;
+export type PreconditionUserContextMenuRun = (options: { interaction: UserContextMenuCommandInteraction; target: User; command: AmethystCommand; }) => preconditionRunReturn;
+export type PreconditionMessageContextMenuRun = (options: { interaction: MessageContextMenuCommandInteraction; target: Message; command: AmethystCommand }) => preconditionRunReturn

@@ -1,8 +1,10 @@
 import {
     PreconditionButtonRun,
     PreconditionChatInputRun,
+    PreconditionMessageContextMenuRun,
     PreconditionMessageRun,
-    PreconditionModalRun
+    PreconditionModalRun,
+    PreconditionUserContextMenuRun
 } from '../typings/Precondition';
 
 export class Precondition {
@@ -11,6 +13,8 @@ export class Precondition {
     public messageRun: PreconditionMessageRun;
     public buttonRun: PreconditionButtonRun;
     public modalRun: PreconditionModalRun;
+    public userContextMenuRun: PreconditionUserContextMenuRun;
+    public messageContextMenuRun: PreconditionMessageContextMenuRun;
 
     constructor(name: string) {
         this.name = name;
@@ -29,6 +33,14 @@ export class Precondition {
     }
     public setModalRun(run: PreconditionModalRun) {
         this.modalRun = run;
+        return this;
+    }
+    public setUserContextMenuRun(run: PreconditionUserContextMenuRun) {
+        this.userContextMenuRun = run;
+        return this
+    }
+    public setMessageContextMenuRun(run: PreconditionMessageContextMenuRun) {
+        this.messageContextMenuRun = run;
         return this;
     }
 }

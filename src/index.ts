@@ -32,7 +32,9 @@ export {
     PreconditionMessageRun,
     preconditionType,
     PreconditionButtonRun,
-    PreconditionModalRun
+    PreconditionModalRun,
+    PreconditionMessageContextMenuRun,
+    PreconditionUserContextMenuRun
 } from './typings/Precondition';
 export {
     startOptions,
@@ -48,7 +50,7 @@ export {
     waitForMessageType
 } from './typings/Client';
 export { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './typings/ButtonHandler';
-export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './typings/Command';
+export { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun, UserContextRun, MessageContextRun } from './typings/Command';
 export {
     AutocompleteListenerOptions,
     AutocompleteListenerRun,
@@ -93,6 +95,8 @@ declare module 'discord.js' {
         get autocompleteListeners(): AutocompleteListener[];
         get buttonHandlers(): ButtonHandler[];
         get modalHandlers(): ModalHandler[];
+        get userContextCommands(): AmethystCommand[];
+        get messageContextCommands(): AmethystCommand[];
         start(options: startOptions): void;
         debug(msg: string, imp: DebugImportance): void;
     }

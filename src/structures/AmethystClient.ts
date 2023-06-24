@@ -1,4 +1,4 @@
-import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials } from 'discord.js';
+import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials, ContextMenuCommandBuilder, ApplicationCommandType } from 'discord.js';
 import { existsSync, readdirSync } from 'fs';
 import { AmethystClientOptions, DebugImportance, startOptions } from '../typings/Client';
 import { AutocompleteListener } from './AutocompleteListener';
@@ -20,6 +20,8 @@ export class AmethystClient extends Client {
     private _autocompleteListeners: AutocompleteListener[] = [];
     private _buttonHandler: ButtonHandler[] = [];
     private _modalHandlers: ModalHandler[] = [];
+    private _userContextCommands: AmethystCommand[] = [];
+    private _messageContextCommands: AmethystCommand[] = [];
 
     constructor(options: ClientOptions, configs: AmethystClientOptions) {
         super(options);
@@ -158,6 +160,10 @@ export class AmethystClient extends Client {
                 this._chatInputCommands.push(command);
             if (command.messageRun && !this._messageCommands.find((x) => x.options.name === command.options.name))
                 this._messageCommands.push(command);
+            if (command.userContextMenuRun && !this._userContextCommands.find(x => x.options.name === command.options.name)) {
+                this._userContextCommands.push(command);
+            }
+            if (command.messageContextMenuRun && !this._messageContextCommands.find(x => x.options.name === command.options.name)) this._messageContextCommands.push(command)
 
             this.debug(
                 `Command loaded: ${command.options.name} as ${this.getLoadingType(command)}`,
@@ -165,15 +171,16 @@ export class AmethystClient extends Client {
             );
         });
         this.debug(
-            `Commands loaded : ${this._messageCommands.length} message commands and ${this._chatInputCommands.length} slash commands`,
+            `Commands loaded : ${this._messageCommands.length} message commands, ${this._chatInputCommands.length} slash commands, ${this._userContextCommands.length} user context menus`,
             DebugImportance.Information
         );
 
-        if (this._chatInputCommands.length > 0) {
+        if (this._chatInputCommands.length + this._userContextCommands.length + this._messageContextCommands.length > 0) {
             this.on('ready', () => {
-                const sc: ApplicationCommandData[] = this._chatInputCommands.map((cmd) => cmd.options);
+                const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [...this._chatInputCommands.map((cmd) => cmd.options), ...this._userContextCommands.map(x => new ContextMenuCommandBuilder().setName(x.options.name).setType(ApplicationCommandType.User)), ...this._messageContextCommands.map(x => new ContextMenuCommandBuilder().setName(x.options.name).setType(ApplicationCommandType.Message))];
+    
                 this.application.commands.set(sc).catch((error) => {
-                    this.debug(`Error on chat input commands deployment: ${error}`, DebugImportance.Error);
+                    this.debug(`Error on commands deployment: ${error}`, DebugImportance.Error);
                 });
             });
         } else {
@@ -214,9 +221,10 @@ export class AmethystClient extends Client {
         const types = [];
         if (cmd.chatInputRun) types.push('chat input');
         if (cmd.messageRun) types.push('message');
+        if (cmd.userContextMenuRun) types.push('user context menu')
+        if (cmd.messageContextMenuRun) types.push('message context menu')
 
-        if (types.length === 2) return `a chat input and a message command`;
-        return `a ${types[0]} command`;
+        return `${types.join(', ')} command`;
     }
     private listenCommandDenied() {
         this.on('commandDenied', (command, reason) => {
@@ -336,6 +344,12 @@ export class AmethystClient extends Client {
     }
     public get modalHandlers(): ModalHandler[] {
         return this._modalHandlers;
+    }
+    public get userContextCommands() {
+        return this._userContextCommands
+    }
+    public get messageContextCommands() {
+        return this._messageContextCommands;
     }
     private loadInternalEvents(): void {
         const interactionCreate = require(`../events/interactionCreate.js`).default;

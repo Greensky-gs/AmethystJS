@@ -283,7 +283,23 @@ export enum errorCode {
     /**
      * Message run has not been set
      */
-    NoMessageRun = 'No message run'
+    NoMessageRun = 'No message run',
+    /**
+     * User context command is unknown to the Client
+     */
+    UnknownUserContextCommand = 'Unknown user context menu command',
+    /**
+     * User context command has not been set
+     */
+    NoUserContextCommand = 'No user context command',
+    /**
+     * This comamnd is unknown to the client
+     */
+    UnknownMessageContextCommand = 'Unknown messgae context menu command',
+    /**
+     * The command has no message context runner
+     */
+    noMessageContextCommand = 'No message context command'
 }
 export type errorReason = {
     /**
