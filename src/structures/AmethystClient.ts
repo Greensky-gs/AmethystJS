@@ -1,8 +1,6 @@
 import { Client, ClientEvents, ClientOptions, ApplicationCommandData, Awaitable, Partials } from 'discord.js';
 import { existsSync, readdirSync } from 'fs';
-import { ButtonDenied } from '../typings/ButtonHandler';
-import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
-import { commandDeniedPayload } from '../typings/Command';
+import { AmethystClientOptions, DebugImportance, startOptions } from '../typings/Client';
 import { AutocompleteListener } from './AutocompleteListener';
 import { ButtonHandler } from './ButtonHandler';
 import { AmethystCommand } from './Command';
@@ -10,7 +8,6 @@ import { AmethystEvent } from './Event';
 import { Precondition } from './Precondition';
 import { PrefixesManager } from './prefixManager';
 import { ModalHandler } from './ModalHandler';
-import { ModalDenied } from '../typings/ModalHandler';
 import { AmethystError } from './AmethystError';
 
 export class AmethystClient extends Client {
@@ -348,37 +345,5 @@ export class AmethystClient extends Client {
         this.on('ready', () => {
             this.debug(`Logged as ${this.user.tag}`, DebugImportance.Information);
         });
-    }
-}
-
-declare module 'discord.js' {
-    interface ClientEvents {
-        amethystDebug: [message: string];
-        commandDenied: [command: commandDeniedPayload, reason: deniedReason];
-        commandError: [command: commandDeniedPayload, reason: errorReason];
-        buttonInteraction: [interaction: ButtonInteraction, message: Message];
-        modalSubmit: [interaction: ModalSubmitInteraction];
-        buttonDenied: [button: ButtonDenied];
-        stringSelectInteraction: [selector: StringSelectMenuInteraction];
-        selectMenuInteraction: [selector: AnySelectMenuInteraction];
-        roleSelectInteraction: [selector: RoleSelectMenuInteraction];
-        userSelectInteraction: [selector: UserSelectMenuInteraction];
-        channelSelectInteraction: [selector: ChannelSelectMenuInteraction];
-        mentionableSelectInteraction: [selector: MentionableSelectMenuInteraction];
-        modalRejected: [reason: ModalDenied];
-    }
-    interface Client {
-        readonly configs: AmethystClientOptions;
-        readonly prefixesManager: PrefixesManager;
-
-        get messageCommands(): AmethystCommand[];
-        get chatInputCommands(): AmethystCommand[];
-        get preconditions(): Precondition[];
-        get autocompleteListeners(): AutocompleteListener[];
-        get buttonHandlers(): ButtonHandler[];
-        get modalHandlers(): ModalHandler[];
-
-        start(options: startOptions): void;
-        debug(msg: string, imp: DebugImportance): void;
     }
 }

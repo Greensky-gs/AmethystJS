@@ -24,7 +24,7 @@ import {
     AutocompleteListenerRun,
     autocompleteListenerNamesType
 } from './dist/typings/autocompleteListener';
-import { ChatInputRun, commandOptions, MessageRun } from './dist/typings/Command';
+import { ChatInputRun, commandDeniedPayload, commandOptions, MessageRun } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
 import { amethystPaginatorOptions } from './dist/structures/Paginator';
@@ -133,11 +133,31 @@ export class AmethystClient extends Client {
      */
     public debug(msg: string, imp: DebugImportance): void;
 
+    /**
+     * List of all message commands
+     * Every command contained in this array has a `messageRun` proprety
+     */
     public get messageCommands(): AmethystCommand[];
+    /**
+     * List of all slash commands
+     * Every command contained in this array has a `chatInputRun` proprety
+     */
     public get chatInputCommands(): AmethystCommand[];
+    /**
+     * List of all preconditions of the client
+     */
     public get preconditions(): Precondition[];
+    /**
+     * List of all autocomplete listeners of the client
+     */
     public get autocompleteListeners(): AutocompleteListener[];
+    /**
+     * List of all button handlers of the client
+     */
     public get buttonHandlers(): ButtonHandler[];
+    /**
+     * List of all modal handlers of the client
+     */
     public get modalHandlers(): ModalHandler[];
 }
 
@@ -248,9 +268,9 @@ export class ButtonHandler {
     setRun(run: ButtonHandlerRun): this;
 }
 export class ModalHandler {
-    private _run: modalHandlerRun;
-    private _name: string;
-    private _ids: string[];
+    private _modalName: string;
+    private _runMethod: modalHandlerRun;
+    private _idsList: string[];
     public readonly options: modalHandlerOptions;
 
     public constructor(options: modalHandlerOptions);
