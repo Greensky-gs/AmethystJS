@@ -2,6 +2,7 @@ import {
     ButtonInteraction,
     CacheType, CommandInteraction,
     CommandInteractionOptionResolver,
+    ContextMenuCommandInteraction,
     Message,
     MessageContextMenuCommandInteraction,
     ModalSubmitInteraction,
@@ -24,6 +25,8 @@ export type preconditionRunReturn = {
     type: preconditionType;
     button?: ButtonInteraction;
     channelMessage?: Message;
+    modal?: ModalSubmitInteraction;
+    contextMenu?: ContextMenuCommandInteraction;
 };
 type BaseRun = {
     command: AmethystCommand;

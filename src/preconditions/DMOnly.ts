@@ -54,4 +54,63 @@ export default new Precondition('DMOnly')
             type: 'button',
             button
         };
+    })
+    .setModalRun(({ modal }) => {
+        if (modal.guild) {
+            return {
+                ok: false,
+                type: 'modal',
+                message: 'Modal usable in DM only',
+                metadata: {
+                    code: commandDeniedCode.DMOnly
+                },
+                modal
+            }
+        }
+        return {
+            ok: true,
+            type: 'modal',
+            modal
+        }
+    })
+    .setMessageContextMenuRun(({ interaction }) => {
+        if (interaction.guild) {
+            return {
+                ok: false,
+                type: 'messageContextMenu',
+                message: 'Command usable in DM only',
+                metadata: {
+                    code: commandDeniedCode.DMOnly
+                },
+                contextMenu: interaction
+            }
+        }
+        return {
+            ok: true,
+            type: 'messageContextMenu',
+            metadata: {
+                code: commandDeniedCode.DMOnly
+            },
+            contextMenu: interaction
+        }
+    }).setUserContextMenuRun(({ interaction }) => {
+        if (interaction.guild) {
+            return {
+                ok: false,
+                type: 'userContextMenu',
+                message: 'Command usable in DM only',
+                metadata: {
+                    code: commandDeniedCode.DMOnly
+                },
+                contextMenu: interaction
+            }
+        }
+        return {
+            ok: true,
+            type: 'userContextMenu',
+            metadata: {
+                code: commandDeniedCode.DMOnly
+            },
+            contextMenu: interaction
+        }
     });

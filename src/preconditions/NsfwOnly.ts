@@ -91,4 +91,85 @@ export default new Precondition('NsfwOnly')
             type: 'button',
             button
         };
+    }).setModalRun(({ modal }) => {
+        if (modal.message.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
+            return {
+                ok: false,
+                message: 'Could not determine channel type',
+                metadata: {
+                    code: ButtonDeniedCode.UnknownChannelType
+                },
+                type: 'modal',
+                modal
+            };
+        }
+        if (!modal.message.channel.nsfw)
+            return {
+                ok: false,
+                message: 'Channel is not NSFW',
+                metadata: {
+                    code: ButtonDeniedCode.NsfwOnly
+                },
+                type: 'modal',
+                modal
+            };
+        return {
+            ok: true,
+            type: 'modal',
+            modal
+        };
+    }).setUserContextMenuRun(({ interaction }) => {
+        if (interaction.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
+            return {
+                ok: false,
+                message: 'Could not determine channel type',
+                metadata: {
+                    code: commandDeniedCode.UnknownChannelType
+                },
+                type: 'userContextMenu',
+                contextMenu: interaction
+            };
+        }
+        if (!interaction.channel.nsfw)
+            return {
+                ok: false,
+                message: 'Channel is not NSFW',
+                metadata: {
+                    code: commandDeniedCode.ChannelNotNsfw
+                },
+                type: 'userContextMenu',
+                contextMenu: interaction
+            };
+        return {
+            ok: true,
+            type: 'userContextMenu',
+            contextMenu: interaction
+        };
+    }).setMessageContextMenuRun(({ interaction,  target: message }) => {
+        if (message.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
+            return {
+                ok: false,
+                message: 'Could not determine channel type',
+                metadata: {
+                    code: commandDeniedCode.UnknownChannelType
+                },
+                type: 'messageContextMenu',
+                contextMenu: interaction
+            };
+        }
+        if (!message.channel.nsfw)
+            return {
+                ok: false,
+                message: 'Channel is not NSFW',
+                metadata: {
+                    code: commandDeniedCode.ChannelNotNsfw
+                },
+                type: 'messageContextMenu',
+                contextMenu: interaction
+            };
+        return {
+            ok: true,
+            type: 'messageContextMenu',
+            contextMenu: interaction
+        };
     });
