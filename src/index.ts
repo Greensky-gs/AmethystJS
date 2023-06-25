@@ -4,15 +4,6 @@ import DMOnly from './preconditions/DMOnly';
 import GuildOnly from './preconditions/GuildOnly';
 import NsfwOnly from './preconditions/NsfwOnly';
 import * as log4JS from './utils/log4js';
-import { AutocompleteListener } from './structures/AutocompleteListener';
-import { ButtonHandler } from './structures/ButtonHandler';
-import { AmethystCommand } from './structures/Command';
-import { ModalHandler } from './structures/ModalHandler';
-import { PrefixesManager } from './structures/prefixManager';
-import { ButtonDenied } from './typings/ButtonHandler';
-import { deniedReason, errorReason, AmethystClientOptions, startOptions, DebugImportance } from './typings/Client';
-import { commandDeniedPayload } from './typings/Command';
-import { ModalDenied } from './typings/ModalHandler';
 
 // Structures
 export { AmethystClient } from './structures/AmethystClient';
@@ -79,34 +70,3 @@ export { waitForInteraction } from './utils/waitForInteraction';
 export { waitForMessage } from './utils/waitForMessage';
 export { wait } from './utils/wait';
 
-declare module 'discord.js' {
-    interface ClientEvents {
-        amethystDebug: [message: string];
-        commandDenied: [command: commandDeniedPayload, reason: deniedReason];
-        commandError: [command: commandDeniedPayload, reason: errorReason];
-        buttonInteraction: [interaction: ButtonInteraction, message: Message];
-        modalSubmit: [interaction: ModalSubmitInteraction];
-        buttonDenied: [button: ButtonDenied];
-        stringSelectInteraction: [selector: StringSelectMenuInteraction];
-        selectMenuInteraction: [selector: AnySelectMenuInteraction];
-        roleSelectInteraction: [selector: RoleSelectMenuInteraction];
-        userSelectInteraction: [selector: UserSelectMenuInteraction];
-        channelSelectInteraction: [selector: ChannelSelectMenuInteraction];
-        mentionableSelectInteraction: [selector: MentionableSelectMenuInteraction];
-        modalRejected: [reason: ModalDenied];
-    }
-    interface Client {
-        readonly configs: AmethystClientOptions;
-        readonly prefixesManager: PrefixesManager;
-        get messageCommands(): AmethystCommand[];
-        get chatInputCommands(): AmethystCommand[];
-        get preconditions(): Precondition[];
-        get autocompleteListeners(): AutocompleteListener[];
-        get buttonHandlers(): ButtonHandler[];
-        get modalHandlers(): ModalHandler[];
-        get userContextCommands(): AmethystCommand[];
-        get messageContextCommands(): AmethystCommand[];
-        start(options: startOptions): void;
-        debug(msg: string, imp: DebugImportance): void;
-    }
-}
