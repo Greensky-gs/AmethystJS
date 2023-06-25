@@ -119,14 +119,14 @@ Import AmethystCommand and exports it
 import { AmethystCommand } from 'amethystjs';
 
 export default new AmethystCommands({
-    cooldown: 5, // Cooldown time
     name: 'command name', // Command name
+    description: "Description of the command", // Description - required
+    cooldown: 5, // Cooldown time
     permissions: [ 'Administrator' ], // Permissions for the user - optionnal
     clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
     aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
-    description: "Description of the command", // Description - required
     messageInputDescription: "Description of the message command (optionnal)" // Message description - optionna
 })
 .setMessageRun((options) => {
@@ -134,6 +134,11 @@ export default new AmethystCommands({
 })
 .setChatInputRun((options) => {
     // Write code for slash commands (optionnal)
+}).setUserContextMenuRun((options) => {
+    // Write code for user context menu command (optionnal)
+})
+.setMessageContextMenuRun((options) => {
+    // Write code for message context menu command (optionnal)
 })
 ```
 
@@ -156,6 +161,11 @@ module.exports = new AmethystCommands({
 })
 .setChatInputRun((options) => {
     // Write code for slash commands (optionnal)
+}).setUserContextMenuRun((options) => {
+    // Write code for user context menu command (optionnal)
+})
+.setMessageContextMenuRun((options) => {
+    // Write code for message context menu command (optionnal)
 })
 ```
 
@@ -196,8 +206,37 @@ export default new Precondition("Your precondition's name")
         type: 'message',
         channelMessage: options.message
     }
+}).setModalRun((options) => {
+    // Run your modal precondition here
+    // Return something like so
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* some data here */ },
+        type: 'modal',
+        modal: options.modal
+    }
+}).setUserContextMenuRun((options) => {
+    // Run your precondition for user context command here
+    // Return something like this
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* Some more datas */ },
+        type: 'userContextMenu',
+        contextMenu: options.interaction
+    }
+}).setMessageContextMenuRun((options) => {
+    // Run your precondition for message context command here
+    // Return something like this
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* Some more datas */ },
+        type: 'messageContextMenu',
+        contextMenu: options.interaction
+    }
 })
-
 ```
 
 ```js
@@ -235,6 +274,36 @@ module.exports = new Precondition("Your precondition's name")
         metadata: {/* Some extra options */},
         button: options.button,
         type: 'button'
+    }
+}).setModalRun((options) => {
+    // Run your modal precondition here
+    // Return something like so
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* some data here */ },
+        type: 'modal',
+        modal: options.modal
+    }
+}).setUserContextMenuRun((options) => {
+    // Run your precondition for user context command here
+    // Return something like this
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* Some more datas */ },
+        type: 'userContextMenu',
+        contextMenu: options.interaction
+    }
+}).setMessageContextMenuRun((options) => {
+    // Run your precondition for message context command here
+    // Return something like this
+    return {
+        ok: true,
+        message: "Message in case of fail",
+        metadata: { /* Some more datas */ },
+        type: 'messageContextMenu',
+        contextMenu: options.interaction
     }
 })
 ```
@@ -281,6 +350,26 @@ module.exports = new AmethystEvent('eventName',/* event options */ () => {
 })
 ```
 
+### Events list
+
+Amethyst JS adds events to the Discord Client. Here is the list of the events you can resiter via [Events handler](#registering-events) :
+
+| Event | When its activated | arguments list | Types |
+| :-----|:------------------:|----------------| ----: |
+| `amethystDebug` | When the client debugs something | message | [string](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/String) |
+| `commandDenied` | When a precondition stops a command | command, reason | [commandDeniedPayload](./src/typings/Command.ts#L173), [deniedReason](./src/typings/Client.ts#L339) |
+| `commandError` | When an error occurs | command, reason | [commandDeniedPayload](./src/typings/Command.ts#L173), [errorReason](./src/typings/Client.ts#L310) |
+| `buttonInteraction` | When a button is pressed | interaction, message | [ButtonInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/ButtonInteraction), [Message](https://old.discordjs.dev/#/docs/discord.js/main/class/Message) |
+| `modalSubmit` | When a modal interaction is created | interaction | [ModalSubmitInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/ModalSubmitInteraction) |
+| `buttonDenied` | When a button is stopped because of a precondition | button | [buttonDenied](./src/typings/ButtonHandler.ts#L20) |
+| `selectMenuInteraction` | When any select menu is interacted | selector | [AnySelectMenuInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/AnySelectMenuInteraction) |
+| `stringSelectInteraction` | When a string select menu is interacted | selector | [StringSelectMenuInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/StringSelectMenuInteraction) |
+| `roleSelectMenuInteraction` | When a role select menu is interacted | selector | [RoleSelectMenuInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/RoleSelectMenuInteraction) |
+| `userSelectInteraction` | When an user select menu is interacted | selector | [UserSelectMenuInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/UserSelectMenuInteraction) |
+| `channelSelectInteraction` | When a channel select menu is interacted | selector | [ChannelSelectMenuInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/ChannelSelectMenuInteraction) |
+| `mentionableSelectInteraction` | When a mentionable select menu is interacted | selector | [MentionableSelectMenuInteraction](https://old.discordjs.dev/#/docs/discord.js/main/class/MentionableSelectMenuInteraction) |
+| `modalRejected` | When a modal is stopped because of a precondition | reason | [ModalDenied](./src/typings/ModalHandler.ts#L17) |
+
 ## Autocomplete listeners
 
 Autocomplete listeners are things that replies to an autocomplete interaction (interaction options with a lot of choices)
@@ -319,8 +408,6 @@ It means that the autocomplete will be applied to every command with the name in
 ## Button handler
 
 Amethyst JS can handle button interactions for you.
-
-> In case you don't know, some events have been added to the client : `buttonInteraction`, `modalSubmit` and events for each select menu interaction ( string, role, user, channel, mentionable and any )
 
 Go to your buttons folder and create a new file
 
@@ -485,7 +572,7 @@ The [Amethyst client](#create-amythyst-client) has a `prefixesManager` proprety 
 Here is the summary of the [prefixes manager](#register-custom-prefixes)
 
 | Proprety | Type |
-|-|-|
+|----------|------|
 | [`setPrefix`](#setprefix) | Method |
 | [`getPrefix`](#getprefix) | Method |
 | [`samePrefix`](#same-prefix) | Method |
