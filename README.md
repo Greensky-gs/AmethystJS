@@ -770,7 +770,7 @@ The [Greensky's paginator](https://npmjs.com/package/dsc-pagination) under the n
 Here are some repositories that use Amethyst JS :
 
 * [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) by [Greensky](https://github.com/Greensky-gs/) (Amethyst JS v1.4.0)
-* [Draver Bot](https://github.com/DraverBot/DraverBot) by [Draver Industries](https://github.com/DraverBot) (Amethyst JS v1.6.0)
+* [Draver Bot](https://github.com/DraverBot/DraverBot) by [Draver Industries](https://github.com/DraverBot) (Amethyst JS v1.6.1)
 
 # Contributing
 
