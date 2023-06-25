@@ -746,11 +746,19 @@ For now, you can config :
 * Trigger the time displaying
 * Time displaying format
 * log file
+* Add a `onLog` event
+* Object indentation
 
 ```js
 const { log4js } = require('amethystjs');
 
 log4js.config('displayTime', true);
+log4js.config('onLog', (message) => {
+    console.log(`Log4JS traced something`)
+})
+log4js.config('file', 'logs.txt')
+log4js.config('objectIndentation', 1)
+log4js.config('displayTimeFormat', (time) => `[${time.getDay()}/${time.getMonth()}/${time.getFullYear()}:${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}]`)
 ```
 
 ## Paginator
@@ -762,7 +770,7 @@ The [Greensky's paginator](https://npmjs.com/package/dsc-pagination) under the n
 Here are some repositories that use Amethyst JS :
 
 * [Lofi Girl](https://github.com/Greensky-gs/lofi-girl) by [Greensky](https://github.com/Greensky-gs/) (Amethyst JS v1.4.0)
-* [Draver Bot](https://github.com/DraverBot/DraverBot) by [Draver Industries](https://github.com/DraverBot) (Amethyst JS v1.4.0)
+* [Draver Bot](https://github.com/DraverBot/DraverBot) by [Draver Industries](https://github.com/DraverBot) (Amethyst JS v1.6.0)
 
 # Contributing
 
