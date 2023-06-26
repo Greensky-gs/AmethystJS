@@ -191,7 +191,7 @@ export class AmethystClient extends Client {
             );
         });
         this.debug(
-            `Commands loaded : ${this._messageCommands.length} message commands, ${this._chatInputCommands.length} slash commands, ${this._userContextCommands.length} user context menus`,
+            `Commands loaded : ${this._messageCommands.length} message commands, ${this._chatInputCommands.length} slash commands, ${this._userContextCommands.length} user context menus and ${this._messageContextCommands.length} message context menus`,
             DebugImportance.Information
         );
 
