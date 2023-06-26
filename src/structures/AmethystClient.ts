@@ -203,10 +203,14 @@ export class AmethystClient extends Client {
                 const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [
                     ...this._chatInputCommands.map((cmd) => cmd.options),
                     ...this._userContextCommands.map((x) =>
-                        new ContextMenuCommandBuilder().setName(x.options.userContextName ?? x.options.name).setType(ApplicationCommandType.User)
+                        new ContextMenuCommandBuilder()
+                            .setName(x.options.userContextName ?? x.options.name)
+                            .setType(ApplicationCommandType.User)
                     ),
                     ...this._messageContextCommands.map((x) =>
-                        new ContextMenuCommandBuilder().setName(x.options.messageContextName ?? x.options.name).setType(ApplicationCommandType.Message)
+                        new ContextMenuCommandBuilder()
+                            .setName(x.options.messageContextName ?? x.options.name)
+                            .setType(ApplicationCommandType.Message)
                     )
                 ];
 

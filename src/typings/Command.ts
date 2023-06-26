@@ -100,7 +100,7 @@ export type commandOptions = {
     messageInputDescription?: string;
     /**
      * Name gived to the user context command associated to this command
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: "ban",
@@ -112,7 +112,7 @@ export type commandOptions = {
     userContextName?: string;
     /**
      * Name gived to the message context command associated to this command
-     * 
+     *
      * ```js
      * new AmethystCommand({
      *     name: "google",
