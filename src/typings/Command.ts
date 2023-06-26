@@ -98,6 +98,30 @@ export type commandOptions = {
      * ```
      */
     messageInputDescription?: string;
+    /**
+     * Name gived to the user context command associated to this command
+     * 
+     * ```js
+     * new AmethystCommand({
+     *     name: "ban",
+     *     description: "Ban member",
+     *     userContextName: "Ban the member"
+     * })
+     * ```
+     */
+    userContextName?: string;
+    /**
+     * Name gived to the message context command associated to this command
+     * 
+     * ```js
+     * new AmethystCommand({
+     *     name: "google",
+     *     description: "Google something",
+     *     messageContextName: "Google content"
+     * })
+     * ```
+     */
+    messageContextName?: string;
 } & ChatInputApplicationCommandData;
 
 export type ChatInputRun = (options: {

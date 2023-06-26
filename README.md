@@ -127,7 +127,9 @@ export default new AmethystCommands({
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
     aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
-    messageInputDescription: "Description of the message command (optionnal)" // Message description - optionna
+    messageInputDescription: "Description of the message command (optionnal)", // Message description - optionnal
+    userContextName: "name of the user context command", // Name of the user context command - optionnal
+    messageContextName: "Name of the message context command" // Name of the message context command - optionnal
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
@@ -154,7 +156,9 @@ module.exports = new AmethystCommands({
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
     aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
     description: "Description of the command", // Description - required
-    messageInputDescription: "Description of the message command (optionnal)" // Message description - optionna
+    messageInputDescription: "Description of the message command (optionnal)", // Message description - optionnal
+    userContextName: "name of the user context command", // Name of the user context command - optionnal
+    messageContextName: "Name of the message context command" // Name of the message context command - optionnal
 })
 .setMessageRun((options) => {
     // Write code for message commands (optionnal)
