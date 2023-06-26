@@ -309,11 +309,39 @@ export class AmethystCommand {
      */
     public get userContextMenuRun(): UserContextRun | undefined;
 }
+
+/**
+ * Class Button Handler
+ * 
+ * Use it as default in a file located in your button handlers folder
+ * Use the methods inside to build the handler
+ */
 export class ButtonHandler {
+    /**
+     * Options provided on the creation of the handler
+     * 
+     * @readonly
+     */
     public readonly options: ButtonHandlerOptions;
+    /**
+     * Run proprety of the handler
+     * This is the code executed when a matching button is pressed
+     */
     public run: ButtonHandlerRun;
+    /**
+     * Construct the handler with the options
+     * 
+     * @param options ButtonHandlerOptions Options of the handler
+     */
     public constructor(options: ButtonHandlerOptions);
 
+    /**
+     * Set the function called when a matching button is pressed
+     * The `ButtonHandler.run` proprety will be modified
+     * 
+     * @param run ButtonHandlerRun
+     * @returns this
+     */
     setRun(run: ButtonHandlerRun): this;
 }
 export class ModalHandler {
