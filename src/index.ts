@@ -3,6 +3,7 @@ import { Precondition } from './structures/Precondition';
 import DMOnly from './preconditions/DMOnly';
 import GuildOnly from './preconditions/GuildOnly';
 import NsfwOnly from './preconditions/NsfwOnly';
+import OwnerOnly from './preconditions/OwnerOnly';
 import * as log4JS from './utils/log4js';
 
 // Structures
@@ -63,10 +64,10 @@ export { modalHandlerOptions, modalHandlerRun, ModalDenied } from './typings/Mod
 export const preconditions: Record<string, Precondition> = {
     DMOnly,
     GuildOnly,
-    NsfwOnly
+    NsfwOnly,
+    OwnerOnly
 };
 export const log4js = log4JS;
 export { waitForInteraction } from './utils/waitForInteraction';
 export { waitForMessage } from './utils/waitForMessage';
 export { wait } from './utils/wait';
-

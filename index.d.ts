@@ -312,14 +312,14 @@ export class AmethystCommand {
 
 /**
  * Class Button Handler
- * 
+ *
  * Use it as default in a file located in your button handlers folder
  * Use the methods inside to build the handler
  */
 export class ButtonHandler {
     /**
      * Options provided on the creation of the handler
-     * 
+     *
      * @readonly
      */
     public readonly options: ButtonHandlerOptions;
@@ -330,7 +330,7 @@ export class ButtonHandler {
     public run: ButtonHandlerRun;
     /**
      * Construct the handler with the options
-     * 
+     *
      * @param options ButtonHandlerOptions Options of the handler
      */
     public constructor(options: ButtonHandlerOptions);
@@ -338,7 +338,7 @@ export class ButtonHandler {
     /**
      * Set the function called when a matching button is pressed
      * The `ButtonHandler.run` proprety will be modified
-     * 
+     *
      * @param run ButtonHandlerRun
      * @returns this
      */
@@ -363,7 +363,7 @@ export class AmethystError extends Error {
 }
 export class AmethystPaginator extends Paginator {}
 
-type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly';
+type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly' | 'OwnerOnly';
 export const preconditions: Record<preconditionNames, Precondition>;
 export { waitForInteraction } from './dist/utils/waitForInteraction';
 export { waitForMessage } from './dist/utils/waitForMessage';
