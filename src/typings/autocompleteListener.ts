@@ -9,19 +9,19 @@ import { AmethystClient } from '../structures/AmethystClient';
 
 /**
  * Options of an autocomplete listener
- * 
+ *
  * @returns ApplicationCommandOptionChoiceData<string, number>[] | Promise<ApplicationCommandOptionChoiceData<string, number>[]>;
  */
 export type AutocompleteListenerRun = (options: {
     /**
      * Autocomplete interaction that triggered the listener
-     * 
+     *
      * @type AucompleteInteraction
      */
     interaction: AutocompleteInteraction;
     /**
      * Options you can access within the autocomplete run
-     * 
+     *
      * @type Omit<CommandInteractionOptionResolver<CacheType>, 'getMessage' | 'getUser' | 'getAttachment' | 'getChannel' | 'getMember' | 'getMentionable' | 'getRole'>
      */
     options: Omit<
@@ -30,19 +30,19 @@ export type AutocompleteListenerRun = (options: {
     >;
     /**
      * Focused interaction of the event
-     * 
+     *
      * @type AutocompleteFocusedOption
      */
     focused: AutocompleteFocusedOption;
     /**
      * Focused value of the event
-     * 
+     *
      * @type string
      */
     focusedValue: string;
     /**
      * Client of the vent
-     * 
+     *
      * @type AmethystClient
      */
     client: AmethystClient;
@@ -56,7 +56,7 @@ export type AutocompleteListenerRun = (options: {
 export type autocompleteListenerNamesType = {
     /**
      * Command where the autocomplete is active
-     * 
+     *
      * @type string
      */
     commandName: string;
@@ -64,7 +64,7 @@ export type autocompleteListenerNamesType = {
      * Optionnal name of the option where the listener is active
      * If not specified, the autocomplete will act on every autocomplete option of the command
      */
-    optionName?: string
+    optionName?: string;
 }[];
 export type AutocompleteListenerOptions = {
     /**

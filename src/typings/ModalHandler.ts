@@ -15,19 +15,19 @@ import {
 export type modalHandlerRun = (options: {
     /**
      * Modal that triggered the handler
-     * 
+     *
      * @type ModalSubmitInteraction
      */
     modal: ModalSubmitInteraction;
     /**
      * User that created the modal
-     * 
+     *
      * @type User
      */
     user: User;
     /**
      * Client of the modal
-     * 
+     *
      * @type AmethystClient
      */
     client: AmethystClient;
@@ -39,19 +39,19 @@ export type modalHandlerRun = (options: {
 export type modalHandlerOptions = {
     /**
      * Optionnal preconditions to be checked before the execution of the modal
-     * 
+     *
      * @type Precondition[]
      */
     preconditions?: Precondition[];
     /**
      * Name you want to give to the handler
-     * 
+     *
      * @type string
      */
     name: string;
     /**
      * Custom ids of the modals handled by the handler
-     * 
+     *
      * @type string | string[]
      */
     modalId: string | string[];
@@ -98,7 +98,7 @@ export type ModalDenied = {
     };
     /**
      * user that created the interaction
-     * 
+     *
      * @type User
      */
     user: User;

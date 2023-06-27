@@ -115,26 +115,26 @@ export type ButtonDenied = {
 export type ButtonHandlerRun = (options: {
     /**
      * Button that triggered the handler
-     * 
+     *
      * @type ButtonInteraction
      */
     button: ButtonInteraction;
     /**
      * User that used the button
-     * 
+     *
      * @type User
      */
     user: User;
     /**
      * Message where the button is used
-     * 
+     *
      * @type Message
      */
     message: Message;
     /**
      * Client of the interaction
-     * 
+     *
      * @type AmethystClient
      */
-    client: AmethystClient
+    client: AmethystClient;
 }) => void | unknown;

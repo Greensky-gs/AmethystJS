@@ -192,14 +192,14 @@ export class AmethystClient extends Client {
 export class Precondition {
     /**
      * Name of the precondition
-     * 
+     *
      * @readonly
      */
     public readonly name: string;
 
     /**
      * Construct the Precondition
-     * 
+     *
      * @param name string Name of the precondition
      */
     public constructor(name: string);
@@ -280,7 +280,7 @@ export class Precondition {
 export class AmethystEvent<K extends keyof ClientEvents> {
     /**
      * Method used when the event is triggered
-     * 
+     *
      * @readonly
      */
     public readonly run: (...args: ClientEvents[K]) => void | unknown;
@@ -291,11 +291,11 @@ export class AmethystEvent<K extends keyof ClientEvents> {
 
     /**
      * Construct the event
-     * 
+     *
      * ```js
      * const { AmethystEvent } = require('amethystjs');
      * const { ActivityType } = require('discord.js');
-     * 
+     *
      * module.exports = new AmethystEvent('ready', (client) => {
      *     client.user.setActivity({
      *         name: 'Helping you',
@@ -316,30 +316,30 @@ export class AmethystEvent<K extends keyof ClientEvents> {
 export class AutocompleteListener {
     /**
      * Name you set to the listener
-     * 
+     *
      * @readonly
      */
     public readonly listenerName: string;
     /**
      * Names for the commands you want to listen
-     * 
+     *
      * @readonly
      */
     public readonly names: autocompleteListenerNamesType;
     /**
      * Method runned when an autocomplete interaction matching the names is created
-     * 
+     *
      * @readonly
      */
     public readonly run: AutocompleteListenerRun;
 
     /**
      * Construct the structure of the listener
-     * 
+     *
      * ```js
      * const { AutocompleteListener } = require('amethystjs');
      * const names = require('../data/names.json');
-     * 
+     *
      * module.exports = new AutocompleteListener({
      *     listernerName: 'names',
      *     commandName: [{ commandName: 'stats' }, { commandName: 'rank', optionName: 'username' }], // This will handle every autocomplete option in `stats` command, and the option username in `rank` command
@@ -348,7 +348,7 @@ export class AutocompleteListener {
      *     }
      * })
      * ```
-     * 
+     *
      * @param options AutocompleteListenerOptions Options given on the creation
      */
     constructor(options: AutocompleteListenerOptions);
@@ -490,7 +490,7 @@ export class ModalHandler {
 
     /**
      * Options of the modal handler specified at the creation
-     * 
+     *
      * @type modalHandlerOptions
      * @readonly
      */
@@ -498,39 +498,39 @@ export class ModalHandler {
 
     /**
      * Construct the modal handler
-     * 
+     *
      * ```js
      * const { ModalHandler, preconditions, log4js } = require('amethystjs');
-     * 
+     *
      * module.exports = new ModalHandler({
      *     name: 'username',
      *     modalId: 'modal.getUsername',
      *     preconditions: [preconditions.GuildOnly]
      * }).setRun((options) => {
      *     const name = options.modal.fields.getTextInputValue('username');
-     * 
+     *
      *     client.database.addUsername(name);
-     * 
+     *
      *     options.modal.reply({
      *         ephemeral: true,
      *         content: "Username registered"
      *     }).catch(log4js.trace);
      * });
      * ```
-     * 
+     *
      * @param options modalHandlerOptions
      */
     public constructor(options: modalHandlerOptions);
 
     /**
      * Method runned on a modal submission
-     * 
+     *
      * @type modalHandlerRun
      */
     public run: modalHandlerRun;
     /**
      * Method to set the run method
-     * 
+     *
      * @param run Method runned on a modal activation
      * @returns this
      */
@@ -548,10 +548,10 @@ export class ModalHandler {
 
 /**
  * Error from Amethyst JS
- * 
+ *
  * ```js
  * const { AmethystError } = require('amethystjs');
- * 
+ *
  * throw new AmethystError("You cannot use messages without messageContent intent");
  * ```
  */
