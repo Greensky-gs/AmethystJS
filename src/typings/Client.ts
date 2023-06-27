@@ -43,7 +43,7 @@ export type AmethystClientOptions = {
      *
      * If your folder is called `./src/events`, and that your project will be compiled in a `./dist` folder, put:
      * ```js
-     * new AmethystClient({], {
+     * new AmethystClient({}, {
      *     eventsFolder: './dist/events'
      * })
      * ```
