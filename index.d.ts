@@ -185,38 +185,172 @@ export class AmethystClient extends Client {
     public get messageContextCommands(): AmethystCommand[];
 }
 
+/**
+ * #### Precondition for Amethyst JS
+ * Precondition to be checked before a command is runned
+ */
 export class Precondition {
+    /**
+     * Name of the precondition
+     * 
+     * @readonly
+     */
     public readonly name: string;
 
+    /**
+     * Construct the Precondition
+     * 
+     * @param name string Name of the precondition
+     */
     public constructor(name: string);
 
+    /**
+     * Set the method to check a chat input command
+     * @param run PreconditionChatInputRun Method to be runned to check a chat input command
+     * @returns this
+     */
     public setChatInputRun(run: PreconditionChatInputRun): this;
+    /**
+     * Set the method to check a message command
+     * @param run PreconditionMessageRun Method to be runned to check a message command
+     * @returns this
+     */
     public setMessageRun(run: PreconditionMessageRun): this;
+    /**
+     * Set the method to check a button command
+     * @param run PreconditionButtonRun Method to be runned to check a button command
+     * @returns this
+     */
     public setButtonRun(run: PreconditionButtonRun): this;
+    /**
+     * Set the method to check a modal command
+     * @param run PreconditionModalRun Method to be runned to check a modal command
+     * @returns this
+     */
     public setModalRun(run: PreconditionModalRun): this;
+    /**
+     * Set the method to check a user context command
+     * @param run PreconditionUserContextMenuRun Method to be runned to check a user context menu command
+     * @returns this
+     */
     public setUserContextMenuRun(run: PreconditionUserContextMenuRun): this;
+    /**
+     * Set the method to check a message context command
+     * @param run PreconditionMessageContextRun Method to be runned to check a message context command
+     * @returns this
+     */
     public setMessageContextMenuRun(run: PreconditionMessageContextMenuRun): this;
 
+    /**
+     * Method that checks a button command
+     * @type PreconditionButtonRun
+     */
     public buttonRun: PreconditionButtonRun;
+    /**
+     * Method that checks a chat input command
+     * @type PreconditionChatInputRun
+     */
     public chatInputRun: PreconditionChatInputRun;
+    /**
+     * Method that checks a message command
+     * @type PreconditionMessageRun
+     */
     public messageRun: PreconditionMessageRun;
+    /**
+     * Method that checks a modal command
+     * @type PreconditionModalRun
+     */
     public modalRun: PreconditionModalRun;
+    /**
+     * Method that checks a user context menu command
+     * @type PreconditionUserContextMenuRun
+     */
     public userContextMenuRun: PreconditionUserContextMenuRun;
+    /**
+     * Method that checks a message context menu command
+     * @type PreconditionMessageContextMenuRun
+     */
     public messageContextMenuRun: PreconditionMessageContextMenuRun;
 }
 
+/**
+ * #### Event from Amethyst JS
+ * Structure that register events
+ */
 export class AmethystEvent<K extends keyof ClientEvents> {
+    /**
+     * Method used when the event is triggered
+     * 
+     * @readonly
+     */
     public readonly run: (...args: ClientEvents[K]) => void | unknown;
+    /**
+     * Key of the event you want to listen
+     */
     public readonly key: K;
 
+    /**
+     * Construct the event
+     * 
+     * ```js
+     * const { AmethystEvent } = require('amethystjs');
+     * const { ActivityType } = require('discord.js');
+     * 
+     * module.exports = new AmethystEvent('ready', (client) => {
+     *     client.user.setActivity({
+     *         name: 'Helping you',
+     *         type: ActivityType.Playing
+     *     });
+     * });
+     * ```
+     * @param key keyof typeof ClientEvents key of the event you want to listen
+     * @param run ClientEvents[key] Method to be exezcuted on the selected event
+     */
     public constructor(key: K, run: (...args: ClientEvents[K]) => void | unknown);
 }
 
+/**
+ * #### AutocompleteListener
+ * Structure that complete options that can be autocompleted
+ */
 export class AutocompleteListener {
+    /**
+     * Name you set to the listener
+     * 
+     * @readonly
+     */
     public readonly listenerName: string;
+    /**
+     * Names for the commands you want to listen
+     * 
+     * @readonly
+     */
     public readonly names: autocompleteListenerNamesType;
+    /**
+     * Method runned when an autocomplete interaction matching the names is created
+     * 
+     * @readonly
+     */
     public readonly run: AutocompleteListenerRun;
 
+    /**
+     * Construct the structure of the listener
+     * 
+     * ```js
+     * const { AutocompleteListener } = require('amethystjs');
+     * const names = require('../data/names.json');
+     * 
+     * module.exports = new AutocompleteListener({
+     *     listernerName: 'names',
+     *     commandName: [{ commandName: 'stats' }, { commandName: 'rank', optionName: 'username' }], // This will handle every autocomplete option in `stats` command, and the option username in `rank` command
+     *     run: ({ focusedValue, ...options }) => {
+     *          return names.filter(x => x.toLowerCase().includes(focusedValue.toLowerCase()) || focusedValue.toLowerCase().includes(x.toLowerCase())).splice(0, 24).map((x) => ({ name: x[0].toUpperCase() + x.slice(1), value: x }));
+     *     }
+     * })
+     * ```
+     * 
+     * @param options AutocompleteListenerOptions Options given on the creation
+     */
     constructor(options: AutocompleteListenerOptions);
 }
 
@@ -344,23 +478,95 @@ export class ButtonHandler {
      */
     setRun(run: ButtonHandlerRun): this;
 }
+
+/**
+ * #### Modal Handler
+ * Modal handler of Amethyst JS
+ */
 export class ModalHandler {
     private _modalName: string;
     private _runMethod: modalHandlerRun;
     private _idsList: string[];
+
+    /**
+     * Options of the modal handler specified at the creation
+     * 
+     * @type modalHandlerOptions
+     * @readonly
+     */
     public readonly options: modalHandlerOptions;
 
+    /**
+     * Construct the modal handler
+     * 
+     * ```js
+     * const { ModalHandler, preconditions, log4js } = require('amethystjs');
+     * 
+     * module.exports = new ModalHandler({
+     *     name: 'username',
+     *     modalId: 'modal.getUsername',
+     *     preconditions: [preconditions.GuildOnly]
+     * }).setRun((options) => {
+     *     const name = options.modal.fields.getTextInputValue('username');
+     * 
+     *     client.database.addUsername(name);
+     * 
+     *     options.modal.reply({
+     *         ephemeral: true,
+     *         content: "Username registered"
+     *     }).catch(log4js.trace);
+     * });
+     * ```
+     * 
+     * @param options modalHandlerOptions
+     */
     public constructor(options: modalHandlerOptions);
 
+    /**
+     * Method runned on a modal submission
+     * 
+     * @type modalHandlerRun
+     */
     public run: modalHandlerRun;
+    /**
+     * Method to set the run method
+     * 
+     * @param run Method runned on a modal activation
+     * @returns this
+     */
     public setRun(run: modalHandlerRun): this;
 
+    /**
+     * Get identifiers set in the construction
+     */
     public get ids(): string[];
+    /**
+     * Get the name set in the construction
+     */
     public get name(): string;
 }
+
+/**
+ * Error from Amethyst JS
+ * 
+ * ```js
+ * const { AmethystError } = require('amethystjs');
+ * 
+ * throw new AmethystError("You cannot use messages without messageContent intent");
+ * ```
+ */
 export class AmethystError extends Error {
+    /**
+     * Construct the error with a message
+     * @param message string Error to display
+     */
     constructor(message: string);
 }
+
+/**
+ * Paginator from AmethystJS
+ * The paginator is exactly same than https://npmjs.com/package/dsc-pagination
+ */
 export class AmethystPaginator extends Paginator {}
 
 type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly' | 'OwnerOnly';

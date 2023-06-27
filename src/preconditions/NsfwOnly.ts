@@ -156,7 +156,7 @@ export default new Precondition('NsfwOnly')
             contextMenu: interaction
         };
     })
-    .setMessageContextMenuRun(({ interaction, target: message }) => {
+    .setMessageContextMenuRun(({ interaction, message }) => {
         if (message.channel.type !== ChannelType.GuildText || ChannelType.GuildAnnouncement || ChannelType.GuildForum) {
             return {
                 ok: false,

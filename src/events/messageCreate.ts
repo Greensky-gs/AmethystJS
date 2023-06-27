@@ -115,7 +115,8 @@ export default new AmethystEvent('messageCreate', (message) => {
                 if (!ok) return;
                 const result = prec.messageRun({
                     message,
-                    command: cmd
+                    command: cmd,
+                    client: message.client as AmethystClient
                 });
                 if (!result.ok) {
                     ok = false;

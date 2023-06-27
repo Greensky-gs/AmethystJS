@@ -154,7 +154,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     const prec = precondition.chatInputRun({
                         interaction,
                         command: cmd,
-                        options: interaction.options as CommandInteractionOptionResolver
+                        options: interaction.options as CommandInteractionOptionResolver,
+                        client: interaction.client as AmethystClient
                     });
 
                     if (!prec.ok) {
@@ -289,7 +290,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                         const rs = prec.buttonRun({
                             button: interaction,
                             user: interaction.user,
-                            message: interaction.message
+                            message: interaction.message,
+                            client: interaction.client as AmethystClient
                         });
                         if (!rs.ok) {
                             ok = false;
@@ -309,7 +311,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         handler.run({
             button: interaction,
             message: interaction.message,
-            user: interaction.user
+            user: interaction.user,
+            client: interaction.client as AmethystClient
         });
     }
     if (interaction.isStringSelectMenu()) {
@@ -351,7 +354,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             interaction,
             options: interaction.options,
             focused: interaction.options.getFocused(true),
-            focusedValue: interaction.options.getFocused(false)
+            focusedValue: interaction.options.getFocused(false),
+            client: interaction.client as AmethystClient
         });
 
         interaction.respond(result);
@@ -372,7 +376,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     if (precondition.modalRun && !stopped) {
                         const render = precondition.modalRun({
                             modal: interaction,
-                            user: interaction.user
+                            user: interaction.user,
+                            client: interaction.client as AmethystClient
                         });
                         if (!render.ok) {
                             stopped = false;
@@ -392,7 +397,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
         }
         modal.run({
             modal: interaction,
-            user: interaction.user
+            user: interaction.user,
+            client: interaction.client as AmethystClient
         });
     }
     if (interaction.isUserContextMenuCommand()) {
@@ -535,8 +541,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     if (alreadyStopped) return;
                     const prec = precondition.userContextMenuRun({
                         interaction,
-                        target: interaction.targetUser,
-                        command: cmd
+                        user: interaction.targetUser,
+                        command: cmd,
+                        client: interaction.client as AmethystClient
                     });
 
                     if (!prec.ok) {
@@ -733,8 +740,9 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     if (alreadyStopped) return;
                     const prec = precondition.messageContextMenuRun({
                         interaction,
-                        target: interaction.targetMessage,
-                        command: cmd
+                        message: interaction.targetMessage,
+                        command: cmd,
+                        client: interaction.client as AmethystClient
                     });
 
                     if (!prec.ok) {
