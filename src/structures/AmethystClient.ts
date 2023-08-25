@@ -8,7 +8,7 @@ import {
     ContextMenuCommandBuilder,
     ApplicationCommandType
 } from 'discord.js';
-import { existsSync, readdirSync } from 'fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
 import { AutocompleteListener } from './AutocompleteListener';
 import { ButtonHandler } from './ButtonHandler';

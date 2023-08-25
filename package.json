@@ -13,8 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^14.8.0",
-    "dsc-pagination": "^1.0.3",
-    "fs": "^0.0.1-security"
+    "dsc-pagination": "^1.0.3"
   },
   "devDependencies": {
     "eslint": "^8.27.0",
