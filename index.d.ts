@@ -9,7 +9,8 @@ import {
     waitForType,
     canReactType,
     errorCode,
-    waitForMessageType
+    waitForMessageType,
+    architectureType
 } from './dist/typings/Client';
 import {
     PreconditionButtonRun,
@@ -66,7 +67,14 @@ export {
     UserContextRun,
     MessageContextRun,
     commandInteractionType,
-    deniedPayloadInteractionType
+    deniedPayloadInteractionType,
+    architectureType,
+    deniedReason,
+    errorReason,
+    preconditionRunReturn,
+    preconditionType,
+    commandDeniedPayload,
+    paginatorOptions
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
@@ -126,7 +134,8 @@ export class AmethystClient extends Client {
      *     waitForDefaultReplies: {
      *         user: "You cannot interact with this messageg",
      *         everyone: "You cannot interact with this message"
-     *     }
+     *     },
+     *     architecture: 'simple'
      * })
      * ```
      *

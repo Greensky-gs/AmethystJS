@@ -10,6 +10,7 @@ import {
 
 type pathLike = `./${string}`;
 
+export type architectureType = 'simple' | 'double';
 export type AmethystClientOptions = {
     /**
      * Name of the bot
@@ -180,6 +181,15 @@ w     * });
      * @default `icon`
      */
     debuggerColors?: 'none' | 'icon' | 'line';
+    /**
+     * Type of the command folders
+     *
+     * If configured to 'simple', the file in the `commandsFolder` folder will be registered as commands,
+     * If configured to 'double', the files in the subdirectories of `commandsFolder` will be registered as commands
+     *
+     * @default `simple`
+     */
+    architecture?: architectureType;
 };
 export type startOptions = {
     /**

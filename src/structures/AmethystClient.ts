@@ -57,7 +57,8 @@ export class AmethystClient extends Client {
             buttonsFolder: configs?.buttonsFolder,
             customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true,
             modalHandlersFolder: configs?.modalHandlersFolder,
-            debuggerColors: configs?.debuggerColors ?? 'icon'
+            debuggerColors: configs?.debuggerColors ?? 'icon',
+            architecture: configs?.architecture ?? 'simple'
         };
     }
     public start({
@@ -155,14 +156,9 @@ export class AmethystClient extends Client {
         if (!existsSync(this.configs.commandsFolder))
             return this.debug("Command folder doesn'exist", DebugImportance.Unexpected);
 
-        readdirSync(this.configs.commandsFolder).forEach((commandFile: string) => {
-            let x = require(`../../../../${this.configs.commandsFolder}/${commandFile}`);
-            const command: AmethystCommand = x?.default ?? x;
+        const callback = (command: AmethystCommand, path: string) => {
             if (!command || !(command instanceof AmethystCommand))
-                return this.debug(
-                    `default value of file ${this.configs.commandsFolder}/${commandFile} is not an amhetyst command`,
-                    DebugImportance.Critical
-                );
+                return this.debug(`default value of file ${path} is not an amhetyst command`, DebugImportance.Critical);
 
             if (!command.options.aliases) command.options.aliases = [];
             command.options.aliases = command.options.aliases
@@ -189,7 +185,28 @@ export class AmethystClient extends Client {
                 `Command loaded: ${command.options.name} as ${this.getLoadingType(command)}`,
                 DebugImportance.Information
             );
-        });
+        };
+        if (this.configs.architecture === 'simple') {
+            readdirSync(this.configs.commandsFolder).forEach((commandFile: string) => {
+                let x = require(`../../../../${this.configs.commandsFolder}/${commandFile}`);
+                const command: AmethystCommand = x?.default ?? x;
+
+                callback(command, `${this.configs.commandsFolder}/${commandFile}`);
+            });
+        } else if (this.configs.architecture === 'double') {
+            readdirSync(this.configs.commandsFolder).forEach((dir) => {
+                readdirSync(`${this.configs.commandsFolder}/${dir}`).forEach((commandFile) => {
+                    const path = `${this.configs.commandsFolder}/${dir}/${commandFile}`;
+                    let x = require(`../../../../${path}`);
+                    const command: AmethystCommand = x?.default ?? x;
+
+                    callback(command, path);
+                    //TODO tester l'architecture double et prettier
+                });
+            });
+        } else {
+            throw new AmethystError('Architecture option is incorrectly defined');
+        }
         this.debug(
             `Commands loaded : ${this._messageCommands.length} message commands, ${this._chatInputCommands.length} slash commands, ${this._userContextCommands.length} user context menus and ${this._messageContextCommands.length} message context menus`,
             DebugImportance.Information
