@@ -47,7 +47,7 @@ See an example [right here](#examples)
 Import the client
 
 ```ts
-import { AmethystClient } from 'amethyst';
+import { AmethystClient } from 'amethystjs';
 
 const client = new AmethystClient({
     // Discord.js client options
@@ -66,7 +66,9 @@ const client = new AmethystClient({
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
     buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
     customPrefixAndDefaultAvailable?: true, // Specify if the default prefix is usable when a custom prefix is set - optionnal
-    modalHandlersFolder: "./yourModalHandlersFolder" // Specify the modal handlers folder
+    modalHandlersFolder: "./yourModalHandlersFolder", // Specify the modal handlers folder
+    debbugColors: 'none', // 'none' | 'icon' | 'line', defines if the debugger uses colors - optional
+    architecture: 'simple' // 'simple' | 'double', if simple, the commands inside the commandsFolder will be read, if double, the commands inside the directories of the commandSFolder will be read
 });
 client.start({
     // All are optionnal
@@ -79,7 +81,7 @@ client.start({
 ```
 
 ```js
-const { AmethystClient } = require('amethyst');
+const { AmethystClient } = require('amethystjs');
 
 const client = new AmethystClient({
     // Discord.js client options
@@ -98,7 +100,9 @@ const client = new AmethystClient({
     autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
     buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
     customPrefixAndDefaultAvailable?: true, // Specify if the default prefix is usable when a custom prefix is set - optionnal
-    modalHandlersFolder: "./yourModalHandlersFolder" // Specify the modal handlers folder
+    modalHandlersFolder: "./yourModalHandlersFolder", // Specify the modal handlers folder
+    debbugColors: 'none', // 'none' | 'icon' | 'line', defines if the debugger uses colors - optional
+    architecture: 'simple' // 'simple' | 'double', if simple, the commands inside the commandsFolder will be read, if double, the commands inside the directories of the commandSFolder will be read
 });
 client.start({
     // All are optionnal
@@ -112,6 +116,29 @@ client.start({
 ## Create a command
 
 Go in your commands folder, and create a new file.
+
+### Architecture
+
+The emplacement of the file depends of your architecture ( defined when [creating the client](#create-amythyst-client) )
+
+If it is simple, it looks like this :
+
+```cmd
+|_commands
+  |_info.ts/js
+  |_ban.ts/js
+```
+
+If you configured it to double, it looks like this :
+
+```cmd
+|_commands
+  |_moderation
+    |_ban.ts/js
+    |_info.ts/js
+```
+
+### Command creation
 
 Import AmethystCommand and exports it
 
