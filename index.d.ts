@@ -1,4 +1,4 @@
-import { Client, ClientEvents, ClientOptions } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, Client, ClientEvents, ClientOptions, Message, MessageCreateOptions, TextChannel } from 'discord.js';
 import {
     AmethystClientOptions,
     DebugImportance,
@@ -43,6 +43,7 @@ import { amethystPaginatorOptions } from './dist/structures/Paginator';
 import log4js from './dist/utils/log4js';
 import { Paginator, paginatorOptions } from 'dsc-pagination';
 import { modalHandlerOptions, modalHandlerRun, ModalDenied } from './dist/typings/ModalHandler';
+import { controlPanelAddOptions, controlPanelOptions } from './dist/typings/panel'
 
 export {
     PreconditionChatInputRun,
@@ -73,8 +74,9 @@ export {
     errorReason,
     preconditionRunReturn,
     preconditionType,
-    commandDeniedPayload,
-    paginatorOptions
+    paginatorOptions,
+    controlPanelAddOptions,
+    controlPanelOptions
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 
@@ -570,6 +572,93 @@ export class AmethystError extends Error {
      * @param message string Error to display
      */
     constructor(message: string);
+}
+
+/**
+ * Amethyst control panel of the bot
+ */
+export class ControlPanel {
+    /**
+     * Control panel of the bot
+     * 
+     * ```js
+     * const { ControlPanel, AmethystClient } = require('amethystjs');
+     * const reboot = require('./buttons');
+     * 
+     * const client = new AmethystClient({
+     *     intents: ['Guilds']
+     * }, {
+     *     token: 'token',
+     *     debug: true,
+     *     buttonsFolder: './buttons'
+     * });
+     * 
+     * const panel = new ControlPanel({
+     *     client: client,
+     *     channelID: 'id of the control channel',
+     *     deleteMessages: true, // Optional
+     *     pin: true, // Optional
+     *     content: { content: "Control panel" } // Optional
+     * })
+     *  .registerButton({
+     *      label: 'Disconnect',
+     *      handler: 'panel.disconect', // Use the button handler that handles "panel.disconnect"
+     *      style: 'Primary'
+     *  })
+     *  .registerButton({
+     *      label: 'Reboot',
+     *      style: 'Danger',
+     *      handler: reboot // Use the imported "reboot" button handler
+     *  })
+     *  .start()
+     * ```
+     */
+    constructor(options: controlPanelOptions);
+
+    private client: AmethystClient;
+    private channelId: string;
+    private channel: TextChannel;
+    private options: controlPanelOptions;
+    private buttons: (controlPanelAddOptions & { id: string })[];
+    private _message: Message;
+
+    private get components(): ActionRowBuilder<ButtonBuilder>[];
+    private get content(): MessageCreateOptions;
+    private amethystPanelId(int: number): string;
+    private init(): Promise<void>
+
+    /**
+     * The message of the panel
+     * 
+     * @returns Mesage
+     */
+    public get message(): Message;
+
+    /**
+     * Create a button on the panel
+     * 
+     * The handler proprety can either be an id, handled by an external button handler, or a ButtonHandler
+     * 
+     * ```js
+     * panel.registerButton({
+     *     label: 'Reboot',
+     *     style: 'Danger',
+     *     handler: 'panel.reboot'
+     * })
+     * ```
+     * 
+     * @param button `controlPanelAddOptions` options of creation of button
+     * @returns this
+     */
+    public registerButton(button: controlPanelAddOptions): this
+    /**
+     * Start the panel once the buttons are registered
+     * 
+     * ```js
+     * panel.start()
+     * ```
+     */
+    public start(): Promise<void>;
 }
 
 /**

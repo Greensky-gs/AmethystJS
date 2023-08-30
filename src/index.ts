@@ -16,6 +16,7 @@ export { ButtonHandler } from './structures/ButtonHandler';
 export { AmethystPaginator } from './structures/Paginator';
 export { ModalHandler } from './structures/ModalHandler';
 export { AmethystError } from './structures/AmethystError';
+export { ControlPanel } from './structures/ControlPanel'
 
 // Types
 export {
@@ -59,6 +60,7 @@ export {
 } from './typings/autocompleteListener';
 export { amethystPaginatorOptions } from './structures/Paginator';
 export { modalHandlerOptions, modalHandlerRun, ModalDenied } from './typings/ModalHandler';
+export { controlPanelAddOptions, controlPanelOptions } from './typings/panel'
 
 // Objects
 export const preconditions: Record<string, Precondition> = {

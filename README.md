@@ -35,6 +35,7 @@ With this powerful framework you can :
 * [Wait for interactions](#wait-for-interactions)
 * [Handle buttons](#button-handler)
 * [Handle modals](#modal-handlers)
+* [Make a control panel](#make-a-control-panel)
 * [Set custom prefixes](#register-custom-prefixes)
 * [Wait a little time](#wait)
 * [Paginate embeds](#paginator)
@@ -751,6 +752,107 @@ module.exports = new ModalHandler({
     opts.user;
 });
 ```
+
+## Make a control panel
+
+You can make a control panel for your bot
+
+![image](https://media.discordapp.net/attachments/1012743337754771486/1146382088434630696/image.png?width=2052&height=636)
+
+You need to have the [client](#create-amythyst-client) created
+
+### Creation
+
+Here's how to create a control panel
+
+```ts
+import { AmethystClient, ControlPanel } from 'amethystjs';
+import rebootHandler from './buttons/reboot';
+import const { panelEmbed }  from './contents/embeds';
+
+const client = new AmethystClient({
+    intents: ['Guilds']
+}, {
+    token: 'token',
+    debug: true,
+    buttonsFolder: './dist/buttons'
+})
+
+client.start({}) // You can start it after the panel is created if you want
+
+const panel = new ControlPanel({
+    client: client,
+    channelID: 'Id of the channel where the panel will be',
+    deleteMessages: true, // Delete the other messages in the channel - optional
+    pin: true, // Pin the panel - optional
+    content: { 
+        content: "Control panel",
+        embeds: [panelEmbed]
+    } // Content of the message - optional
+});
+```
+
+```js
+const { AmethystClient, ControlPanel } = require('amethystjs');
+const { panelEmbed } = require('./contents/embeds');
+
+const client = new AmethystClient({
+    intents: ['Guilds']
+}, {
+    token: 'token',
+    debug: true,
+    buttonsFolder: './dist/buttons'
+})
+
+client.start({}) // You can start it after the panel is created if you want
+
+const panel = new ControlPanel({
+    client: client,
+    channelID: 'Id of the channel where the panel will be',
+    deleteMessages: true, // Delete the other messages in the channel - optional
+    pin: true, // Pin the panel - optional
+    content: { 
+        content: "Control panel",
+        embeds: [panelEmbed]
+    } // Content of the message - optional
+});
+```
+
+### Register a button
+
+Now you surely want to register your buttons
+
+```ts
+import rebootHandler from './buttons/reboot';
+
+panel.registerButton({
+    label: 'Disconnect voice',
+    handler: 'panel.disconnect', // Use the handler that handles 'panel.disconnect'
+    style: 'Primary'
+})
+.registerButton({
+    label: 'Reboot',
+    style: 'Danger',
+    handler: rebootHandler // Use the imported handler
+})
+```
+
+```js
+const rebootHandler = require('./buttons/reboot');
+
+panel.registerButton({
+    label: 'Disconnect voice',
+    handler: 'panel.disconnect', // Use the handler that handles 'panel.disconnect'
+    style: 'Primary'
+})
+.registerButton({
+    label: 'Reboot',
+    style: 'Danger',
+    handler: rebootHandler // Use the imported handler
+})
+```
+
+Once it's done, don't forget to start the panel with `panel.start()` method
 
 ## Log4JS
 
