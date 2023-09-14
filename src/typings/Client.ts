@@ -189,7 +189,16 @@ w     * });
      *
      * @default `simple`
      */
-    architecture?: architectureType;
+    commandsArchitecture?: architectureType;
+    /**
+     * Type of the events folder
+     * 
+     * If configured to 'simple', the file in the `commandsFolder` folder will be registered as commands,
+     * If configured to 'double', the files in the subdirectories of `commandsFolder` will be registered as commands
+     *
+     * @default `simple`
+     */
+    eventsArchitecture?: architectureType;
 };
 export type startOptions = {
     /**

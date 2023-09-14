@@ -58,7 +58,8 @@ export class AmethystClient extends Client {
             customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true,
             modalHandlersFolder: configs?.modalHandlersFolder,
             debuggerColors: configs?.debuggerColors ?? 'icon',
-            architecture: configs?.architecture ?? 'simple'
+            commandsArchitecture: configs?.commandsArchitecture ?? 'simple',
+            eventsArchitecture: configs?.eventsArchitecture ?? 'simple'
         };
     }
     public start({
@@ -186,14 +187,14 @@ export class AmethystClient extends Client {
                 DebugImportance.Information
             );
         };
-        if (this.configs.architecture === 'simple') {
+        if (this.configs.commandsArchitecture === 'simple') {
             readdirSync(this.configs.commandsFolder).forEach((commandFile: string) => {
                 let x = require(`../../../../${this.configs.commandsFolder}/${commandFile}`);
                 const command: AmethystCommand = x?.default ?? x;
 
                 callback(command, `${this.configs.commandsFolder}/${commandFile}`);
             });
-        } else if (this.configs.architecture === 'double') {
+        } else if (this.configs.commandsArchitecture === 'double') {
             readdirSync(this.configs.commandsFolder).forEach((dir) => {
                 readdirSync(`${this.configs.commandsFolder}/${dir}`).forEach((commandFile) => {
                     const path = `${this.configs.commandsFolder}/${dir}/${commandFile}`;
@@ -311,20 +312,34 @@ export class AmethystClient extends Client {
             return this.debug("Events folder doesn't exist", DebugImportance.Unexpected);
 
         let eventsCount = 0;
-        readdirSync(this.configs.eventsFolder).forEach((eventFile: string) => {
-            let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`);
-            const event: AmethystEvent<keyof ClientEvents> = x?.default ?? x;
+        const callback = (ev: AmethystEvent<keyof ClientEvents>, path: string) => {
+            if (!ev || !(ev instanceof AmethystEvent))
+            return this.debug(
+                `Default value of file ${path} is not an amethyst event`,
+                DebugImportance.Critical
+            );
 
-            if (!event || !(event instanceof AmethystEvent))
-                return this.debug(
-                    `Default value of file ${this.configs.eventsFolder}/${eventFile} is not an amethyst event`,
-                    DebugImportance.Critical
-                );
-
-            this.on(event.key, event.run as Awaitable<any>);
             eventsCount++;
-            this.debug(`Event loaded: ${event.key}`, DebugImportance.Information);
-        });
+            this.on(ev.key, ev.run as Awaitable<any>);
+            this.debug(`Event loaded: ${ev.key}`, DebugImportance.Information);
+        }
+        if (this.configs.eventsArchitecture === 'simple') {
+            readdirSync(this.configs.eventsFolder).forEach((eventFile: string) => {
+                let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`);
+                const event: AmethystEvent<keyof ClientEvents> = x?.default ?? x;
+    
+                callback(event, `${this.configs.eventsFolder}/${eventFile}`)
+            });
+        } else if (this.configs.eventsArchitecture === 'double') {
+            readdirSync(this.configs.eventsFolder).forEach((eventDir) => {
+                readdirSync(`${this.configs.eventsFolder}/${eventDir}`).forEach((fileName) => {
+                    let x = require(`../../../../${this.configs.eventsFolder}/${eventDir}/${fileName}`)
+                    const event: AmethystEvent<keyof ClientEvents> = x?.default ?? x;
+
+                    callback(event, `${this.configs.eventsFolder}/${eventDir}/${fileName}`)
+                })
+            })
+        }
         this.debug(`Events loading ended: ${eventsCount} event(s) have been loaded`, DebugImportance.Information);
     }
     private loadAutocompleteListeners(load: boolean) {
