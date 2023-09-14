@@ -105,7 +105,7 @@ export class ControlPanel {
         }
         if (this.options.pin) {
             const rep = await msg.pin().catch(log4js.trace)
-            if (rep) this.channel.bulkDelete(1).catch(lo4js.trace)
+            if (rep) this.channel.bulkDelete(1).catch(log4js.trace)
         }
 
         this.client.on('buttonInteraction', (button, message) => {
