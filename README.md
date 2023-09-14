@@ -105,7 +105,8 @@ const client = new AmethystClient({
     modalHandlersFolder: "./yourModalHandlersFolder", // Specify the modal handlers folder
     debbugColors: 'none', // 'none' | 'icon' | 'line', defines if the debugger uses colors - optional
     commandsArchitecture: 'simple' // 'simple' | 'double', if simple, the commands inside the commandsFolder will be read, if double, the commands inside the directories of the commandsFolder will be read
-    eventsArchitecture: 'simple' // 'simple' | 'double', if simple, the events inside the eventsFolder will be read, if double, the events inside the directories of the eventsFolder will be read
+    eventsArchitecture: 'simple', // 'simple' | 'double', if simple, the events inside the eventsFolder will be read, if double, the events inside the directories of the eventsFolder will be read
+    commandLocalizationsUsedAsNames: true // Allows the localized names to be used as message command names
 });
 client.start({
     // All are optionnal

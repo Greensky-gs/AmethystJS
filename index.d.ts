@@ -138,7 +138,8 @@ export class AmethystClient extends Client {
      *         everyone: "You cannot interact with this message"
      *     },
      *     commandsArchitecture: 'simple',
-     *     eventsArchitecture: 'simple'
+     *     eventsArchitecture: 'simple',
+     *     commandLocalizationsUsedAsNames: true
      * })
      * ```
      *

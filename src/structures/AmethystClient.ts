@@ -59,7 +59,8 @@ export class AmethystClient extends Client {
             modalHandlersFolder: configs?.modalHandlersFolder,
             debuggerColors: configs?.debuggerColors ?? 'icon',
             commandsArchitecture: configs?.commandsArchitecture ?? 'simple',
-            eventsArchitecture: configs?.eventsArchitecture ?? 'simple'
+            eventsArchitecture: configs?.eventsArchitecture ?? 'simple',
+            commandLocalizationsUsedAsNames: configs?.commandLocalizationsUsedAsNames ?? false
         };
     }
     public start({

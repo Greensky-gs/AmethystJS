@@ -1,4 +1,4 @@
-import { PermissionsString } from 'discord.js';
+import { PermissionsString, LocaleString } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
 import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client';
@@ -13,7 +13,7 @@ export default new AmethystEvent('messageCreate', (message) => {
     const args = message.content.slice(test.length).trim().split(/ +/g);
     const cmdName = args.shift();
     const cmd = message.client.messageCommands.find(
-        (x) => x.options.name === cmdName.toLowerCase() || x.options.aliases.includes(cmdName.toLowerCase())
+        (x) => x.options.name === cmdName.toLowerCase() || x.options.aliases.includes(cmdName.toLowerCase()) || Object.keys(x.options.nameLocalizations ?? {}).map((y)  => (x.options.nameLocalizations ?? {})[y as keyof Partial<Record<LocaleString, string>>]).includes(cmdName.toLowerCase())
     );
 
     if (!cmd) {

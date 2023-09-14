@@ -199,6 +199,15 @@ w     * });
      * @default `simple`
      */
     eventsArchitecture?: architectureType;
+    /**
+     * Set the command localizations to usable aliases
+     * 
+     * If enabled, the name localizations of the message commands will be used as name indexes
+     * 
+     * @important If the same name appears multiple times, the first command will be executed
+     * @default `true`
+     */
+    commandLocalizationsUsedAsNames?: boolean;
 };
 export type startOptions = {
     /**
