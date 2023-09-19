@@ -13,7 +13,7 @@ export default new AmethystEvent('messageCreate', (message) => {
     const args = message.content.slice(test.length).trim().split(/ +/g);
     const cmdName = args.shift();
     const cmd = message.client.messageCommands.find(
-        (x) => x.options.name === cmdName.toLowerCase() || x.options.aliases.includes(cmdName.toLowerCase()) || Object.keys(x.options.nameLocalizations ?? {}).map((y)  => (x.options.nameLocalizations ?? {})[y as keyof Partial<Record<LocaleString, string>>]).includes(cmdName.toLowerCase())
+        (x) => x.options.name === cmdName.toLowerCase() || x.options.aliases.includes(cmdName.toLowerCase()) || (message.client.configs.commandLocalizationsUsedAsNames && Object.keys(x.options.nameLocalizations ?? {}).map((y)  => (x.options.nameLocalizations ?? {})[y as keyof Partial<Record<LocaleString, string>>]).includes(cmdName.toLowerCase()))
     );
 
     if (!cmd) {
