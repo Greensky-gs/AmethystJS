@@ -12,7 +12,7 @@
   "author": "Greensky-gs <72513011+Greensky-gs@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^14.8.0",
+    "discord.js": "^14.13.0",
     "dsc-pagination": "^1.0.3"
   },
   "devDependencies": {
