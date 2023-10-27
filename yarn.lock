@@ -328,7 +328,7 @@ discord-api-types@0.37.50:
   resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.50.tgz#6059eb8c0b784ad8194655a8b8b7f540fcfac428"
   integrity sha512-X4CDiMnDbA3s3RaUXWXmgAIbY1uxab3fqe3qwzg5XutR3wjqi7M3IkgQbsIBzpqBN2YWr/Qdv7JrFRqSgb4TFg==
 
-discord.js@^14.8.0:
+discord.js@^14.13.0, discord.js@^14.8.0:
   version "14.13.0"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.13.0.tgz#e7a00bdba70adb9e266a06884ca1acaf9a0b5c20"
   integrity sha512-Kufdvg7fpyTEwANGy9x7i4od4yu5c6gVddGi5CKm4Y5a6sF0VBODObI3o0Bh7TGCj0LfNT8Qp8z04wnLFzgnbA==
@@ -356,11 +356,11 @@ doctrine@^3.0.0:
     esutils "^2.0.2"
 
 dsc-pagination@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/dsc-pagination/-/dsc-pagination-1.0.3.tgz#162d1ee463aee7aa3801867ea1b8cc571277770d"
-  integrity sha512-QYpblmyPaSJJJzrf8qruL5M5CqVpxDeDwgcIA8BjtE2ilc19dnVkIEztc40oNC9FNovNyVDD5xq5WLDWOC4R3g==
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/dsc-pagination/-/dsc-pagination-1.0.21.tgz#91ba3dfe533f53d2b88d42afe94b3f34828957a2"
+  integrity sha512-af958JZG1xXH/wZwqZPhpbkeDuChp5XFaclVandBszRzC5tKGN3b6iiG4IU2YC6TrGB5+wDyUeAJvku1mAUBfA==
   dependencies:
-    discord.js "^14.8.0"
+    discord.js "^14.13.0"
 
 escape-string-regexp@^4.0.0:
   version "4.0.0"
