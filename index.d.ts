@@ -1,4 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, Client, ClientEvents, ClientOptions, Message, MessageCreateOptions, TextChannel } from 'discord.js';
+
 import {
     AmethystClientOptions,
     DebugImportance,
@@ -44,6 +45,7 @@ import log4js from './dist/utils/log4js';
 import { Paginator, paginatorOptions } from 'dsc-pagination';
 import { modalHandlerOptions, modalHandlerRun, ModalDenied } from './dist/typings/ModalHandler';
 import { controlPanelAddOptions, controlPanelOptions } from './dist/typings/panel'
+import { fractionnedReplyCallback, fractionnedReplyContent, fractionnedReplyMessageResolvable, fractionnedReplyOptions, fractionnedReplyReference, fractionnedReplyReply, fractionnedReplyType } from './dist/typings/fractionnedReply'
 
 export {
     PreconditionChatInputRun,
@@ -76,7 +78,14 @@ export {
     preconditionType,
     paginatorOptions,
     controlPanelAddOptions,
-    controlPanelOptions
+    controlPanelOptions,
+    fractionnedReplyCallback,
+    fractionnedReplyContent,
+    fractionnedReplyMessageResolvable,
+    fractionnedReplyOptions,
+    fractionnedReplyReference,
+    fractionnedReplyReply,
+    fractionnedReplyType
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 

@@ -17,6 +17,7 @@ export { AmethystPaginator } from './structures/Paginator';
 export { ModalHandler } from './structures/ModalHandler';
 export { AmethystError } from './structures/AmethystError';
 export { ControlPanel } from './structures/ControlPanel'
+export { AmethystFractionnedReply } from './structures/AmethystFractionnedReply'
 
 // Types
 export {
@@ -61,6 +62,7 @@ export {
 export { amethystPaginatorOptions } from './structures/Paginator';
 export { modalHandlerOptions, modalHandlerRun, ModalDenied } from './typings/ModalHandler';
 export { controlPanelAddOptions, controlPanelOptions } from './typings/panel'
+export { fractionnedReplyOptions } from './typings/fractionnedReply';
 
 // Objects
 export const preconditions: Record<string, Precondition> = {
