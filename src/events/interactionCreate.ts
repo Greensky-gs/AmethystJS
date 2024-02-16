@@ -393,7 +393,7 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     }
                 });
 
-            if (!stopped) return;
+            if (stopped) return;
         }
         modal.run({
             modal: interaction,
