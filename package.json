@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "discord-api-types": "^0.37.60",
-    "eslint": "^8.27.0",
+    "eslint": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.0",
     "tsc": "^2.0.4",
