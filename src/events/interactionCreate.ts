@@ -268,14 +268,14 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
             if (missing.length > 0) {
                 return interaction.client.emit('buttonDenied', {
                     button: interaction,
-                    message: 'Client is missing permissions',
+                    message: 'User is missing permissions',
                     metadata: {
                         permissions: {
                             got: perms.toArray().filter((x) => !missing.includes(x)),
                             need: handler.options.clientPermissions,
                             missing
                         },
-                        code: ButtonDeniedCode.ClientMissingPerms
+                        code: ButtonDeniedCode.MissingPerms
                     },
                     user: interaction.user
                 });
