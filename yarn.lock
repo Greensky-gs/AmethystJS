@@ -298,9 +298,9 @@ discord-api-types@0.37.97:
   integrity sha512-No1BXPcVkyVD4ZVmbNgDKaBoqgeQ+FJpzZ8wqHkfmBnTZig1FcH3iPPersiK1TUIAzgClh2IvOuVUYfcWLQAOA==
 
 discord-api-types@^0.37.60:
-  version "0.37.98"
-  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.98.tgz#65484b63f51f67c7bc60555b0f247716a8d573c0"
-  integrity sha512-xsH4UwmnCQl4KjAf01/p9ck9s+/vDqzHbUxPOBzo8fcVUa/hQG6qInD7Cr44KAuCM+xCxGJFSAUx450pBrX0+g==
+  version "0.37.99"
+  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.99.tgz#4d6c32517cb658ee917852f2226492cbbea4e633"
+  integrity sha512-aQtiAeLF1RHh8iYC2manEQQwsCjeDTA/Y+vhL7TRcRu+8z8nKTd5fGquDG7nbBqOkw0zU3YsZBO5evHx240VVw==
 
 discord.js@^14.13.0:
   version "14.16.1"
