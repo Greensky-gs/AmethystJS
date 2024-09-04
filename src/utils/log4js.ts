@@ -9,7 +9,7 @@ const configs = {
     onLog: (log: any) => {}
 };
 
-const config = <Key extends keyof typeof configs>(key: Key, value: typeof configs[Key]) => {
+const config = <Key extends keyof typeof configs>(key: Key, value: (typeof configs)[Key]) => {
     if (!key) {
         console.log(`[!!] The key isn't a valid key value`);
         return;

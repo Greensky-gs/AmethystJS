@@ -9,8 +9,11 @@ const calculateTime = (t: number, unit: unit) => {
 };
 export const wait = (time: number, unit?: unit): Promise<void> => {
     return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve();
-        }, Math.abs(calculateTime(time, unit ?? 'ms')));
+        setTimeout(
+            () => {
+                resolve();
+            },
+            Math.abs(calculateTime(time, unit ?? 'ms'))
+        );
     });
 };

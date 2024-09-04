@@ -315,31 +315,28 @@ export class AmethystClient extends Client {
         let eventsCount = 0;
         const callback = (ev: AmethystEvent<keyof ClientEvents>, path: string) => {
             if (!ev || !(ev instanceof AmethystEvent))
-            return this.debug(
-                `Default value of file ${path} is not an amethyst event`,
-                DebugImportance.Critical
-            );
+                return this.debug(`Default value of file ${path} is not an amethyst event`, DebugImportance.Critical);
 
             eventsCount++;
             this.on(ev.key, ev.run as Awaitable<any>);
             this.debug(`Event loaded: ${ev.key}`, DebugImportance.Information);
-        }
+        };
         if (this.configs.eventsArchitecture === 'simple') {
             readdirSync(this.configs.eventsFolder).forEach((eventFile: string) => {
                 let x = require(`../../../../${this.configs.eventsFolder}/${eventFile}`);
                 const event: AmethystEvent<keyof ClientEvents> = x?.default ?? x;
-    
-                callback(event, `${this.configs.eventsFolder}/${eventFile}`)
+
+                callback(event, `${this.configs.eventsFolder}/${eventFile}`);
             });
         } else if (this.configs.eventsArchitecture === 'double') {
             readdirSync(this.configs.eventsFolder).forEach((eventDir) => {
                 readdirSync(`${this.configs.eventsFolder}/${eventDir}`).forEach((fileName) => {
-                    let x = require(`../../../../${this.configs.eventsFolder}/${eventDir}/${fileName}`)
+                    let x = require(`../../../../${this.configs.eventsFolder}/${eventDir}/${fileName}`);
                     const event: AmethystEvent<keyof ClientEvents> = x?.default ?? x;
 
-                    callback(event, `${this.configs.eventsFolder}/${eventDir}/${fileName}`)
-                })
-            })
+                    callback(event, `${this.configs.eventsFolder}/${eventDir}/${fileName}`);
+                });
+            });
         }
         this.debug(`Events loading ended: ${eventsCount} event(s) have been loaded`, DebugImportance.Information);
     }

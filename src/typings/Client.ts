@@ -192,7 +192,7 @@ w     * });
     commandsArchitecture?: architectureType;
     /**
      * Type of the events folder
-     * 
+     *
      * If configured to 'simple', the file in the `commandsFolder` folder will be registered as commands,
      * If configured to 'double', the files in the subdirectories of `commandsFolder` will be registered as commands
      *
@@ -201,9 +201,9 @@ w     * });
     eventsArchitecture?: architectureType;
     /**
      * Set the command localizations to usable aliases
-     * 
+     *
      * If enabled, the name localizations of the message commands will be used as name indexes
-     * 
+     *
      * @important If the same name appears multiple times, the first command will be executed
      * @default `true`
      */

@@ -1,4 +1,13 @@
-import { ActionRowBuilder, ButtonBuilder, Client, ClientEvents, ClientOptions, Message, MessageCreateOptions, TextChannel } from 'discord.js';
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    Client,
+    ClientEvents,
+    ClientOptions,
+    Message,
+    MessageCreateOptions,
+    TextChannel
+} from 'discord.js';
 
 import {
     AmethystClientOptions,
@@ -44,8 +53,16 @@ import { amethystPaginatorOptions } from './dist/structures/Paginator';
 import log4js from './dist/utils/log4js';
 import { Paginator, paginatorOptions } from 'dsc-pagination';
 import { modalHandlerOptions, modalHandlerRun, ModalDenied } from './dist/typings/ModalHandler';
-import { controlPanelAddOptions, controlPanelOptions } from './dist/typings/panel'
-import { fractionnedReplyCallback, fractionnedReplyContent, fractionnedReplyMessageResolvable, fractionnedReplyOptions, fractionnedReplyReference, fractionnedReplyReply, fractionnedReplyType } from './dist/typings/fractionnedReply'
+import { controlPanelAddOptions, controlPanelOptions } from './dist/typings/panel';
+import {
+    fractionnedReplyCallback,
+    fractionnedReplyContent,
+    fractionnedReplyMessageResolvable,
+    fractionnedReplyOptions,
+    fractionnedReplyReference,
+    fractionnedReplyReply,
+    fractionnedReplyType
+} from './dist/typings/fractionnedReply';
 
 export {
     PreconditionChatInputRun,
@@ -591,11 +608,11 @@ export class AmethystError extends Error {
 export class ControlPanel {
     /**
      * Control panel of the bot
-     * 
+     *
      * ```js
      * const { ControlPanel, AmethystClient } = require('amethystjs');
      * const reboot = require('./buttons');
-     * 
+     *
      * const client = new AmethystClient({
      *     intents: ['Guilds']
      * }, {
@@ -603,7 +620,7 @@ export class ControlPanel {
      *     debug: true,
      *     buttonsFolder: './buttons'
      * });
-     * 
+     *
      * const panel = new ControlPanel({
      *     client: client,
      *     channelID: 'id of the control channel',
@@ -636,20 +653,20 @@ export class ControlPanel {
     private get components(): ActionRowBuilder<ButtonBuilder>[];
     private get content(): MessageCreateOptions;
     private amethystPanelId(int: number): string;
-    private init(): Promise<void>
+    private init(): Promise<void>;
 
     /**
      * The message of the panel
-     * 
+     *
      * @returns Mesage
      */
     public get message(): Message;
 
     /**
      * Create a button on the panel
-     * 
+     *
      * The handler proprety can either be an id, handled by an external button handler, or a ButtonHandler
-     * 
+     *
      * ```js
      * panel.registerButton({
      *     label: 'Reboot',
@@ -657,14 +674,14 @@ export class ControlPanel {
      *     handler: 'panel.reboot'
      * })
      * ```
-     * 
+     *
      * @param button `controlPanelAddOptions` options of creation of button
      * @returns this
      */
-    public registerButton(button: controlPanelAddOptions): this
+    public registerButton(button: controlPanelAddOptions): this;
     /**
      * Start the panel once the buttons are registered
-     * 
+     *
      * ```js
      * panel.start()
      * ```

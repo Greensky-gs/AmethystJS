@@ -1,9 +1,8 @@
 import { ButtonInteraction, ComponentType, MessageComponentType, SelectMenuInteraction } from 'discord.js';
 import { waitForType } from '../typings/Client';
 
-type WaitForInteraction<T> = T extends waitForType<ComponentType.Button>
-    ? ButtonInteraction<'cached'>
-    : SelectMenuInteraction<'cached'>;
+type WaitForInteraction<T> =
+    T extends waitForType<ComponentType.Button> ? ButtonInteraction<'cached'> : SelectMenuInteraction<'cached'>;
 
 export const waitForInteraction = <T extends waitForType<MessageComponentType>>({
     componentType,

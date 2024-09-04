@@ -20,8 +20,8 @@ export class ModalHandler {
             typeof options.modalId === 'string'
                 ? [options.modalId]
                 : options.modalId instanceof Array
-                ? [...new Set(options.modalId)]
-                : [];
+                  ? [...new Set(options.modalId)]
+                  : [];
         if (this._idsList.length === 0) {
             throw new AmethystError(`Modal ID not provided in modal handler`);
         }
