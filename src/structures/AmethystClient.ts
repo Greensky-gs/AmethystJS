@@ -6,7 +6,7 @@ import {
     Awaitable,
     Partials,
     ContextMenuCommandBuilder,
-    ApplicationCommandType
+    ContextMenuCommandType,
 } from 'discord.js';
 import { existsSync, readdirSync } from 'node:fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
@@ -224,12 +224,12 @@ export class AmethystClient extends Client {
                     ...this._userContextCommands.map((x) =>
                         new ContextMenuCommandBuilder()
                             .setName(x.options.userContextName ?? x.options.name)
-                            .setType(ApplicationCommandType.User)
+                            .setType(2)
                     ),
                     ...this._messageContextCommands.map((x) =>
                         new ContextMenuCommandBuilder()
                             .setName(x.options.messageContextName ?? x.options.name)
-                            .setType(ApplicationCommandType.Message)
+                            .setType(3)
                     )
                 ];
 
