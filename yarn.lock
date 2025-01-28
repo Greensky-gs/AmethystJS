@@ -310,9 +310,9 @@ deep-is@^0.1.3:
   integrity sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==
 
 discord-api-types@^0.37.114, discord-api-types@^0.37.60:
-  version "0.37.116"
-  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.116.tgz#2f28ffd3b5749768bd94dfc055d0f0001293ef59"
-  integrity sha512-g+BH/m0hyS/JzL+e0aM+z2o9UtwfyUZ0hqeyc+6sNwdMx+NtQkqULRV/oj9ynAefpRb+cpOjmWaYec4B1I0Hqg==
+  version "0.37.118"
+  resolved "https://registry.yarnpkg.com/discord-api-types/-/discord-api-types-0.37.118.tgz#a9cec21a1c80e3977ebe7f0691ef15d159cbe794"
+  integrity sha512-MQkHHZcytmNQ3nQOBj6a0z38swsmHiROX7hdayfd0eWVrLxaQp/6tWBZ7FO2MCKKsc+W3QWnnfOJTbtyk8C4TQ==
 
 discord.js@^14.13.0, discord.js@^14.16.3:
   version "14.17.3"
