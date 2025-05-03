@@ -2,8 +2,8 @@ type unit = 'ms' | 's' | 'm';
 const calculateTime = (t: number, unit: unit) => {
     const ratio: Record<unit, number> = {
         ms: 1,
-        s: 0.001,
-        m: 1 / 60000
+        s: 1000,
+        m: 60000
     };
     return t * ratio[unit];
 };
