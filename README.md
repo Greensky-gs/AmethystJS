@@ -73,47 +73,12 @@ const client = new AmethystClient({
     eventsArchitecture: 'simple' // 'simple' | 'double', if simple, the events inside the eventsFolder will be read, if double, the events inside the directories of the eventsFolder will be read
 });
 client.start({
-    // All are optionnal
+    // All are optionnal and true by default
     loadCommands: true, // Load commands
     loadEvents: true, // Load events
     loadPreconditions: true, // Load preconditions
     loadAutocompleteListeners: true, // Load autocomplete listeners
     loadModals: true // Load modals handlers
-});
-```
-
-```js
-const { AmethystClient } = require('amethystjs');
-
-const client = new AmethystClient({
-    // Discord.js client options
-}, {
-    botName: "your bot's name", // Optionnal
-    botNameWorksAsPrefix: true, // Wether if we can use the bot's name as prefix - optionnal
-    commandsFolder: './yourCommandsFolder', // Optionnal
-    eventsFolder: './yourEventsFolder', // Optionnal
-    prefix: "bot's prefix", // Optionnal
-    strictPrefix: true, // Wether if the prefix must be exactly the same - optionnal
-    mentionWorksAsPrefix: true, // Wether if we can use the bot by mentionning it
-    token: "Your bot's token",
-    debug: false, // Enable debug mode (get a lot of messages in the console) - optionnal
-    defaultCooldownTime: 5, // Default cooldown time
-    preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
-    autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
-    buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
-    customPrefixAndDefaultAvailable?: true, // Specify if the default prefix is usable when a custom prefix is set - optionnal
-    modalHandlersFolder: "./yourModalHandlersFolder", // Specify the modal handlers folder
-    debbugColors: 'none', // 'none' | 'icon' | 'line', defines if the debugger uses colors - optional
-    commandsArchitecture: 'simple' // 'simple' | 'double', if simple, the commands inside the commandsFolder will be read, if double, the commands inside the directories of the commandsFolder will be read
-    eventsArchitecture: 'simple', // 'simple' | 'double', if simple, the events inside the eventsFolder will be read, if double, the events inside the directories of the eventsFolder will be read
-    commandLocalizationsUsedAsNames: true // Allows the localized names to be used as message command names
-});
-client.start({
-    // All are optionnal
-    loadCommands: true, // Load commands
-    loadEvents: true, // Load events
-    loadPreconditions: true, // Load preconditions
-    loadAutocompleteListeners: true // Load autocomplete listeners
 });
 ```
 
@@ -158,35 +123,6 @@ export default new AmethystCommands({
     preconditions: [  ], // Preconditions for the command - optionnal
     messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
     aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
-    messageInputDescription: "Description of the message command (optionnal)", // Message description - optionnal
-    userContextName: "name of the user context command", // Name of the user context command - optionnal
-    messageContextName: "Name of the message context command" // Name of the message context command - optionnal
-})
-.setMessageRun((options) => {
-    // Write code for message commands (optionnal)
-})
-.setChatInputRun((options) => {
-    // Write code for slash commands (optionnal)
-}).setUserContextMenuRun((options) => {
-    // Write code for user context menu command (optionnal)
-})
-.setMessageContextMenuRun((options) => {
-    // Write code for message context menu command (optionnal)
-})
-```
-
-```js
-const { Amethystcommand } = require('amethystjs');
-
-module.exports = new AmethystCommands({
-    cooldown: 5, // Cooldown time
-    name: 'command name', // Command name
-    permissions: [ 'Administrator' ], // Permissions for the user - optionnal
-    clientPermissions: [ 'ManageChannels' ], // Permissions for the bot - optionnal
-    preconditions: [  ], // Preconditions for the command - optionnal
-    messageInputChannelTypes: [], // Channel types allowed for message input running - optionnal
-    aliases: ['alias 1', 'alias 2', '...'], // Command aliases - optionnal
-    description: "Description of the command", // Description - required
     messageInputDescription: "Description of the message command (optionnal)", // Message description - optionnal
     userContextName: "name of the user context command", // Name of the user context command - optionnal
     messageContextName: "Name of the message context command" // Name of the message context command - optionnal
@@ -274,75 +210,6 @@ export default new Precondition("Your precondition's name")
 })
 ```
 
-```js
-const { Precondition } = require('amethystjs');
-
-module.exports = new Precondition("Your precondition's name")
-.setChatInputRun((options) => {
-    // Run your precondition here for slash commands
-    // You have to return something like this :
-    return {
-        ok: true,
-        message: 'Message in case of fail',
-        metadata: {/* some more datas */},
-        interaction: options.interaction,
-        type: 'chatInput'
-    }
-})
-.setMessageRun((options) => {
-    // Run your precondition here for message commands
-    // Return something like this
-    return {
-        ok: true,
-        message: "Message in case of fail",
-        metadata: { /* some extra datas */ },
-        type: 'message',
-        channelMessage: options.message
-    }
-})
-.setButtonRun((options) => {
-    // Run your precondition here for button
-    // You have to return something like this :
-    return {
-        ok: true,
-        message: 'Message in case of fail',
-        metadata: {/* Some extra options */},
-        button: options.button,
-        type: 'button'
-    }
-}).setModalRun((options) => {
-    // Run your modal precondition here
-    // Return something like so
-    return {
-        ok: true,
-        message: "Message in case of fail",
-        metadata: { /* some data here */ },
-        type: 'modal',
-        modal: options.modal
-    }
-}).setUserContextMenuRun((options) => {
-    // Run your precondition for user context command here
-    // Return something like this
-    return {
-        ok: true,
-        message: "Message in case of fail",
-        metadata: { /* Some more datas */ },
-        type: 'userContextMenu',
-        contextMenu: options.interaction
-    }
-}).setMessageContextMenuRun((options) => {
-    // Run your precondition for message context command here
-    // Return something like this
-    return {
-        ok: true,
-        message: "Message in case of fail",
-        metadata: { /* Some more datas */ },
-        type: 'messageContextMenu',
-        contextMenu: options.interaction
-    }
-})
-```
-
 To use a custom precondition in a command, use it like so :
 
 ```ts
@@ -353,16 +220,6 @@ export default new AmethystCommand({
     name: 'name',
     preconditions: [ yourPrecondition ]
 })
-```
-
-```js
-const precondition = require('your precondition file');
-const { AmethystCommand } = require('amethystjs');
-
-module.exports = new AmethystCommand({
-    name: 'name',
-    preconditions: [ precondition ]
-});
 ```
 
 ## Registering events
@@ -396,14 +253,6 @@ If you configured it to double, it looks like this :
 import { AmethystEvent } from 'amethystjs';
 
 export default new AmethystEvent('eventName', (/* event options */) => {
-    // Run your event
-})
-```
-
-```js
-const { AmethytsEvent } = require('amethystjs');
-
-module.exports = new AmethystEvent('eventName',/* event options */ () => {
     // Run your event
 })
 ```
@@ -446,19 +295,6 @@ export default new AutocompleteListener({
 });
 ```
 
-```js
-const { AutocompleteListener } = require('amethystjs');
-
-module.exports = new AutocompleteListener({
-    commandName: [ { commandName: 'command name here' }, { commandName: 'another command name here', optionName: 'optionnal option name in the command here' } ],
-    run: (options) => {
-        // Make your choice here are return :
-        return [ {name: 'Name', value: 'value', nameLocalizations: {} } ]
-        
-    }
-});
-```
-
 As you've maybe noticed, `commandName` is an array containing a commandName and a potential optionName.
 
 It means that the autocomplete will be applied to every command with the name included in the array, and if optionName is specified, it will also check if the option name correspond to the one specified.
@@ -473,20 +309,6 @@ Go to your buttons folder and create a new file
 import { ButtonHandler } from 'amethystjs';
 
 export default new ButtonHandler({
-    customId: 'buttonCustomId',
-    permissions: ['Permissions required for the user'],
-    clientPermissions: ["Permissions required for the client"],
-    identifiers: [ 'optionnal array of more button custom identifiers' ]
-})
-.setRun((options) => {
-    // Execute your code here
-})
-```
-
-```js
-const { ButtonHandler } = require('amethystjs');
-
-module.exports = new ButtonHandler({
     customId: 'buttonCustomId',
     permissions: ['Permissions required for the user'],
     clientPermissions: ["Permissions required for the client"],
@@ -530,27 +352,6 @@ client.on('messageCreate', async(message) => {
 })
 ```
 
-```js
-const { waitForMessage } = require('amethystjs');
-
-// Important : this works only in an async function
-// For exemple, I'll do a simple client.on('messageCreate') to show you how to use it
-client.on('messageCreate', async(message) => {
-    if (message.content === '!ping') {
-        await message.channel.send(`Would you like me to reply ?\nReply by \`yes\` or \`no\``);
-        const reply = await waitForMessage({
-            user: message.author,
-            whoCanReact: 'useronly',
-            channel: message.channel,
-            time: 120000
-        });
-
-        if (!reply) message.channel.send(`You haven't replied :/`);
-        if (reply.content === 'yes') message.reply("Pong !");
-    }
-})
-```
-
 ## Wait for interactions
 
 Amethyst JS allows you to wait for interaction responses, like a select menu or a button click
@@ -573,38 +374,6 @@ import { ButtonBuilder, ActionRowBuilder, componentType, Message } from 'discord
             ]
         }) as ActionRowBuilder<ButtonBuilder>]
     }) as Message<true>;
-
-    const reply = await waitForInteraction({
-        message: msg,
-        time: 120000,
-        whoCanReact = 'useronly',
-        user: interaction.user,
-        componentType: componentType.Button
-    });
-
-    if (!reply || reply.customId === 'no') return interaction.editReply("Ok, no");
-    interaction.editReply("Yes !");
-})()
-```
-
-```js
-const { waitForInteraction } = require('amethystjs');
-const { ActionRowBuilder, ButtonBuilder, componentType } = require('discord.js');
-
-// This function works only in an async function.
-// Here i'm gonna show you in a very simple async function.
-// In this exemple, interaction is already defined
-
-(async() => {
-    const msg = await interaction.reply({
-        message: "Yes or no",
-        components: [ new ActionRowBuilder({
-            components: [
-                new ButtonBuilder({ label: 'Yes', style: ButtonStyle.Success, customId: 'yes' }),
-                new ButtonBuilder({ label: 'No', style: ButtonStyle.Danger, customId: 'no' })
-            ]
-        }) ]
-    })
 
     const reply = await waitForInteraction({
         message: msg,
@@ -739,18 +508,6 @@ import { wait } from 'amethystjs'
 })();
 ```
 
-```js
-// Import wait
-const { wait } = require('amethystjs');
-
-// Use it in an async function, it wont work otherwise
-(async() => {
-    await wait(1000); // Wait 1s
-    await wait(1, 's'); // Wait 1s
-    await wait(1, 'm'); // Wait 1m
-})()
-```
-
 ## Modal Handlers
 
 You can use modal handlers with Amethyst JS, it can handle modals trought an object inside the modals handler folder
@@ -759,18 +516,6 @@ You can use modal handlers with Amethyst JS, it can handle modals trought an obj
 import { ModalHandler } from 'amethystjs';
 
 export default new ModalHandler({
-    modalId: ['identifiers of modals to be handled'],
-    name: "Name of the handler"
-}).setRun((opts) => {
-    opts.modal;
-    opts.user;
-});
-```
-
-```js
-const { ModalHandler } = require('amethystjs');
-
-module.exports = new ModalHandler({
     modalId: ['identifiers of modals to be handled'],
     name: "Name of the handler"
 }).setRun((opts) => {
@@ -818,53 +563,12 @@ const panel = new ControlPanel({
 });
 ```
 
-```js
-const { AmethystClient, ControlPanel } = require('amethystjs');
-const { panelEmbed } = require('./contents/embeds');
-
-const client = new AmethystClient({
-    intents: ['Guilds']
-}, {
-    token: 'token',
-    debug: true,
-    buttonsFolder: './dist/buttons'
-})
-
-client.start({}) // You can start it after the panel is created if you want
-
-const panel = new ControlPanel({
-    client: client,
-    channelID: 'Id of the channel where the panel will be',
-    deleteMessages: true, // Delete the other messages in the channel - optional
-    pin: true, // Pin the panel - optional
-    content: { 
-        content: "Control panel",
-        embeds: [panelEmbed]
-    } // Content of the message - optional
-});
-```
-
 ### Register a button
 
 Now you surely want to register your buttons
 
 ```ts
 import rebootHandler from './buttons/reboot';
-
-panel.registerButton({
-    label: 'Disconnect voice',
-    handler: 'panel.disconnect', // Use the handler that handles 'panel.disconnect'
-    style: 'Primary'
-})
-.registerButton({
-    label: 'Reboot',
-    style: 'Danger',
-    handler: rebootHandler // Use the imported handler
-})
-```
-
-```js
-const rebootHandler = require('./buttons/reboot');
 
 panel.registerButton({
     label: 'Disconnect voice',
