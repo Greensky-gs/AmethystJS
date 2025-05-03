@@ -17,8 +17,6 @@
   },
   "devDependencies": {
     "discord-api-types": "^0.37.60",
-    "eslint": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.0.0",
     "tsc": "^2.0.4",
     "tslib": "^2.8.1",
@@ -26,7 +24,6 @@
   },
   "scripts": {
     "prettier": "prettier -w src index.d.ts",
-    "eslint": "eslint --fix --ext ts src index.d.ts",
     "build": "tsc -b",
     "post": "yarn build && npm publish --access public"
   },
