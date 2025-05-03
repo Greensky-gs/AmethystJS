@@ -1,11 +1,22 @@
 import {
+    AnySelectMenuInteraction,
+    BaseInteraction,
+    ButtonInteraction,
+    ChannelSelectMenuInteraction,
     ChannelType,
+    ComponentType,
+    Embed,
+    EmbedBuilder,
     InteractionReplyOptions,
+    MentionableSelectMenuInteraction,
     Message,
     MessageComponentType,
     PermissionsString,
+    RoleSelectMenuInteraction,
+    StringSelectMenuInteraction,
     TextChannel,
-    User
+    User,
+    UserSelectMenuInteraction
 } from 'discord.js';
 
 type pathLike = `./${string}`;
@@ -123,33 +134,14 @@ export type AmethystClientOptions = {
      */
     autocompleteListenersFolder?: pathLike;
     /**
-     * Default replies for the `waitForInteraction()` method of AmethystJS
-     *
-     * @default `{ user: "You're not allowed to interact with this message", everyone: "You're not allowed to interact with this message" }`
-     */
-    waitForDefaultReplies?: {
-        /**
-         * Default reply when the user that can't reply interacts
-         *
-         * @default `"You're not allowed to interact with this message"`
-         */
-        user?: string;
-        /**
-         * Default reply when any user that can't reply interacts
-         *
-         * @default `"You're not allowed to interact with this message"`
-         */
-        everyone?: string;
-    };
-    /**
      * Folder for your button handlers
      * The client will fetch every button handler in this folder
-     * 
+     *
      * If your button handlers are in a folder called `./src/buttons` and that your project will be compiled in a `./dist` folder, put:
      * ```js
      * new AmethystClient({}, {
      *     buttonsFolder: './dist/buttons'
-w     * });
+     * });
      * ```
      * @default `undefined`
      */
@@ -208,6 +200,40 @@ w     * });
      * @default `true`
      */
     commandLocalizationsUsedAsNames?: boolean;
+    /**
+     * Set the default wait time on any collector (like `waitForInteraction` or `waitForMessage` )
+     *
+     * Time is in milliseconds
+     *
+     * @default `120000`
+     */
+    defaultWaitTime?: number;
+    /**
+     * Set the default allowed react to collector methods (`waitForInteraction` or `waitForMessage` )
+     *
+     * @type {canReactType} : Either 'everyone', 'useronly' or 'everyoneexceptuser'
+     * @default `useronly`
+     */
+    defaultWhoCanReact?: canReactType;
+    /**
+     * Default replies adressed to users when they interact with an interaction they can't in a collector
+     * 
+     * @default `{ user: () => ({ content: "You cannot interact with this message" }), everyone: () => ({ content: "You cannot interact with this message" }) }`
+     */
+    defaultReplies?: {
+        /**
+         * Reply to the user when everyone except is allowed to react
+         * 
+         * @default `() => ({ content: "You cannot interact with this message" })`
+         */
+        user?: waitForResponseBuilder;
+        /**
+         * Reply to the anyone when only the user is allowed to react
+         * 
+         * @default `() => ({ content: "You cannot interact with this message" })`
+         */
+        everyone?: waitForResponseBuilder;
+    }
 };
 export type startOptions = {
     /**
@@ -427,55 +453,7 @@ export type deniedReason = {
     code?: commandDeniedCode | string;
 };
 export type canReactType = 'everyone' | 'useronly' | 'everyoneexceptuser';
-export type waitForType<T extends MessageComponentType> = {
-    /**
-     * Message with the components
-     */
-    message: Message<true>;
-    /**
-     * User that can interact with the message
-     * The `whoCanReact` proprety will depend of the user
-     */
-    user: User;
-    /**
-     * Type of the components
-     */
-    componentType: T;
-    /**
-     * Time of the waiting before canceling
-     *
-     * @default 120000
-     */
-    time?: number;
-    /**
-     * Users who can interact with the message
-     *
-     * If set to `useronly`, only the `user` can interact with the message. If another user interacts, the `replies.everyone` will be used, and if it is not defined, it will use the default value set on the client
-     * If set to `everyoneexeptuser`, only the `user` can't interact with the message. If he interacts, the `replies.user` will be used, and if it is not defined, it will use the default value set on the client
-     * @type 'everyone' | 'useronly' | 'everyoneexeptuser'
-     * @default 'useronly'
-     */
-    whoCanReact?: canReactType;
-    /**
-     * Replies to display to the user(s) who can't interact
-     *
-     * @default Values set on the client
-     */
-    replies?: {
-        /**
-         * Reply to display to the `user` when he reacts if he can't
-         *
-         * @default Value set on the client
-         */
-        user?: InteractionReplyOptions;
-        /**
-         * Reply to display to everyone exept the user when they react if they can't
-         *
-         * @default Value set on the client
-         */
-        everyone?: InteractionReplyOptions;
-    };
-};
+export type waitForInteractionType = {};
 export type waitForMessageType = {
     /**
      * Channel to wait message in
@@ -505,3 +483,40 @@ export type waitForMessageType = {
      */
     time?: number;
 };
+export type waitForResponseBuilder = <T extends BaseInteraction>(options: {
+    user: User;
+    interaction: T;
+}) => InteractionReplyOptions;
+export type waitForInteractionComponent =
+    | ComponentType.Button
+    | ComponentType.ChannelSelect
+    | ComponentType.MentionableSelect
+    | ComponentType.RoleSelect
+    | ComponentType.UserSelect
+    | ComponentType.StringSelect;
+export type waitForInteractionOptions<T extends waitForInteractionComponent> = {
+    message: Message;
+    time?: number;
+    componentType: T;
+    whoCanReact?: canReactType;
+    user: User;
+    replies?: {
+        user?: waitForResponseBuilder;
+        everyone?: waitForResponseBuilder;
+    };
+    onCollect?: 'nothing' | 'reply' | 'deferUpdate' | 'deferReply';
+    onCollectReply?: waitForResponseBuilder;
+};
+export type componentToInteraction<K extends waitForInteractionComponent> = K extends ComponentType.Button
+    ? ButtonInteraction
+    : K extends ComponentType.ChannelSelect
+      ? ChannelSelectMenuInteraction
+      : K extends ComponentType.MentionableSelect
+        ? MentionableSelectMenuInteraction
+        : K extends ComponentType.RoleSelect
+          ? RoleSelectMenuInteraction
+          : K extends ComponentType.StringSelect
+            ? StringSelectMenuInteraction
+            : K extends ComponentType.UserSelect
+              ? UserSelectMenuInteraction
+              : never;

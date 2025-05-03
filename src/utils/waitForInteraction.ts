@@ -1,49 +1,63 @@
-import { ButtonInteraction, ComponentType, MessageComponentType, SelectMenuInteraction } from 'discord.js';
-import { waitForType } from '../typings/Client';
+import { AnySelectMenuInteraction, Client, MessageComponentType } from 'discord.js';
+import { componentToInteraction, waitForInteractionComponent, waitForInteractionOptions } from '../typings/Client';
+import { log4js } from '..';
 
-type WaitForInteraction<T> =
-    T extends waitForType<ComponentType.Button> ? ButtonInteraction<'cached'> : SelectMenuInteraction<'cached'>;
+type waitForInteractionReturn<T extends waitForInteractionComponent> = Promise<componentToInteraction<T>>;
 
-export const waitForInteraction = <T extends waitForType<MessageComponentType>>({
-    componentType,
+export const waitForInteraction = <T extends waitForInteractionComponent>({
     message,
+    componentType,
+    whoCanReact,
     user,
-    time = 120000,
-    whoCanReact = 'useronly',
-    replies
-}: T) => {
-    return new Promise<WaitForInteraction<T>>((resolve, reject) => {
+    replies,
+    onCollect = 'nothing',
+    onCollectReply,
+    time = message?.client?.configs?.defaultWaitTime ?? 120000
+}: waitForInteractionOptions<T>): waitForInteractionReturn<T> =>
+    new Promise(async (resolve, reject) => {
         const collector = message
             .createMessageComponentCollector({
-                componentType,
-                time
+                time,
+                componentType: componentType
             })
-            .on('collect', async (interaction: WaitForInteraction<T>) => {
-                const fnt = interaction.replied || interaction.deferred ? 'editReply' : 'reply';
-                if (whoCanReact === 'everyoneexceptuser' && user.id === interaction.user.id) {
-                    interaction[fnt](
-                        replies?.user ?? {
-                            content: interaction.client.configs.waitForDefaultReplies.user,
-                            ephemeral: true
-                        }
-                    ).catch(() => {});
-                    return;
+            .on('collect', async (interaction: componentToInteraction<T>) => {
+                if (whoCanReact === 'useronly' && interaction.user.id !== user.id) {
+                    return interaction.reply(
+                        replies?.user?.({
+                            user: interaction.user,
+                            interaction
+                        }) ?? message.client.configs.defaultReplies.user({ user: interaction.user, interaction })
+                    );
                 }
-                if (whoCanReact === 'useronly' && user.id !== interaction.user.id) {
-                    interaction[fnt](
-                        replies?.everyone ?? {
-                            content: interaction.client.configs.waitForDefaultReplies.everyone,
-                            ephemeral: true
-                        }
-                    ).catch(() => {});
-                    return;
+                if (whoCanReact === 'everyoneexceptuser' && interaction.user.id === user.id) {
+                    return interaction.reply(
+                        replies?.everyone?.({
+                            user: interaction.user,
+                            interaction
+                        }) ?? message.client.configs.defaultReplies.everyone({ user: interaction.user, interaction })
+                    );
                 }
+
+                if (onCollect === 'deferReply' || onCollect === 'deferUpdate') {
+                    interaction[onCollect]().catch(log4js.trace);
+                }
+                if (onCollect === 'reply') {
+                    if (!onCollectReply) {
+                        log4js.trace({
+                            message: 'onCollectReply is not defined, please define it in the options',
+                            interaction: interaction.toJSON()
+                        })
+                    } else {
+                        interaction.reply(onCollectReply({ user: interaction.user, interaction })).catch(log4js.trace);
+                    }
+                }
+
                 resolve(interaction);
-                collector.stop();
+                collector.stop('interaction');
             })
-            .once('end', (_interactions, reason) => {
-                if (reason === 'idle') return;
+            .on('end', (_c, reason) => {
+                if (reason === 'interaction') return;
+                if (reason === 'time' || reason === 'idle') return reject('time');
                 reject(reason);
             });
     });
-};

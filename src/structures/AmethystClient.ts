@@ -50,9 +50,9 @@ export class AmethystClient extends Client {
             strictPrefix: configs?.strictPrefix ?? false,
             defaultCooldownTime: configs?.defaultCooldownTime ?? 5,
             autocompleteListenersFolder: configs?.autocompleteListenersFolder,
-            waitForDefaultReplies: {
-                user: configs?.waitForDefaultReplies?.user ?? "You're not allowed to interact with this message",
-                everyone: configs?.waitForDefaultReplies?.everyone ?? "You're not allowed to interact with this message"
+            defaultReplies: {
+                user: (configs?.defaultReplies?.user) ?? (() => ({ content: "You're not allowed to interact with this message" })),
+                everyone: (configs?.defaultReplies?.everyone) ?? (() => ({ content: "You're not allowed to interact with this message" }))
             },
             buttonsFolder: configs?.buttonsFolder,
             customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true,
@@ -60,7 +60,9 @@ export class AmethystClient extends Client {
             debuggerColors: configs?.debuggerColors ?? 'icon',
             commandsArchitecture: configs?.commandsArchitecture ?? 'simple',
             eventsArchitecture: configs?.eventsArchitecture ?? 'simple',
-            commandLocalizationsUsedAsNames: configs?.commandLocalizationsUsedAsNames ?? false
+            commandLocalizationsUsedAsNames: configs?.commandLocalizationsUsedAsNames ?? false,
+            defaultWaitTime: Math.round(Math.abs(configs?.defaultCooldownTime ?? 60000)),
+            defaultWhoCanReact: configs?.defaultWhoCanReact ?? 'useronly'
         };
     }
     public start({

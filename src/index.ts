@@ -38,7 +38,10 @@ export {
     errorCode,
     errorReason,
     deniedReason,
-    waitForType,
+    waitForInteractionComponent,
+    waitForInteractionOptions,
+    waitForInteractionType,
+    waitForResponseBuilder,
     canReactType,
     DebugImportance,
     waitForMessageType
