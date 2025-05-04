@@ -63,6 +63,7 @@ export class AmethystClient extends Client {
             commandLocalizationsUsedAsNames: configs?.commandLocalizationsUsedAsNames ?? false,
             defaultWaitTime: Math.round(Math.abs(configs?.defaultCooldownTime ?? 60000)),
             defaultWhoCanReact: configs?.defaultWhoCanReact ?? 'useronly',
+            runMessageCommandsOnMessageEdit: configs?.runMessageCommandsOnMessageEdit ?? false,
             activity: configs?.activity,
         };
     }
@@ -446,6 +447,11 @@ export class AmethystClient extends Client {
         const interactionCreate = require(`../events/interactionCreate.js`).default;
         const messageCreate = require(`../events/messageCreate.js`).default;
         [interactionCreate, messageCreate].forEach((x) => this.on(x.key, x.run as Awaitable<any>));
+
+        if (this.configs.runMessageCommandsOnMessageEdit) {
+            const messageUpdate = require(`../events/messageUpdate.js`).default;
+            this.on(messageUpdate.key, messageUpdate.run as Awaitable<any>);
+        }
 
         this.on('ready', () => {
             this.debug(`Logged as ${this.user.tag}`, DebugImportance.Information);

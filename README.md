@@ -79,7 +79,9 @@ const client = new AmethystClient({
        name: 'Amethyst',
        type: 'Playing',
        url: 'https://github.com/Greensky-gs/amethystjs'
-    }
+    },
+    runMessageCommandsOnMessageEdit: true,
+
 });
 client.start({
     // All are optionnal and true by default

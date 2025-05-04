@@ -242,6 +242,15 @@ export type AmethystClientOptions = {
      * @type {ActivityOptions}
      */
     activity?: ActivityOptions;
+    /**
+     * Defines if the bot has to handle the command if the content is edited
+     * 
+     * For instance, if the command is `!!ping`, and the user sends `!!pong`, and then he edits it as `!!ping`, the bot will run the command (or not depending on this property)
+     * 
+     * @default `false`
+     * @type {boolean}
+     */
+    runMessageCommandsOnMessageEdit?: boolean;
 };
 export type startOptions = {
     /**

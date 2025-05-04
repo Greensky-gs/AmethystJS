@@ -177,7 +177,8 @@ export class AmethystClient extends Client {
      *        name: 'Amethyst',
      *        type: 'Playing',
      *        url: 'https://github.com/Greensky-gs/amethystjs'
-     *     }
+     *     },
+     *     runMessageCommandsOnMessageEdit: true
      * })
      * ```
      *
