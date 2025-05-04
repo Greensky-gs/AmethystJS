@@ -1,4 +1,5 @@
 import {
+    ActivityOptions,
     AnySelectMenuInteraction,
     BaseInteraction,
     ButtonInteraction,
@@ -233,7 +234,14 @@ export type AmethystClientOptions = {
          * @default `() => ({ content: "You cannot interact with this message" })`
          */
         everyone?: waitForResponseBuilder;
-    }
+    };
+    /**
+     * Automatically set the bot's activity to the specified value
+     * 
+     * @default `undefined`
+     * @type {ActivityOptions}
+     */
+    activity?: ActivityOptions;
 };
 export type startOptions = {
     /**

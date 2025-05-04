@@ -53,24 +53,33 @@ import { AmethystClient } from 'amethystjs';
 const client = new AmethystClient({
     // Discord.js client options
 }, {
-    botName: "your bot's name", // Optionnal
-    botNameWorksAsPrefix: true, // Wether if we can use the bot's name as prefix - optionnal
-    commandsFolder: './yourCommandsFolder', // Optionnal
-    eventsFolder: './yourEventsFolder', // Optionnal
-    prefix: "bot's prefix", // Optionnal
-    strictPrefix: true, // Wether if the prefix must be exactly the same - optionnal
-    mentionWorksAsPrefix: true, // Wether if we can use the bot by mentionning it
-    token: "Your bot's token",
-    debug: false, // Enable debug mode (get a lot of messages in the console) - optionnal
-    defaultCooldownTime: 5, // Default cooldown time
-    preconditionsFolder: "./yourPreconditionsFolder", // Specify the preconditions folder - optionnal
-    autocompleteListenersFolder: "./autocompleteListenersFolder", // Specify the autocomplete folder - optionnal
-    buttonsFolder: './buttonsFolder', // Specify the button folder for button handlers - optionnal
-    customPrefixAndDefaultAvailable?: true, // Specify if the default prefix is usable when a custom prefix is set - optionnal
-    modalHandlersFolder: "./yourModalHandlersFolder", // Specify the modal handlers folder
-    debbugColors: 'none', // 'none' | 'icon' | 'line', defines if the debugger uses colors - optional
-    commandsArchitecture: 'simple', // 'simple' | 'double', if simple, the commands inside the commandsFolder will be read, if double, the commands inside the directories of the commandsFolder will be read
-    eventsArchitecture: 'simple' // 'simple' | 'double', if simple, the events inside the eventsFolder will be read, if double, the events inside the directories of the eventsFolder will be read
+    token: process.env.token,
+    debug: true,
+    commandsFolder: './commands',
+    buttonsFolder: './button',
+    eventsFolder: './events',
+    modalHandlersFolder: './modals',
+    autocompleteListenersFolder: './autocompletes',
+    preconditionsFolder: './preconditions',
+    prefix: '!!',
+    strictPrefix: false,
+    botName: 'Amethyst',
+    botNameWorksAsPrefix: true,
+    mentionWorksAsPrefix: true,
+    defaultCooldownTime: 10,
+    waitForDefaultReplies: {
+        user: ({ user, interaction }) => ({ content: "You cannot interact with this message" }),
+        everyone: ({ user, interaction }) => ({ content: "You cannot interact with this message" })
+    },
+    commandsArchitecture: 'simple',
+    eventsArchitecture: 'simple',
+    commandLocalizationsUsedAsNames: true,
+    defaultWhoCanReact: 'useronly',
+    activity: {
+       name: 'Amethyst',
+       type: 'Playing',
+       url: 'https://github.com/Greensky-gs/amethystjs'
+    }
 });
 client.start({
     // All are optionnal and true by default

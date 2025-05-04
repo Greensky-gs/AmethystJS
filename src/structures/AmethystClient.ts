@@ -62,7 +62,8 @@ export class AmethystClient extends Client {
             eventsArchitecture: configs?.eventsArchitecture ?? 'simple',
             commandLocalizationsUsedAsNames: configs?.commandLocalizationsUsedAsNames ?? false,
             defaultWaitTime: Math.round(Math.abs(configs?.defaultCooldownTime ?? 60000)),
-            defaultWhoCanReact: configs?.defaultWhoCanReact ?? 'useronly'
+            defaultWhoCanReact: configs?.defaultWhoCanReact ?? 'useronly',
+            activity: configs?.activity,
         };
     }
     public start({
@@ -221,6 +222,15 @@ export class AmethystClient extends Client {
             0
         ) {
             this.on('ready', () => {
+                if (!!this.configs.activity) {
+                    this.user.setActivity({
+                        name: this.configs.activity?.name,
+                        type: this.configs.activity?.type,
+                        url: this.configs.activity?.url,
+                        shardId: this.configs.activity?.shardId
+                    })
+                }
+                this.user.setActivity()
                 const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [
                     ...this._chatInputCommands.map((cmd) => cmd.options),
                     ...this._userContextCommands.map((x) =>

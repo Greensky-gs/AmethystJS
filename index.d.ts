@@ -165,13 +165,19 @@ export class AmethystClient extends Client {
      *     botNameWorksAsPrefix: true,
      *     mentionWorksAsPrefix: true,
      *     defaultCooldownTime: 10,
+     *     defaultWhoCanReact: 'useronly',
      *     waitForDefaultReplies: {
      *         user: ({ user, interaction }) => ({ content: "You cannot interact with this message" }),
      *         everyone: ({ user, interaction }) => ({ content: "You cannot interact with this message" })
      *     },
      *     commandsArchitecture: 'simple',
      *     eventsArchitecture: 'simple',
-     *     commandLocalizationsUsedAsNames: true
+     *     commandLocalizationsUsedAsNames: true,
+     *     activity: {
+     *        name: 'Amethyst',
+     *        type: 'Playing',
+     *        url: 'https://github.com/Greensky-gs/amethystjs'
+     *     }
      * })
      * ```
      *
