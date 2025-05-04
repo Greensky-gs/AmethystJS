@@ -5,6 +5,8 @@ import GuildOnly from './preconditions/GuildOnly';
 import NsfwOnly from './preconditions/NsfwOnly';
 import OwnerOnly from './preconditions/OwnerOnly';
 import * as log4JS from './utils/log4js';
+import UserInVoiceChannel from './preconditions/UserInVoiceChannel';
+import UserNotInVoiceChannel from './preconditions/UserNotInVoiceChannel';
 
 // Structures
 export { AmethystClient } from './structures/AmethystClient';
@@ -72,7 +74,9 @@ export const preconditions: Record<string, Precondition> = {
     DMOnly,
     GuildOnly,
     NsfwOnly,
-    OwnerOnly
+    OwnerOnly,
+    UserInVoiceChannel,
+    UserNotInVoiceChannel
 };
 export const log4js = log4JS;
 export { waitForInteraction } from './utils/waitForInteraction';

@@ -161,6 +161,21 @@ Use the `commandError` event to handle command errors
 
 Amethyst JS allows you to create your own preconditions (because it's fun 🙂)
 
+### Before you start
+
+Before you start creating your preconditions, know that there are defaults preconditions you can access using the `preconditions` object of the framework, like so :
+
+```ts
+import { preconditions, AmethystCommand } from 'amethystjs';
+
+export default new AmethystCommand({
+    name: 'name',
+    preconditions: [ preconditions.OwnerOnly ] // Add the precondition you want
+});
+```
+
+### Create a precondition
+
 First, import the Precondition from Amethyst
 
 ```ts

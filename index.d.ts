@@ -708,7 +708,7 @@ export class ControlPanel {
  */
 export class AmethystPaginator extends Paginator {}
 
-type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly' | 'OwnerOnly';
+type preconditionNames = 'GuildOnly' | 'NsfwOnly' | 'DMOnly' | 'OwnerOnly' | 'UserInVoiceChannel' | 'UserNotInVoiceChannel';
 export const preconditions: Record<preconditionNames, Precondition>;
 export { waitForInteraction } from './dist/utils/waitForInteraction';
 export { waitForMessage } from './dist/utils/waitForMessage';

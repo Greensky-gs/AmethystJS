@@ -346,7 +346,15 @@ export enum commandDeniedCode {
     /**
      * Command can be executed only in an NSFW channel
      */
-    ChannelNotNsfw = 'Channel is not NSFW'
+    ChannelNotNsfw = 'Channel is not NSFW',
+    /**
+     * Command can be executed only if the user is in a voice channel
+     */
+    UserNotInVoiceChannel = 'User not in voice channel',
+    /**
+     * Command can be executed only if the user is not in a voice channel
+     */
+    UserInVoiceChannel = 'User is in voice channel'
 }
 export enum errorCode {
     /**
