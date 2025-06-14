@@ -87,6 +87,17 @@ export class AmethystClient extends Client {
         this.checks();
         this.loadInternalEvents();
         this.listenCommandDenied();
+
+        this.once('ready', () => {
+            if (!!this.configs.activity) {
+                this.user.setActivity({
+                    name: this.configs.activity?.name,
+                    type: this.configs.activity?.type,
+                    url: this.configs.activity?.url,
+                    shardId: this.configs.activity?.shardId
+                })
+            }
+        })
     }
     private loadModals(load: boolean) {
         if (!load) return this.debug(`Modals configured to not loaded`, DebugImportance.Information);
@@ -223,14 +234,6 @@ export class AmethystClient extends Client {
             0
         ) {
             this.on('ready', () => {
-                if (!!this.configs.activity) {
-                    this.user.setActivity({
-                        name: this.configs.activity?.name,
-                        type: this.configs.activity?.type,
-                        url: this.configs.activity?.url,
-                        shardId: this.configs.activity?.shardId
-                    })
-                }
                 this.user.setActivity()
                 const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [
                     ...this._chatInputCommands.map((cmd) => cmd.options),
