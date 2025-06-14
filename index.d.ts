@@ -48,7 +48,8 @@ import {
     MessageRun,
     UserContextRun,
     commandInteractionType,
-    deniedPayloadInteractionType
+    deniedPayloadInteractionType,
+    commandArgumentOptions
 } from './dist/typings/Command';
 import { ButtonDenied, ButtonDeniedCode, ButtonHandlerOptions, ButtonHandlerRun } from './dist/typings/ButtonHandler';
 import { PrefixesManager } from './dist/structures/prefixManager';
@@ -108,7 +109,8 @@ export {
     fractionnedReplyOptions,
     fractionnedReplyReference,
     fractionnedReplyReply,
-    fractionnedReplyType
+    fractionnedReplyType,
+    commandArgumentOptions
 };
 export { commandOptions, commandDeniedPayload } from './dist/typings/Command';
 

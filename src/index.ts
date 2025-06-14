@@ -57,7 +57,8 @@ export {
     UserContextRun,
     MessageContextRun,
     commandInteractionType,
-    deniedPayloadInteractionType
+    deniedPayloadInteractionType,
+    commandArgumentOptions
 } from './typings/Command';
 export {
     AutocompleteListenerOptions,

@@ -138,6 +138,34 @@ export type ChatInputRun = (options: {
      */
     client: AmethystClient;
 }) => void | unknown;
+
+export type commandArgumentOptions = {
+    /**
+     * First argument parsed by the user
+     * It can be null if the user parses no arguments
+     */
+    first: string | null;
+    /**
+     * Second argument parsed by the user
+     * It can be null if the user parses only one argument
+     */
+    second: string | null;
+    /**
+     * Arguments parsed for the command
+     * Arguments are the rest of the command, splitted by space, after the command name
+     *
+     * This proprety also includes `first` and `second` arguments in options
+     */
+    args: string[];
+    /**
+     * Indicates if arguments have been parsed by the user or not
+     */
+    emptyArgs: boolean;
+    /**
+     * Name of the command used by the user to trigger the command
+     */
+    commandName: string;
+};
 export type MessageRun = (options: {
     /**
      * Message that emitted the command
@@ -146,33 +174,7 @@ export type MessageRun = (options: {
     /**
      * Options of the message
      */
-    options: {
-        /**
-         * First argument parsed by the user
-         * It can be null if the user parses no arguments
-         */
-        first: string | null;
-        /**
-         * Second argument parsed by the user
-         * It can be null if the user parses only one argument
-         */
-        second: string | null;
-        /**
-         * Arguments parsed for the command
-         * Arguments are the rest of the command, splitted by space, after the command name
-         *
-         * This proprety also includes `first` and `second` arguments in options
-         */
-        args: string[];
-        /**
-         * Indicates if arguments have been parsed by the user or not
-         */
-        emptyArgs: boolean;
-        /**
-         * Name of the command used by the user to trigger the command
-         */
-        commandName: string;
-    };
+    options: commandArgumentOptions;
     /**
      * Amethyst Client of the command
      */

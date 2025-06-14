@@ -21,6 +21,13 @@ export const messageInputRun = (message: Message) => {
                     .map((y) => (x.options.nameLocalizations ?? {})[y as keyof Partial<Record<Locale, string>>])
                     .includes(cmdName.toLowerCase()))
     );
+    const argumentOptions = {
+        args: args,
+        first: args[0] ?? null,
+        second: args[1] ?? null,
+        emptyArgs: args.length === 0,
+        commandName: cmdName
+    };
 
     if (!cmd) {
         message.client.debug(`An user used an unexisting command: ${cmdName}`, DebugImportance.Information);
@@ -122,7 +129,8 @@ export const messageInputRun = (message: Message) => {
                 const result = prec.messageRun({
                     message,
                     command: cmd,
-                    client: message.client as AmethystClient
+                    client: message.client as AmethystClient,
+                    arguments: argumentOptions
                 });
                 if (!result.ok) {
                     ok = false;
@@ -203,13 +211,7 @@ export const messageInputRun = (message: Message) => {
 
     cmd.messageRun({
         message,
-        options: {
-            args: args,
-            first: args[0] ?? null,
-            second: args[1] ?? null,
-            emptyArgs: args.length === 0,
-            commandName: cmdName
-        },
+        options: argumentOptions,
         client: message.client as AmethystClient
     });
 }

@@ -12,6 +12,7 @@ import {
 } from 'discord.js';
 import { AmethystCommand } from '../structures/Command';
 import { AmethystClient } from '../structures/AmethystClient';
+import { commandArgumentOptions } from './Command';
 
 /**
  * Type of a precondition
@@ -137,6 +138,12 @@ export type PreconditionMessageRun = (
          * @type Message
          */
         message: Message;
+        /**
+         * Options passed to the command by the user
+         * 
+         * @type commandArgumentOptions
+         */
+        arguments: commandArgumentOptions;
     } & BaseRun
 ) => preconditionRunReturn;
 
