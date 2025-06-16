@@ -1,6 +1,6 @@
 {
   "name": "amethystjs",
-  "version": "1.8.2",
+  "version": "1.8.21",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
