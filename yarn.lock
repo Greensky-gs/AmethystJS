@@ -194,7 +194,7 @@ discord.js@^14.13.0:
     tslib "^2.6.3"
     undici "6.19.8"
 
-discord.js@^14.20.0:
+discord.js@^14.25.1:
   version "14.25.1"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-14.25.1.tgz#ef8a298b814de2377776fcc732429cc53444d8ad"
   integrity sha512-2l0gsPOLPs5t6GFZfQZKnL1OJNYFcuC/ETWsW4VtKVD/tg4ICa9x+jb9bkPffkMdRpRpuUaO/fKkHCBeiCKh8g==
