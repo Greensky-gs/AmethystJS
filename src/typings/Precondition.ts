@@ -140,7 +140,7 @@ export type PreconditionMessageRun = (
         message: Message;
         /**
          * Options passed to the command by the user
-         * 
+         *
          * @type commandArgumentOptions
          */
         arguments: commandArgumentOptions;

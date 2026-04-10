@@ -4,7 +4,6 @@ import { commandDeniedCode, DebugImportance, errorCode } from '../typings/Client
 import { testMessage } from '../utils/functions';
 import { AmethystClient } from '../structures/AmethystClient';
 
-
 export const messageInputRun = (message: Message) => {
     const test = testMessage(message);
 
@@ -214,4 +213,4 @@ export const messageInputRun = (message: Message) => {
         options: argumentOptions,
         client: message.client as AmethystClient
     });
-}
+};

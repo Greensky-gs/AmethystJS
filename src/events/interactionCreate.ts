@@ -3,7 +3,8 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
     GuildMember,
-    PermissionsString, ChatInputCommandInteraction
+    PermissionsString,
+    ChatInputCommandInteraction
 } from 'discord.js';
 import cooldowns from '../maps/cooldowns';
 import { AmethystEvent } from '../structures/Event';
@@ -154,7 +155,8 @@ export default new AmethystEvent('interactionCreate', async (interaction) => {
                     const prec = precondition.chatInputRun({
                         interaction,
                         command: cmd,
-                        options: (interaction as ChatInputCommandInteraction).options as CommandInteractionOptionResolver,
+                        options: (interaction as ChatInputCommandInteraction)
+                            .options as CommandInteractionOptionResolver,
                         client: interaction.client as AmethystClient
                     });
 

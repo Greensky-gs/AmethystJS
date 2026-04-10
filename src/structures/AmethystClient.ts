@@ -6,7 +6,7 @@ import {
     Awaitable,
     Partials,
     ContextMenuCommandBuilder,
-    ContextMenuCommandType,
+    ContextMenuCommandType
 } from 'discord.js';
 import { existsSync, readdirSync } from 'node:fs';
 import { AmethystClientOptions, DebugImportance, deniedReason, errorReason, startOptions } from '../typings/Client';
@@ -51,8 +51,12 @@ export class AmethystClient extends Client {
             defaultCooldownTime: configs?.defaultCooldownTime ?? 5,
             autocompleteListenersFolder: configs?.autocompleteListenersFolder,
             defaultReplies: {
-                user: (configs?.defaultReplies?.user) ?? (() => ({ content: "You're not allowed to interact with this message" })),
-                everyone: (configs?.defaultReplies?.everyone) ?? (() => ({ content: "You're not allowed to interact with this message" }))
+                user:
+                    configs?.defaultReplies?.user ??
+                    (() => ({ content: "You're not allowed to interact with this message" })),
+                everyone:
+                    configs?.defaultReplies?.everyone ??
+                    (() => ({ content: "You're not allowed to interact with this message" }))
             },
             buttonsFolder: configs?.buttonsFolder,
             customPrefixAndDefaultAvailable: configs?.customPrefixAndDefaultAvailable ?? true,
@@ -64,7 +68,7 @@ export class AmethystClient extends Client {
             defaultWaitTime: Math.round(Math.abs(configs?.defaultCooldownTime ?? 60000)),
             defaultWhoCanReact: configs?.defaultWhoCanReact ?? 'useronly',
             runMessageCommandsOnMessageEdit: configs?.runMessageCommandsOnMessageEdit ?? false,
-            activity: configs?.activity,
+            activity: configs?.activity
         };
     }
     public start({
@@ -95,9 +99,9 @@ export class AmethystClient extends Client {
                     type: this.configs.activity?.type,
                     url: this.configs.activity?.url,
                     shardId: this.configs.activity?.shardId
-                })
+                });
             }
-        })
+        });
     }
     private loadModals(load: boolean) {
         if (!load) return this.debug(`Modals configured to not loaded`, DebugImportance.Information);
@@ -234,13 +238,11 @@ export class AmethystClient extends Client {
             0
         ) {
             this.on('ready', () => {
-                this.user.setActivity()
+                this.user.setActivity();
                 const sc: (ApplicationCommandData | ContextMenuCommandBuilder)[] = [
                     ...this._chatInputCommands.map((cmd) => cmd.options),
                     ...this._userContextCommands.map((x) =>
-                        new ContextMenuCommandBuilder()
-                            .setName(x.options.userContextName ?? x.options.name)
-                            .setType(2)
+                        new ContextMenuCommandBuilder().setName(x.options.userContextName ?? x.options.name).setType(2)
                     ),
                     ...this._messageContextCommands.map((x) =>
                         new ContextMenuCommandBuilder()

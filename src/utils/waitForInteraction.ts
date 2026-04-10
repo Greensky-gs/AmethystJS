@@ -46,7 +46,7 @@ export const waitForInteraction = <T extends waitForInteractionComponent>({
                         log4js.trace({
                             message: 'onCollectReply is not defined, please define it in the options',
                             interaction: interaction.toJSON()
-                        })
+                        });
                     } else {
                         interaction.reply(onCollectReply({ user: interaction.user, interaction })).catch(log4js.trace);
                     }
