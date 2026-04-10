@@ -299,7 +299,7 @@ export class AmethystClient extends Client {
     private listenCommandDenied() {
         this.on('commandDenied', (command, reason) => {
             this.debug(
-                `Command denied: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${
+                `Command denied: ${command.command.options.name} (${command.type == 'message' ? 'message' : 'chat input'}) ${
                     reason.message
                 } ( Code: ${reason.code ?? 'Not given'} )`,
                 DebugImportance.Information
@@ -307,7 +307,7 @@ export class AmethystClient extends Client {
         });
         this.on('commandError', (command, reason) => {
             this.debug(
-                `Command error: ${command.command.options.name} (${command.isMessage ? 'message' : 'chat input'}) ${
+                `Command error: ${command.command.options.name} (${command.type == 'message' ? 'message' : 'chat input'}) ${
                     reason.message
                 } ( Code: ${reason.code ?? 'Not given'} )`,
                 DebugImportance.Error
