@@ -20,7 +20,7 @@
     "prettier": "^3.8.2",
     "tsc": "^2.0.4",
     "tslib": "^2.8.1",
-    "typescript": "^6.0.2"
+    "typescript": "^7.0.0"
   },
   "scripts": {
     "prettier": "prettier -w src index.d.ts",
